@@ -21,9 +21,9 @@
         <div class="nav-wrapper container">
             <a href="#!" class="brand-logo"><i class="material-icons">healing</i>XD</a>
             <ul class="right hide-on-med-and-down">
-                <li><a asp-controller="Doctor" asp-action="List">Twoje wizyty</a></li>
-                <li><a>Dodaj wizytę</a></li>
-                <li><a>Wyloguj</a></li>
+                <li><a asp-controller="Doctor" asp-action="List">@Localizer["Your appointments"]</a></li>
+                <li><a>@Localizer["Add appointment"]</a></li>
+                <li><a>@Localizer["Logout"]</a></li>
             </ul>
         </div>
     </nav>
@@ -34,7 +34,7 @@
     <footer class="page-footer blue">
         <div class="footer-copyright">
             <div class="container">
-                Made by <a class="orange-text text-lighten-3">eXtremeDevelopers</a>
+                @Localizer["Made by"] <a class="orange-text text-lighten-3">eXtremeDevelopers</a>
             </div>
         </div>
     </footer>
