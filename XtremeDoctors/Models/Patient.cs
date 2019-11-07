@@ -10,7 +10,7 @@ namespace XtremeDoctors.Models
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public Patient(string name, string surname, string spec)
+        public Patient(string name, string surname)
         {
             this.Name = name;
             this.Surname = surname;
