@@ -30,14 +30,6 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        public IActionResult Doctors()
-        {
-            Doctor doctor = new Doctor("Dr", "Dre", "Internist");
-
-            ViewData["Message"] = "Your doctors page.";
-            return View(doctor);
-        }
-
         public IActionResult Privacy()
         {
             return View();
