@@ -10,6 +10,7 @@ namespace XtremeDoctors.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Specialization { get; set; }
+        public string Text { get; set; }
 
         public Doctor(string name, string surname, string spec)
         {
