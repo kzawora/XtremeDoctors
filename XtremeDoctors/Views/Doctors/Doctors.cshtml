@@ -6,7 +6,13 @@
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
 
-<p>@Model.Name @Model.Surname</p>
+@foreach (Doctor doctor in (Doctor[])ViewBag.doctors)
+{
+
+    <p>@doctor.Name @doctor.Surname</p>
+}
+
+
 <p>Dr Pepper</p>
 
 

@@ -11,10 +11,15 @@ namespace XtremeDoctors.Controllers
     {
         public IActionResult Doctors()
         {
-            Doctor doctor = new Doctor("Dr", "Dre", "Internist");
+
+            Doctor[] doctors = new Doctor[2];
+
+            doctors[0] = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
+            doctors[1] = new Doctor("Dr", "Pepper", "Internist", "Dupa");
 
             ViewData["Message"] = "Your doctors page.";
-            return View(doctor);
+            ViewBag.doctors = doctors;
+            return View();
         }
     }
 }
