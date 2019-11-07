@@ -10,6 +10,14 @@ namespace XtremeDoctors.Controllers
 {
     public class HomeController : Controller
     {
+
+        public Doctor[] doctors;
+
+        public HomeController()
+        {
+            //doctors.Append(new Doctor("Dr", "Pepper", "Dick doctor"));
+        }
+
         public IActionResult Index()
         {
             return View();

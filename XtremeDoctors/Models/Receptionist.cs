@@ -10,7 +10,7 @@ namespace XtremeDoctors.Models
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        Receptionist(string name, string surname, string spec)
+        public Receptionist(string name, string surname, string spec)
         {
             this.Name = name;
             this.Surname = surname;
