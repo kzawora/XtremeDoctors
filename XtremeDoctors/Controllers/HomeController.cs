@@ -11,13 +11,6 @@ namespace XtremeDoctors.Controllers
     public class HomeController : Controller
     {
 
-        public Doctor[] doctors;
-
-        public HomeController()
-        {
-            //doctors.Append(new Doctor("Dr", "Pepper", "Dick doctor"));
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -39,9 +32,10 @@ namespace XtremeDoctors.Controllers
 
         public IActionResult Doctors()
         {
-            ViewData["Message"] = "Your doctors page.";
+            Doctor doctor = new Doctor("Dr", "Dre", "Internist");
 
-            return View();
+            ViewData["Message"] = "Your doctors page.";
+            return View(doctor);
         }
 
         public IActionResult Privacy()
