@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Globalization;
+using XtremeDoctors.Resources;
 
 namespace XtremeDoctors
 {
@@ -34,7 +35,7 @@ namespace XtremeDoctors
             {
                 o.ResourcesPath = "Resources";
             });
-
+            services.AddSingleton<SharedViewLocalizer>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                              .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         }
