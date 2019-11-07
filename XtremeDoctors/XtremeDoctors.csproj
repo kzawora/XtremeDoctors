@@ -11,9 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Doctors\List.cshtml">
+    <Content Update="Views\Doctor\List.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Patients\" />
   </ItemGroup>
 
 </Project>

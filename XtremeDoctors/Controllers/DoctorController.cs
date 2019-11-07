@@ -8,12 +8,11 @@ using XtremeDoctors.Models;
 namespace XtremeDoctors.Controllers
 {
     [Route("[controller]")]
-    public class DoctorsController : Controller
+    public class DoctorController : Controller
     {
         [HttpGet("list")]
         public IActionResult List()
         {
-
             Doctor[] doctors = new Doctor[2];
 
             doctors[0] = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
