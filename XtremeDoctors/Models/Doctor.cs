@@ -11,6 +11,8 @@ namespace XtremeDoctors.Models
         public string Surname { get; set; }
         public string Specialization { get; set; }
         public string Text { get; set; }
+        public Appointment[] Appointments { get; set; }
+        public DateTime[][] WorkingHours { get; set; }
 
         public Doctor(string name, string surname, string spec, string text)
         {

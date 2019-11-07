@@ -28,6 +28,21 @@ namespace XtremeDoctors.Controllers
         {
             Doctor doctor = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
             ViewBag.doctor = doctor;
+
+            DateTime[] freeSlots = new DateTime[32];
+
+            for(int i = 0; i < 32; i++)
+            {
+                freeSlots[i] = new DateTime(2019, 11, 7, 8, 00, 00);
+            }
+
+            for (int i = 0; i < 32; i++)
+            {
+                freeSlots[i].AddMinutes(i * 15);
+            }
+
+            ViewBag.freeSlots = freeSlots;
+
             return View();
         }
     }
