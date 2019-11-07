@@ -11,7 +11,7 @@ namespace XtremeDoctors.Controllers
     public class PatientController : Controller
     {
         [HttpGet("view/{id}")]
-        public IActionResult View()
+        public IActionResult View(int id)
         {
             Patient patient = new Patient("Jan", "Daciuk");
             ViewBag.patient = patient;
