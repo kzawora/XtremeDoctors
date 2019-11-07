@@ -7,8 +7,10 @@ using XtremeDoctors.Models;
 
 namespace XtremeDoctors.Controllers
 {
+    [Route("[controller]")]
     public class DoctorsController : Controller
     {
+        [HttpGet("list")]
         public IActionResult List()
         {
 
@@ -22,7 +24,7 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("id")]
+        [HttpGet("view/{id}")]
         public IActionResult View(int id)
         {
             Doctor doctor = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
