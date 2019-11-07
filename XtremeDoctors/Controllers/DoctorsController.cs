@@ -9,7 +9,7 @@ namespace XtremeDoctors.Controllers
 {
     public class DoctorsController : Controller
     {
-        public IActionResult Doctors()
+        public IActionResult List()
         {
 
             Doctor[] doctors = new Doctor[2];
