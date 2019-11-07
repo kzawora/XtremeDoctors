@@ -29,6 +29,13 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
+        public IActionResult Doctors()
+        {
+            ViewData["Message"] = "Your doctors page.";
+
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
