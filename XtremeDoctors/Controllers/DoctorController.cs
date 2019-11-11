@@ -23,7 +23,7 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("view/{id}")]
+        [HttpGet("view/{id:int}")]
         public IActionResult View(int id)
         {
             Doctor doctor = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
