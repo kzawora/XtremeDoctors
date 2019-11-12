@@ -33,7 +33,11 @@ namespace XtremeDoctors
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                string conntectionString = Configuration.GetConnectionString("SqliteFile");
+                options.UseSqlite(conntectionString);
+            });
 
             services.AddLocalization(o =>
             {
