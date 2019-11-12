@@ -7,9 +7,11 @@ namespace XtremeDoctors.Models
 {
     public class Patient
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+
+        public Patient() { }
 
         public Patient(string name, string surname)
         {

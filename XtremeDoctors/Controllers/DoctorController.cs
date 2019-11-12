@@ -4,12 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
+using XtremeDoctors.Data;
 
 namespace XtremeDoctors.Controllers
 {
     [Route("[controller]")]
     public class DoctorController : Controller
     {
+        private ApplicationDbContext database;
+        public DoctorController(ApplicationDbContext database)
+        {
+            this.database = database;
+        }
+
         [HttpGet("list")]
         public IActionResult List()
         {
