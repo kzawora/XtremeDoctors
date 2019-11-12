@@ -22,11 +22,11 @@ namespace XtremeDoctors.Controllers
         {
             Doctor[] doctors = new Doctor[2];
 
-            doctors[0] = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
-            doctors[1] = new Doctor("Dr", "Pepper", "Internist", "Good");
+            database.Doctors.Add(new Doctor("Dr", "Dre", "Internist", "Cheap and good"));
+            database.SaveChanges();
 
             ViewData["Message"] = "Your doctors page.";
-            ViewBag.doctors = doctors;
+            ViewBag.doctors = database.Doctors.ToArray();
             return View();
         }
 
