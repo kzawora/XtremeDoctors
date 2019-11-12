@@ -9,8 +9,8 @@ using XtremeDoctors.Data;
 namespace XtremeDoctors.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191112213351_Add models")]
-    partial class Addmodels
+    [Migration("20191112214316_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
