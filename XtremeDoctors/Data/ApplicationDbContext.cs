@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace XtremeDoctors.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

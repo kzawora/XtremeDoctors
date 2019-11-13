@@ -40,6 +40,8 @@ namespace XtremeDoctors
                 options.UseSqlite(conntectionString);
             });
 
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddLocalization(o =>
             {
                 o.ResourcesPath = "Resources";
@@ -61,6 +63,8 @@ namespace XtremeDoctors
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

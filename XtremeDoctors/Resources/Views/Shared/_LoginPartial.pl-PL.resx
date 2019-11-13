@@ -12,13 +12,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add appointment" xml:space="preserve">
-    <value>Dodaj wizytę</value>
+  <data name="Login" xml:space="preserve">
+    <value>Zaloguj</value>
   </data>
-  <data name="Made by" xml:space="preserve">
-    <value>Wykonano przez</value>
+  <data name="Logout" xml:space="preserve">
+    <value>Wyloguj</value>
   </data>
-  <data name="Your appointments" xml:space="preserve">
-    <value>Twoje wizyty</value>
+  <data name="Register" xml:space="preserve">
+    <value>Zarejestruj się</value>
   </data>
 </root>
