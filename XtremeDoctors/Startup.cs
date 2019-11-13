@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Globalization;
+using XtremeDoctors.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using XtremeDoctors.Resources;
 
 namespace XtremeDoctors
@@ -29,6 +32,12 @@ namespace XtremeDoctors
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                string conntectionString = Configuration.GetConnectionString("SqliteFile");
+                options.UseSqlite(conntectionString);
             });
 
             services.AddLocalization(o =>
