@@ -82,6 +82,8 @@ namespace XtremeDoctors
                 SupportedUICultures = supportedCultures
             });
 
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
