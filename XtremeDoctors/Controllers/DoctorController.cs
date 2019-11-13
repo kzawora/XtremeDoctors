@@ -34,7 +34,8 @@ namespace XtremeDoctors.Controllers
             Doctor doctor = database.Doctors.Find(id);
             if (doctor == null)
             {
-                return new StatusCodeResult(404);
+                Response.StatusCode = 404;
+                return View("NotFound");
             }
 
             ViewBag.doctor = doctor;
