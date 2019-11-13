@@ -20,8 +20,6 @@ namespace XtremeDoctors.Controllers
         [HttpGet("list")]
         public IActionResult List()
         {
-            Doctor[] doctors = new Doctor[2];
-
             database.Doctors.Add(new Doctor("Dr", "Dre", "Internist", "Cheap and good"));
             database.SaveChanges();
 
@@ -30,10 +28,15 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("view/{id:int}")]
+        [HttpGet("{id:int}")]
         public IActionResult View(int id)
         {
-            Doctor doctor = new Doctor("Dr", "Dre", "Internist", "Cheap and good");
+            Doctor doctor = database.Doctors.Find(id);
+            if (doctor == null)
+            {
+                return new StatusCodeResult(404);
+            }
+
             ViewBag.doctor = doctor;
 
             DateTime[] freeSlots = new DateTime[32];
