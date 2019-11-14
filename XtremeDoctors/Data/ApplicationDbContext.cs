@@ -70,6 +70,7 @@ namespace XtremeDoctors.Data
                     Start = new DateTime(3),
                     End = new DateTime(3),
                     Patient = null,
+                    Doctor = null,
                     RoomNumber = 3,
                 },
                 new Appointment
@@ -78,6 +79,7 @@ namespace XtremeDoctors.Data
                     Start = new DateTime(3),
                     End = new DateTime(3),
                     Patient = null,
+                    Doctor = null,
                     RoomNumber = 3,
                 }
             );

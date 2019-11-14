@@ -22,9 +22,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-    <Folder Include="Views\Patients\" />
-  </ItemGroup>
-
 </Project>
