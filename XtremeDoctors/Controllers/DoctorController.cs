@@ -20,9 +20,6 @@ namespace XtremeDoctors.Controllers
         [HttpGet("list")]
         public IActionResult List()
         {
-            database.Doctors.Add(new Doctor("Dr", "Dre", "Internist", "Cheap and good"));
-            database.SaveChanges();
-
             ViewData["Message"] = "Your doctors page.";
             ViewBag.doctors = database.Doctors.ToArray();
             return View();

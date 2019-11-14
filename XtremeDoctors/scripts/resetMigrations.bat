@@ -8,6 +8,7 @@ IF NOT EXIST Migrations GOTO noMigrations
     del /s *.cs
     cd ..
     echo Deleted migrations
+    goto deleted
 :noMigrations
     echo No migrations to delete
 :deleted
