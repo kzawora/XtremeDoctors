@@ -27,7 +27,7 @@ namespace XtremeDoctors.Services
             return database.Doctors.Find(id);
         }
 
-        public string[] ComputeFreeSlots(int doctorId)
+        public string[] ComputeFreeSlots(int doctorId, DateTime date)
         {
 
             Doctor doctor = FindDoctor(doctorId);
