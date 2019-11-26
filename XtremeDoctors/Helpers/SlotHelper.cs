@@ -15,8 +15,23 @@ namespace XtremeDoctors.Helpers
 
         public static int HourToSlot(string hour)
         {
+            string[] hourSplitted = hour.Split(":");
             
-            return 10;
+            int h = 0;
+            if (!Int32.TryParse(hourSplitted[0], out h))
+            {
+                h = -1;
+            }
+
+            int m = 0;
+            if (!Int32.TryParse(hourSplitted[1], out m))
+            {
+                h = -1;
+            }
+
+            int slot = h * 4 + (m / 15);
+
+            return slot;
         }
     }
 }
