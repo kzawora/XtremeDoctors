@@ -27,7 +27,7 @@ namespace XtremeDoctors.Services
             return patient.Appointments;
         }
 
-        public void MakeAppointment(int doctorId, DateTime date, string hour)
+        public Appointment MakeAppointment(int doctorId, DateTime date, string hour)
         {
             Patient patient = database.Patients.Find(1); //TEMP - todo get from context
             Doctor doctor = database.Doctors.Find(doctorId);
@@ -45,6 +45,7 @@ namespace XtremeDoctors.Services
             database.Appointments.Add(appointment);
             database.SaveChanges();
 
+            return appointment;
         }
     }
 }
