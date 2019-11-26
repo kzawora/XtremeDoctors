@@ -41,7 +41,7 @@ namespace XtremeDoctors
                 options.UseSqlite(conntectionString);
             });
 
-            services.AddSingleton<DoctorService>();
+            services.AddScoped<DoctorService>();
 
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
