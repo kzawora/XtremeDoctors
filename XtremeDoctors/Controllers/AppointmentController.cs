@@ -30,9 +30,8 @@ namespace XtremeDoctors.Controllers
             [FromBody] DateTime date,
             [FromBody] string hour)
         {
-            //Doctor doctor = doctorService.FindDoctor(doctorId);
 
-
+            appointmentService.MakeAppointment(doctorId, date, hour);
 
             return View();
         }

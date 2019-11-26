@@ -9,9 +9,6 @@ namespace XtremeDoctors.Models
     public class Appointment
     {
         public int Id { get; set; }
-        public int Year { get; set; }
-        public int Week { get; set; }
-        public int Day { get; set; }
         public int StartSlot { get; set; }
         public int EndSlot { get; set; }
         public int RoomNumber { get; set; }
