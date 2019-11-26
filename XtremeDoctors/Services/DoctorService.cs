@@ -52,7 +52,7 @@ namespace XtremeDoctors.Services
 
             if (allWorkingHours == null)
             {
-                return null;
+                return new string[0];
             }
 
             Appointment[] appointments = database.Appointments.Where(a => a.Doctor.Id == doctor.Id).Where(a => a.Date.Day == date.Day).ToArray();
@@ -83,7 +83,7 @@ namespace XtremeDoctors.Services
 
             if (freeSlots.Count == 0)
             {
-                return null;
+                return new string[0];
             }
 
             List<string> freeHours = new List<string>();
