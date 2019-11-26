@@ -25,7 +25,7 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(
+        public IActionResult Make(
             [FromBody] int doctorId,
             [FromBody] DateTime date,
             [FromBody] string hour)

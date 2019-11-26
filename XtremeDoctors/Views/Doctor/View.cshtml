@@ -76,14 +76,15 @@
                                             <td>@freeHour</td>
                                             <td>15 minut</td>
                                             <td>
-                                                <form method="post" action="@Url.Action("Create", "Appointment")">
-                                                    <input type="hidden" name="doctorId" value="@doctor.Id"/>
-                                                    <input type="hidden" name="date" value="@date"/>
-                                                    <input type="hidden" name="hour" value="@freeHour"/>
+                                                @using (Html.BeginForm("Create", "Appointment", FormMethod.Post))
+                                                {
+                                                    <input type="hidden" name="doctorId" value="@doctor.Id" />
+                                                    <input type="hidden" name="date" value="@date" />
+                                                    <input type="hidden" name="hour" value="@freeHour" />
 
                                                     <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>Umów się</button>
-                                                </form>
-                                           
+                                                }
+
                                             </td>
                                         </tr>
                                      }
