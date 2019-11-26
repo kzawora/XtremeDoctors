@@ -23,5 +23,18 @@ namespace XtremeDoctors.Controllers
             ViewData["appointments"] = appointmentService.GetAppointmentsForPatient(currentPatientId);
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Create(
+            [FromBody] int doctorId,
+            [FromBody] DateTime date,
+            [FromBody] string hour)
+        {
+            //Doctor doctor = doctorService.FindDoctor(doctorId);
+
+
+
+            return View();
+        }
     }
 }

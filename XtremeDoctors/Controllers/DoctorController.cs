@@ -46,17 +46,6 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CreateAppointment(
-            [FromBody] int doctorId,
-            [FromBody] DateTime date,
-            [FromBody] string hour)
-        {
-            //Doctor doctor = doctorService.FindDoctor(doctorId);
-            
-            
 
-            return View();
-        }
     }
 }
