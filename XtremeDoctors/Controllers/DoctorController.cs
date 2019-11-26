@@ -37,16 +37,11 @@ namespace XtremeDoctors.Controllers
 
             ViewBag.doctor = doctor;
 
-            DateTime[] freeSlots = new DateTime[16];
+            int[] freeSlots = new int[16];
 
             for(int i = 0; i < 16; i++)
             {
-                freeSlots[i] = new DateTime(2019, 11, 7, 8, 00, 00);
-            }
-
-            for (int i = 0; i < 16; i++)
-            {
-                freeSlots[i].AddMinutes(i * 15);
+                freeSlots[i] = i + 5;
             }
 
 
