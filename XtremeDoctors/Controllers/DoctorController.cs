@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
 using XtremeDoctors.Data;
+using XtremeDoctors.Services;
+using XtremeDoctors.Helpers;
 
 namespace XtremeDoctors.Controllers
 {
@@ -12,9 +14,11 @@ namespace XtremeDoctors.Controllers
     public class DoctorController : Controller
     {
         private ApplicationDbContext database;
-        public DoctorController(ApplicationDbContext database)
+        private DoctorService doctorService;
+        public DoctorController(ApplicationDbContext database, DoctorService doctorService)
         {
             this.database = database;
+            this.doctorService = doctorService;
         }
 
         [HttpGet("")]
@@ -43,10 +47,16 @@ namespace XtremeDoctors.Controllers
             {
                 freeSlots[i] = i + 5;
             }
+            
 
+            string[] freeHours = new string[16];
 
+            for (int i = 0; i < 16; i++)
+            {
+                freeHours[i] = SlotHelper.SlotToHour(freeSlots[i]);
+            }
 
-            ViewBag.freeSlots = freeSlots;
+            ViewBag.freeHours = freeHours;
 
             return View();
         }
