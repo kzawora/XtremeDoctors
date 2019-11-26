@@ -18,6 +18,7 @@ namespace XtremeDoctors.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Receptionist> Receptionists { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<WorkingHours> WorkingHours { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
