@@ -18,6 +18,11 @@ namespace XtremeDoctors.Services
         public List<Appointment> GetAppointmentsForPatient(int patientId)
         {
             Patient patient = database.Patients.Find(patientId);
+            if (patient.Appointments == null)
+            {
+                return new List<Appointment>();
+            }
+
             return patient.Appointments;
         }
     }
