@@ -10,7 +10,13 @@ namespace XtremeDoctors.Helpers
         public static string SlotToHour(int slot) {
             int hour = slot / 4;
             int minute = slot % 4;
-            return string.Format("{0}:{1}", hour, minute);
+            return string.Format("{0}:{1:D2}", hour, minute * 15);
+        }
+
+        public static int HourToSlot(string hour)
+        {
+            
+            return 10;
         }
     }
 }

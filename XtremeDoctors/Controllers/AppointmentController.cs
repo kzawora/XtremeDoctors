@@ -20,7 +20,19 @@ namespace XtremeDoctors.Controllers
         public IActionResult List()
         {
             int currentPatientId = 1; // TODO
-            ViewData["appointments"] = appointmentService.GetAppointmentsForPatient(currentPatientId);
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(currentPatientId);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Make(
+            [FromBody] int doctorId,
+            [FromBody] DateTime date,
+            [FromBody] string hour)
+        {
+
+            appointmentService.MakeAppointment(doctorId, date, hour);
+
             return View();
         }
     }

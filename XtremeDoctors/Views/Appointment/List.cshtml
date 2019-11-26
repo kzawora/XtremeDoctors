@@ -6,7 +6,7 @@
 
 <h2>Appointment list</h2>
 
-@foreach (Appointment appointment in (List<Appointment>)ViewData["appointments"])
+@foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
 {
     <div>appointment.Id</div>
 }
