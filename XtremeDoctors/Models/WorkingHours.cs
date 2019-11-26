@@ -9,11 +9,9 @@ namespace XtremeDoctors.Models
     public class WorkingHours
     {
         public int Id { get; set; }
-        public int Year { get; set; }
-        public int Week { get; set; }
-        public int Day { get; set; }
         public int StartSlot { get; set; }
         public int EndSlot { get; set; }
+        public DateTime Date { get; set; }
 
         [ForeignKey("DoctorId")]
         public Doctor Doctor { get; set; }

@@ -27,27 +27,51 @@ namespace XtremeDoctors.Services
             return database.Doctors.Find(id);
         }
 
-        public string[] ComputeFreeSlots(int doctorId, DateTime date)
+        public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
         {
 
-            Doctor doctor = FindDoctor(doctorId);
+            WorkingHours[] allWorkingHours = database.WorkingHours.Where(w => w.Doctor.Id == doctor.Id).Where(w => w.Date.Day == date.Day).ToArray();
 
-            WorkingHours[] workingHours = database.WorkingHours.Where(d => d.Doctor.Id == doctor.Id).ToArray();
-
-            Appointment[] appointments = database.Appointments.Where(d => d.Doctor.Id == doctor.Id).ToArray();
-
-
-
-            string[] freeSlots = new string[16];
-
-            for (int i = 0; i < 16; i++)
+            if(allWorkingHours == null)
             {
-                freeSlots[i] = SlotHelper.SlotToHour(i + 5);
+                return null;
             }
 
-            return freeSlots;
-        }
+            Appointment[] appointments = database.Appointments.Where(a => a.Doctor.Id == doctor.Id).Where(a => a.Date.Day == date.Day).ToArray();
 
+            List<int> freeSlots = new List<int>();
+
+            foreach(WorkingHours workingHours in allWorkingHours)
+            {
+                for(int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
+                {
+                    bool SlotAvailable = true;
+
+                    foreach(Appointment appointment in appointments)
+                    {
+                        if(slot >= appointment.StartSlot && slot <= appointment.EndSlot)
+                        {
+                            SlotAvailable = false;
+                            break;
+                        }
+                    }
+
+                    if (SlotAvailable)
+                    {
+                        freeSlots.Add(slot);
+                    }
+                }
+            }
+
+            List<string> freeHours = new List<string>();
+
+            foreach(int Slot in freeSlots)
+            {
+                freeHours.Add(SlotHelper.SlotToHour(Slot));
+            }
+
+            return freeHours.ToArray();
+        }
 
     }
 }
