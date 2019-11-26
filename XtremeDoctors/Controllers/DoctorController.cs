@@ -25,8 +25,8 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult View(int id)
+        [HttpGet("{id:int}/{week:int}/{year:int}")]
+        public IActionResult View(int id, int week, int year)
         {
             Doctor doctor = database.Doctors.Find(id);
             if (doctor == null)
@@ -37,17 +37,14 @@ namespace XtremeDoctors.Controllers
 
             ViewBag.doctor = doctor;
 
-            DateTime[] freeSlots = new DateTime[32];
+            int[] freeSlots = new int[16];
 
-            for(int i = 0; i < 32; i++)
+            for(int i = 0; i < 16; i++)
             {
-                freeSlots[i] = new DateTime(2019, 11, 7, 8, 00, 00);
+                freeSlots[i] = i + 5;
             }
 
-            for (int i = 0; i < 32; i++)
-            {
-                freeSlots[i].AddMinutes(i * 15);
-            }
+
 
             ViewBag.freeSlots = freeSlots;
 

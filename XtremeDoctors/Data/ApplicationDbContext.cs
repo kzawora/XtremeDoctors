@@ -70,8 +70,8 @@ namespace XtremeDoctors.Data
                 new Appointment
                 {
                     Id = 1,
-                    Start = new DateTime(3),
-                    End = new DateTime(3),
+                    StartSlot = 15,
+                    EndSlot = 17,
                     Patient = null,
                     Doctor = null,
                     RoomNumber = 3,
@@ -79,8 +79,8 @@ namespace XtremeDoctors.Data
                 new Appointment
                 {
                     Id = 2,
-                    Start = new DateTime(3),
-                    End = new DateTime(3),
+                    StartSlot = 22,
+                    EndSlot = 22,
                     Patient = null,
                     Doctor = null,
                     RoomNumber = 3,
