@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
-using XtremeDoctors.Data;
 using XtremeDoctors.Services;
 using XtremeDoctors.Helpers;
 
@@ -13,11 +12,9 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class DoctorController : Controller
     {
-        private ApplicationDbContext database;
         private DoctorService doctorService;
-        public DoctorController(ApplicationDbContext database, DoctorService doctorService)
+        public DoctorController(DoctorService doctorService)
         {
-            this.database = database;
             this.doctorService = doctorService;
         }
 
@@ -25,14 +22,15 @@ namespace XtremeDoctors.Controllers
         public IActionResult List()
         {
             ViewData["Message"] = "Your doctors page.";
-            ViewBag.doctors = database.Doctors.ToArray();
+            ViewBag.doctors = doctorService.FindAllDoctors();
             return View();
         }
 
         [HttpGet("{id:int}/{day:int}/{week:int}/{year:int}")]
         public IActionResult View(int id, int day, int week, int year)
         {
-            Doctor doctor = database.Doctors.Find(id);
+            Doctor doctor = doctorService.FindDoctor(id);
+
             if (doctor == null)
             {
                 Response.StatusCode = 404;
@@ -41,22 +39,7 @@ namespace XtremeDoctors.Controllers
 
             ViewBag.doctor = doctor;
 
-            int[] freeSlots = new int[16];
-
-            for(int i = 0; i < 16; i++)
-            {
-                freeSlots[i] = i + 5;
-            }
-            
-
-            string[] freeHours = new string[16];
-
-            for (int i = 0; i < 16; i++)
-            {
-                freeHours[i] = SlotHelper.SlotToHour(freeSlots[i]);
-            }
-
-            ViewBag.freeHours = freeHours;
+            ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor.Id);
 
             return View();
         }
