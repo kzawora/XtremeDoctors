@@ -74,6 +74,7 @@ namespace XtremeDoctors.Data
                     Day = 1,
                     Week = 2,
                     Year = 2019,
+                    Date = new DateTime(2019, 11, 26),
                     StartSlot = 15,
                     EndSlot = 17,
                     Patient = null,
@@ -86,6 +87,7 @@ namespace XtremeDoctors.Data
                     Day = 1,
                     Week = 2,
                     Year = 2019,
+                    Date = new DateTime(2019, 11, 26),
                     StartSlot = 22,
                     EndSlot = 22,
                     Patient = null,
@@ -98,9 +100,7 @@ namespace XtremeDoctors.Data
                 new WorkingHours
                 {
                     Id = 1,
-                    Day = 1,
-                    Week = 2,
-                    Year = 2019,
+                    Date = new DateTime(2019, 11, 26),
                     StartSlot = 10,
                     EndSlot = 50,
                     Doctor = null,
@@ -108,9 +108,7 @@ namespace XtremeDoctors.Data
                 new WorkingHours
                 {
                     Id = 2,
-                    Day = 1,
-                    Week = 2,
-                    Year = 2019,
+                    Date = new DateTime(2019, 11, 26),
                     StartSlot = 12,
                     EndSlot = 30,
                     Doctor = null,
