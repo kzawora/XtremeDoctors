@@ -45,7 +45,10 @@
                                     </tbody>
                                 </table>
                                 <br />
-                                <a class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</a>
+                                <form method="get" action="@Url.Action("View", "Doctor", new { id = @doctor.Id })">
+                                    <input type="text" class="datepicker" name="date">
+                                    <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</button>
+                                </form>
                                 Najbliższy wolny termin <strong><span class="green-text">@SharedLocalizer["tommorow"]</span></strong>!<br />
                             </span>
                         </div>
@@ -56,3 +59,11 @@
     </div>
 </div>
 
+<script>
+
+    $(document).ready(function(){
+        $('.datepicker').datepicker(
+            {format: "yyyy-mm-dd", defaultDate: new Date(), setDefaultDate: true}
+        );
+  });
+</script>
