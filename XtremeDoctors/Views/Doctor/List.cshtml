@@ -63,7 +63,16 @@
 
     $(document).ready(function(){
         $('.datepicker').datepicker(
-            {format: "yyyy-mm-dd", defaultDate: new Date(), setDefaultDate: true}
+            {
+                format: "yyyy-mm-dd",
+                defaultDate: new Date(),
+                setDefaultDate: true,
+                minDate: new Date(),
+                disableDayFn: function (MyDate) {
+                    console.log(MyDate.getFullYear() + '-' + ('0'+(MyDate.getMonth()+1)).slice(-2) + "-" + ('0' + MyDate.getDate()).slice(-2))
+                    return false;
+                }
+            }
         );
   });
 </script>
