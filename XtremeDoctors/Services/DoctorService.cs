@@ -36,7 +36,7 @@ namespace XtremeDoctors.Services
             }
             foreach (DateTime possibleDay in possibleDays)
             {
-                string[] freeSlots = ComputeFreeSlots(doctor.Id, possibleDay);
+                string[] freeSlots = ComputeFreeSlots(doctor, possibleDay);
                 if (freeSlots.Length != 0)
                 {
                     availableDays.Add(possibleDay.ToString("YYYY-MM-DD"));
@@ -50,7 +50,7 @@ namespace XtremeDoctors.Services
 
             WorkingHours[] allWorkingHours = database.WorkingHours.Where(w => w.Doctor.Id == doctor.Id).Where(w => w.Date.Day == date.Day).ToArray();
 
-            if(allWorkingHours == null)
+            if (allWorkingHours == null)
             {
                 return null;
             }
@@ -59,15 +59,15 @@ namespace XtremeDoctors.Services
 
             List<int> freeSlots = new List<int>();
 
-            foreach(WorkingHours workingHours in allWorkingHours)
+            foreach (WorkingHours workingHours in allWorkingHours)
             {
-                for(int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
+                for (int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
                 {
                     bool SlotAvailable = true;
 
-                    foreach(Appointment appointment in appointments)
+                    foreach (Appointment appointment in appointments)
                     {
-                        if(slot >= appointment.StartSlot && slot <= appointment.EndSlot)
+                        if (slot >= appointment.StartSlot && slot <= appointment.EndSlot)
                         {
                             SlotAvailable = false;
                             break;
@@ -88,7 +88,7 @@ namespace XtremeDoctors.Services
 
             List<string> freeHours = new List<string>();
 
-            foreach(int Slot in freeSlots)
+            foreach (int Slot in freeSlots)
             {
                 freeHours.Add(SlotHelper.SlotToHour(Slot));
             }
