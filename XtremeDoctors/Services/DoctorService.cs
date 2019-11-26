@@ -32,7 +32,8 @@ namespace XtremeDoctors.Services
             Appointment[] appointments = database.Appointments.Where(d => d.Doctor.Id == doctor.Id).ToArray();
             return null;
         }
-        public string[] ComputeFreeSlots(int doctorId)
+
+        public string[] ComputeFreeSlots(int doctorId, DateTime date)
         {
 
             Doctor doctor = FindDoctor(doctorId);

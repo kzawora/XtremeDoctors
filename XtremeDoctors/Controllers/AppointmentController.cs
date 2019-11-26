@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using XtremeDoctors.Services;
+
+namespace XtremeDoctors.Controllers
+{
+    [Route("[controller]")]
+    public class AppointmentController : Controller
+    {
+        private readonly AppointmentService appointmentService;
+        public AppointmentController(AppointmentService appointmentService)
+        {
+            this.appointmentService = appointmentService;
+        }
+
+        [HttpGet("")]
+        public IActionResult List()
+        {
+            int currentPatientId = 1; // TODO
+            ViewData["appointments"] = appointmentService.GetAppointmentsForPatient(currentPatientId);
+            return View();
+        }
+    }
+}
