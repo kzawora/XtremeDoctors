@@ -20,7 +20,7 @@ namespace XtremeDoctors.Controllers
         public IActionResult List()
         {
             int currentPatientId = 1; // TODO
-            ViewData["appointments"] = appointmentService.GetAppointmentsForPatient(currentPatientId);
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(currentPatientId);
             return View();
         }
     }
