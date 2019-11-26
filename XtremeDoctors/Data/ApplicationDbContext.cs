@@ -70,6 +70,9 @@ namespace XtremeDoctors.Data
                 new Appointment
                 {
                     Id = 1,
+                    Day = 1,
+                    Week = 2,
+                    Year = 2019,
                     StartSlot = 15,
                     EndSlot = 17,
                     Patient = null,
@@ -79,11 +82,37 @@ namespace XtremeDoctors.Data
                 new Appointment
                 {
                     Id = 2,
+                    Day = 1,
+                    Week = 2,
+                    Year = 2019,
                     StartSlot = 22,
                     EndSlot = 22,
                     Patient = null,
                     Doctor = null,
                     RoomNumber = 3,
+                }
+            );
+
+            modelBuilder.Entity<WorkingHours>().HasData(
+                new WorkingHours
+                {
+                    Id = 1,
+                    Day = 1,
+                    Week = 2,
+                    Year = 2019,
+                    StartSlot = 10,
+                    EndSlot = 50,
+                    Doctor = null,
+                },
+                new WorkingHours
+                {
+                    Id = 2,
+                    Day = 1,
+                    Week = 2,
+                    Year = 2019,
+                    StartSlot = 12,
+                    EndSlot = 30,
+                    Doctor = null,
                 }
             );
         }

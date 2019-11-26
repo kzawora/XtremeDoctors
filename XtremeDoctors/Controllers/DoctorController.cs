@@ -25,8 +25,8 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("{id:int}/{week:int}/{year:int}")]
-        public IActionResult View(int id, int week, int year)
+        [HttpGet("{id:int}/{day:int}/{week:int}/{year:int}")]
+        public IActionResult View(int id, int day, int week, int year)
         {
             Doctor doctor = database.Doctors.Find(id);
             if (doctor == null)
