@@ -26,20 +26,20 @@ namespace XtremeDoctors.Services
             return database.Doctors.Find(id);
         }
 
-        public string[] GetAvailableDays(Doctor doctor, int daysForward = 14)
+        public string[] GetAvailableDays(Doctor doctor, DateTime startingDay, int daysForward = 14)
         {
             List<string> availableDays = new List<string>();
             DateTime[] possibleDays = new DateTime[daysForward];
             for (int i = 0; i < daysForward; i++)
             {
-                possibleDays[i] = DateTime.Now.Date.AddDays(i);
+                possibleDays[i] = startingDay.Date.AddDays(i);
             }
             foreach (DateTime possibleDay in possibleDays)
             {
                 string[] freeSlots = ComputeFreeSlots(doctor, possibleDay);
                 if (freeSlots.Length != 0)
                 {
-                    availableDays.Add(possibleDay.ToString("YYYY-MM-DD"));
+                    availableDays.Add(possibleDay.ToString("yyyy-MM-dd"));
                 }
             }
             return availableDays.ToArray();
