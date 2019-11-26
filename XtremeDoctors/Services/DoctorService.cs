@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using XtremeDoctors.Data;
 using XtremeDoctors.Helpers;
@@ -25,12 +26,23 @@ namespace XtremeDoctors.Services
             return database.Doctors.Find(id);
         }
 
-        public string[] GetAvailableDays(int doctorId)
+        public string[] GetAvailableDays(Doctor doctor, int daysForward = 14)
         {
-            Doctor doctor = FindDoctor(doctorId);
-            WorkingHours[] workingHours = database.WorkingHours.Where(d => d.Doctor.Id == doctor.Id).ToArray();
-            Appointment[] appointments = database.Appointments.Where(d => d.Doctor.Id == doctor.Id).ToArray();
-            return null;
+            List<string> availableDays = new List<string>();
+            DateTime[] possibleDays = new DateTime[daysForward];
+            for (int i = 0; i < daysForward; i++)
+            {
+                possibleDays[i] = DateTime.Now.Date.AddDays(i);
+            }
+            foreach (DateTime possibleDay in possibleDays)
+            {
+                string[] freeSlots = ComputeFreeSlots(doctor.Id, possibleDay);
+                if (freeSlots.Length != 0)
+                {
+                    availableDays.Add(possibleDay.ToString("YYYY-MM-DD"));
+                }
+            }
+            return availableDays.ToArray();
         }
 
         public string[] ComputeFreeSlots(int doctorId, DateTime date)
