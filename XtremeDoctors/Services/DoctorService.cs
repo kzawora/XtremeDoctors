@@ -29,6 +29,15 @@ namespace XtremeDoctors.Services
 
         public string[] ComputeFreeSlots(int doctorId)
         {
+
+            Doctor doctor = FindDoctor(doctorId);
+
+            WorkingHours[] workingHours = database.WorkingHours.Where(d => d.Doctor.Id == doctor.Id).ToArray();
+
+            Appointment[] appointments = database.Appointments.Where(d => d.Doctor.Id == doctor.Id).ToArray();
+
+
+
             string[] freeSlots = new string[16];
 
             for (int i = 0; i < 16; i++)
