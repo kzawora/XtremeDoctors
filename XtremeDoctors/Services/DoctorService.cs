@@ -63,6 +63,11 @@ namespace XtremeDoctors.Services
                 }
             }
 
+            if (freeSlots.Count == 0)
+            {
+                return null;
+            }
+
             List<string> freeHours = new List<string>();
 
             foreach(int Slot in freeSlots)
