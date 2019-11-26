@@ -40,7 +40,7 @@ namespace XtremeDoctors.Controllers
 
             ViewBag.doctor = doctor;
 
-            ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor.Id, date);
+            ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);
 
             return View();
         }
