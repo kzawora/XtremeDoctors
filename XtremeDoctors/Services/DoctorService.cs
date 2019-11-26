@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using XtremeDoctors.Data;
 using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
@@ -27,6 +25,13 @@ namespace XtremeDoctors.Services
             return database.Doctors.Find(id);
         }
 
+        public string[] GetAvailableDays(int doctorId)
+        {
+            Doctor doctor = FindDoctor(doctorId);
+            WorkingHours[] workingHours = database.WorkingHours.Where(d => d.Doctor.Id == doctor.Id).ToArray();
+            Appointment[] appointments = database.Appointments.Where(d => d.Doctor.Id == doctor.Id).ToArray();
+            return null;
+        }
         public string[] ComputeFreeSlots(int doctorId)
         {
 
