@@ -26,12 +26,12 @@ namespace XtremeDoctors.Controllers
 
         [HttpPost]
         public IActionResult Make(
-            [FromBody] int doctorId,
-            [FromBody] DateTime date,
-            [FromBody] string hour)
+            [FromForm] int doctorId,
+            [FromForm] DateTime date,
+            [FromForm] string hour)
         {
 
-            appointmentService.MakeAppointment(doctorId, date, hour);
+            ViewBag.appointment = appointmentService.MakeAppointment(doctorId, date, hour);
 
             return View();
         }
