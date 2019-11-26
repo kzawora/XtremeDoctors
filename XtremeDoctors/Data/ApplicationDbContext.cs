@@ -71,9 +71,6 @@ namespace XtremeDoctors.Data
                 new Appointment
                 {
                     Id = 1,
-                    Day = 1,
-                    Week = 2,
-                    Year = 2019,
                     Date = new DateTime(2019, 11, 26),
                     StartSlot = 15,
                     EndSlot = 17,
@@ -84,9 +81,6 @@ namespace XtremeDoctors.Data
                 new Appointment
                 {
                     Id = 2,
-                    Day = 1,
-                    Week = 2,
-                    Year = 2019,
                     Date = new DateTime(2019, 11, 26),
                     StartSlot = 22,
                     EndSlot = 22,
