@@ -17,7 +17,7 @@ namespace XtremeDoctors.Controllers
             this.database = database;
         }
 
-        [HttpGet("list")]
+        [HttpGet("")]
         public IActionResult List()
         {
             ViewData["Message"] = "Your doctors page.";

@@ -17,13 +17,13 @@ namespace XtremeDoctors.Controllers
             this.database = database;
         }
 
-        [HttpGet("view/{id}")]
+        [HttpGet("{id}")]
         public IActionResult View(int id)
         {
             return View();
         }
 
-        [HttpGet("list")]
+        [HttpGet("")]
         public IActionResult List()
         {
             ViewBag.patients = database.Patients.ToArray();
