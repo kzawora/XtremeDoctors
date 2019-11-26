@@ -42,6 +42,7 @@ namespace XtremeDoctors
             });
 
             services.AddScoped<DoctorService>();
+            services.AddScoped<AppointmentService>();
 
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
