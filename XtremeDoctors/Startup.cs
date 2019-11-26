@@ -12,6 +12,7 @@ using XtremeDoctors.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using XtremeDoctors.Resources;
+using XtremeDoctors.Services;
 
 namespace XtremeDoctors
 {
@@ -39,6 +40,8 @@ namespace XtremeDoctors
                 string conntectionString = Configuration.GetConnectionString("SqliteFile");
                 options.UseSqlite(conntectionString);
             });
+
+            services.AddSingleton<DoctorService>();
 
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 

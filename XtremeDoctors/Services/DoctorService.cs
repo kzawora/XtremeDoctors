@@ -8,7 +8,7 @@ namespace XtremeDoctors.Services
     public class DoctorService
     {
 
-        public int[] ComputeFreeSlots()
+        public int[] ComputeFreeSlots(int doctorId)
         {
             int[] freeSlots = new int[16];
 
