@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using XtremeDoctors.Data;
 using XtremeDoctors.Models;
 using XtremeDoctors.Services;
@@ -33,19 +34,18 @@ namespace XtremeDoctorsUnitTests
                 Specialization = "Kisiele",
                 Text = "Very good doctor"
             };
+            // 3:45-4:30 appointment
             Appointment appointment = new Appointment
             {
                 Id = 1,
-                Day = 1,
-                Week = 2,
-                Year = 2019,
                 Date = new DateTime(2019, 11, 26),
-                StartSlot = 15,
+                StartSlot = 15, 
                 EndSlot = 17,
                 Patient = null,
-                Doctor = null,
+                Doctor = doctor,
                 RoomNumber = 3,
             };
+            // 2:30-12:30 working hours
             WorkingHours workingHours = new WorkingHours
             {
                 Id = 1,
@@ -65,6 +65,9 @@ namespace XtremeDoctorsUnitTests
             // Assert
             Assert.NotNull(freeSlots);
             Assert.NotEmpty(freeSlots);
+            string[] invalidSlots = new string[] { "3:45", "4:00", "4:15" };
+            bool contains = invalidSlots.Any(c => freeSlots.Contains(c));
+            Assert.False(contains);
         }
     }
 }
