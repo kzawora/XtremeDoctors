@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using XtremeDoctors.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace XtremeDoctors.Data
 {
@@ -25,8 +22,9 @@ namespace XtremeDoctors.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Doctor>().HasData(
-                new Doctor
+            var doctors = new []
+            {
+                new
                 {
                     Id = 1,
                     Name = "Dr",
@@ -34,7 +32,7 @@ namespace XtremeDoctors.Data
                     Specialization = "Kisiele",
                     Text = "Very good doctor"
                 },
-                new Doctor
+                new
                 {
                     Id = 2,
                     Name = "Dr",
@@ -42,7 +40,7 @@ namespace XtremeDoctors.Data
                     Specialization = "Drinking",
                     Text = "Not so good doctor"
                 },
-                new Doctor
+                new
                 {
                     Id = 3,
                     Name = "Dr",
@@ -50,64 +48,67 @@ namespace XtremeDoctors.Data
                     Specialization = "Wrapping",
                     Text = "Quite good doctor."
                 }
-            );
-
-            modelBuilder.Entity<Patient>().HasData(
-                new Patient
+            };
+            var patients = new [] 
+            {
+                new
                 {
-                    Id = 1,
+                    Id = 4,
                     Name = "First",
                     Surname = "Patient"
                 },
-                new Patient
+                new
                 {
-                    Id = 2,
+                    Id = 5,
                     Name = "Second",
                     Surname = "Patient"
                 }
-            );
-
-            modelBuilder.Entity<Appointment>().HasData(
-                new Appointment
+            };
+            var appointments = new []
+            {
+                new 
                 {
-                    Id = 1,
+                    Id = 6,
                     Date = new DateTime(2019, 11, 26),
                     StartSlot = 15,
                     EndSlot = 17,
-                    Patient = null,
-                    Doctor = null,
+                    PatientId = patients[0].Id,
+                    DoctorId = doctors[0].Id,
                     RoomNumber = 3,
                 },
-                new Appointment
+                new 
                 {
-                    Id = 2,
+                    Id = 7,
                     Date = new DateTime(2019, 11, 26),
                     StartSlot = 22,
                     EndSlot = 22,
-                    Patient = null,
-                    Doctor = null,
+                    PatientId = patients[1].Id,
+                    DoctorId = doctors[1].Id,
                     RoomNumber = 3,
                 }
-            );
-
-            modelBuilder.Entity<WorkingHours>().HasData(
-                new WorkingHours
+            };
+            var workingHours = new []{
+                new 
                 {
-                    Id = 1,
+                    Id = 8,
                     Date = new DateTime(2019, 11, 26),
                     StartSlot = 10,
                     EndSlot = 50,
-                    Doctor = null,
+                    DoctorId = doctors[0].Id,
                 },
-                new WorkingHours
+                new 
                 {
-                    Id = 2,
+                    Id = 9,
                     Date = new DateTime(2019, 11, 26),
                     StartSlot = 12,
                     EndSlot = 30,
-                    Doctor = null,
+                    DoctorId = doctors[1].Id,
                 }
-            );
+            };
+            modelBuilder.Entity<Doctor>().HasData(doctors);
+            modelBuilder.Entity<Patient>().HasData(patients);
+            modelBuilder.Entity<Appointment>().HasData(appointments);
+            modelBuilder.Entity<WorkingHours>().HasData(workingHours);
         }
     }
 }

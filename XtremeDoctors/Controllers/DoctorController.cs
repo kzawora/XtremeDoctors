@@ -40,17 +40,7 @@ namespace XtremeDoctors.Controllers
 
             ViewBag.doctor = doctor;
 
-            //ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);
-
-            // Temp solution for  Bartek
-            string[] tempFreeHours = new string[10];
-
-            for(int i = 0; i < 10; i++)
-            {
-                tempFreeHours[i] = SlotHelper.SlotToHour(i + 10);
-            }
-            //
-            ViewBag.freeHours = tempFreeHours;
+            ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);
 
             ViewBag.date = date;
 
