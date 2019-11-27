@@ -69,7 +69,7 @@ namespace XtremeDoctors.Data
                 new 
                 {
                     Id = 6,
-                    Date = new DateTime(2019, 11, 26),
+                    Date = DateTime.Now.Date,
                     StartSlot = 15,
                     EndSlot = 17,
                     PatientId = patients[0].Id,
@@ -79,7 +79,7 @@ namespace XtremeDoctors.Data
                 new 
                 {
                     Id = 7,
-                    Date = new DateTime(2019, 11, 26),
+                    Date = DateTime.Now.Date,
                     StartSlot = 22,
                     EndSlot = 22,
                     PatientId = patients[1].Id,
@@ -91,7 +91,7 @@ namespace XtremeDoctors.Data
                 new 
                 {
                     Id = 8,
-                    Date = new DateTime(2019, 11, 26),
+                    Date = DateTime.Now.Date,
                     StartSlot = 10,
                     EndSlot = 50,
                     DoctorId = doctors[0].Id,
@@ -99,7 +99,7 @@ namespace XtremeDoctors.Data
                 new 
                 {
                     Id = 9,
-                    Date = new DateTime(2019, 11, 26),
+                    Date = DateTime.Now.Date,
                     StartSlot = 12,
                     EndSlot = 30,
                     DoctorId = doctors[1].Id,

@@ -22,72 +22,71 @@ namespace XtremeDoctorsUnitTests
         }
 
         [Fact]
+        public void ComputeFreeSlots_Should_Return_Not_Empty_Array_Of_Hours_When_Given_Working_Hours_And_Appointment()
         {
             // Arrange
-            private readonly ApplicationDbContext dbContext = GetDatabaseContext();
-        private DoctorService doctorService = new DoctorService(dbContext);
-        private Doctor doctor = new Doctor
-        {
-            Id = 1,
-            Name = "Dr",
-            Surname = "Etker",
-            Specialization = "Kisiele",
-            Text = "Very good doctor"
-        };
-
-        // 3:45-4:30 appointment
-        private readonly Appointment appointment = new Appointment
-        {
-            Id = 1,
-            Date = new DateTime(2019, 11, 26),
-            StartSlot = 15,
-            EndSlot = 17,
-            Patient = null,
-            Doctor = doctor,
-            RoomNumber = 3,
-        };
-
-        // 2:30-12:30 working hours
-        private readonly WorkingHours workingHours = new WorkingHours
-        {
-            Id = 1,
-            Date = new DateTime(2019, 11, 26),
-            StartSlot = 10,
-            EndSlot = 50,
-            Doctor = doctor,
-        };
-        dbContext.Doctors.Add(doctor);
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+            Doctor doctor = new Doctor
+            {
+                Id = 1,
+                Name = "Dr",
+                Surname = "Etker",
+                Specialization = "Kisiele",
+                Text = "Very good doctor"
+            };
+            // 3:45-4:30 appointment
+            Appointment appointment = new Appointment
+            {
+                Id = 1,
+                Date = new DateTime(2019, 11, 26),
+                StartSlot = 15,
+                EndSlot = 17,
+                Patient = null,
+                Doctor = doctor,
+                RoomNumber = 3,
+            };
+            // 2:30-12:30 working hours
+            WorkingHours workingHours = new WorkingHours
+            {
+                Id = 1,
+                Date = new DateTime(2019, 11, 26),
+                StartSlot = 10,
+                EndSlot = 50,
+                Doctor = doctor,
+            };
+            dbContext.Doctors.Add(doctor);
             dbContext.Appointments.Add(appointment);
             dbContext.WorkingHours.Add(workingHours);
             dbContext.SaveChanges();
 
             // Act
-            private string[] freeSlots = doctorService.ComputeFreeSlots(doctor, new DateTime(2019, 11, 26));
+            string[] freeSlots = doctorService.ComputeFreeSlots(doctor, new DateTime(2019, 11, 26));
 
-        // Assert
-        Assert.NotNull(freeSlots);
+            // Assert
+            Assert.NotNull(freeSlots);
             Assert.NotEmpty(freeSlots);
-            private string[] invalidSlots = new string[] { "3:45", "4:00", "4:15" };
-        private readonly bool contains = invalidSlots.Any(c => freeSlots.Contains(c));
-        Assert.False(contains);
+            string[] invalidSlots = new string[] { "3:45", "4:00", "4:15" };
+            bool contains = invalidSlots.Any(c => freeSlots.Contains(c));
+            Assert.False(contains);
         }
 
 
-    [Fact]
-    public void GetAvailableDays_Should_Return_Two_Days_When_One_Day_Is_Full()
-    {
-        // Arrange
-        ApplicationDbContext dbContext = GetDatabaseContext();
-        DoctorService doctorService = new DoctorService(dbContext);
-        Doctor doctor = new Doctor
+        [Fact]
+        public void GetAvailableDays_Should_Return_Two_Days_When_One_Day_Is_Full()
         {
-            Id = 1,
-            Name = "Dr",
-            Surname = "Etker",
-            Specialization = "Kisiele",
-            Text = "Very good doctor"
-        };
-        List<Appointment> appointments = new List<Appointment>
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+            Doctor doctor = new Doctor
+            {
+                Id = 1,
+                Name = "Dr",
+                Surname = "Etker",
+                Specialization = "Kisiele",
+                Text = "Very good doctor"
+            };
+            List<Appointment> appointments = new List<Appointment>
             {
 
                 // 3:45-4:30 appointment on 2019-11-26
@@ -135,7 +134,7 @@ namespace XtremeDoctorsUnitTests
                 }
             };
 
-        List<WorkingHours> workingHours = new List<WorkingHours>
+            List<WorkingHours> workingHours = new List<WorkingHours>
             {
                 // 2019-11-26, 2:30-12:30 working hours, single appointment
                 new WorkingHours
@@ -166,28 +165,28 @@ namespace XtremeDoctorsUnitTests
                 }
             };
 
-        dbContext.Doctors.Add(doctor);
-        foreach (Appointment appointment in appointments)
-        {
-            dbContext.Appointments.Add(appointment);
-        }
-        foreach (WorkingHours workingHoursElem in workingHours)
-        {
-            dbContext.WorkingHours.Add(workingHoursElem);
-        }
-        dbContext.SaveChanges();
+            dbContext.Doctors.Add(doctor);
+            foreach (Appointment appointment in appointments)
+            {
+                dbContext.Appointments.Add(appointment);
+            }
+            foreach (WorkingHours workingHoursElem in workingHours)
+            {
+                dbContext.WorkingHours.Add(workingHoursElem);
+            }
+            dbContext.SaveChanges();
 
-        // Act
-        string[] availableDays = doctorService.GetAvailableDays(doctor, new DateTime(2019, 11, 26), 14);
+            // Act
+            string[] availableDays = doctorService.GetAvailableDays(doctor, new DateTime(2019, 11, 26), 14);
 
-        // Assert
-        Assert.NotNull(availableDays);
-        Assert.NotEmpty(availableDays);
-        string[] invalidSlots = new string[] { "2019-11-27" };
-        bool contains = invalidSlots.Any(c => availableDays.Contains(c));
-        Assert.False(contains);
-        Assert.True(availableDays.Length == 2);
+            // Assert
+            Assert.NotNull(availableDays);
+            Assert.NotEmpty(availableDays);
+            string[] invalidSlots = new string[] { "2019-11-27" };
+            bool contains = invalidSlots.Any(c => availableDays.Contains(c));
+            Assert.False(contains);
+            Assert.True(availableDays.Length == 2);
+        }
+
     }
-
-}
 }
