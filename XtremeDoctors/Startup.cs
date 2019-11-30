@@ -18,12 +18,14 @@ namespace XtremeDoctors
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment appEnv)
         {
             Configuration = configuration;
+            CurrentEnvironment = appEnv;
         }
 
         public IConfiguration Configuration { get; }
+        private IHostingEnvironment CurrentEnvironment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -48,6 +50,7 @@ namespace XtremeDoctors
 
             // Identity
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.ConfigureIdentityInXtremeDoctors(CurrentEnvironment);
 
             // Localization
             services.AddLocalization(o => { o.ResourcesPath = "Resources"; });
