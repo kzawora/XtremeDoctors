@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
 using XtremeDoctors.Services;
 using XtremeDoctors.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace XtremeDoctors.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class DoctorController : Controller
     {

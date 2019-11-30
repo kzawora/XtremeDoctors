@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using XtremeDoctors.Services;
 
 namespace XtremeDoctors.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class AppointmentController : Controller
     {
