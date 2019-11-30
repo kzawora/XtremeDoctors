@@ -25,9 +25,9 @@ namespace XtremeDoctors
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Cookies
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -35,29 +35,33 @@ namespace XtremeDoctors
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Database
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 string conntectionString = Configuration.GetConnectionString("SqliteFile");
                 options.UseSqlite(conntectionString);
             });
 
+            // Injectable services
             services.AddScoped<DoctorService>();
             services.AddScoped<AppointmentService>();
 
+            // Identity
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddLocalization(o =>
-            {
-                o.ResourcesPath = "Resources";
-            });
+            // Localization
+            services.AddLocalization(o => { o.ResourcesPath = "Resources"; });
             services.AddSingleton<SharedViewLocalizer>();
+
+            // MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                              .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // Error interception
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -68,12 +72,15 @@ namespace XtremeDoctors
                 app.UseHsts();
             }
 
+            // Identity
             app.UseAuthentication();
 
+            // Networking Stuff
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            // Localization
             IList<CultureInfo> supportedCultures = new List<CultureInfo>
             {
                 new CultureInfo("en-US"),
@@ -86,8 +93,7 @@ namespace XtremeDoctors
                 SupportedUICultures = supportedCultures
             });
 
-            app.UseStatusCodePagesWithReExecute("/error/{0}");
-
+            // MVC
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
