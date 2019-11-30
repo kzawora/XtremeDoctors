@@ -22,7 +22,7 @@ namespace XtremeDoctors.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            var doctors = new []
+            var doctors = new[]
             {
                 new
                 {
@@ -49,7 +49,7 @@ namespace XtremeDoctors.Data
                     Text = "Quite good doctor."
                 }
             };
-            var patients = new [] 
+            var patients = new[]
             {
                 new
                 {
@@ -64,9 +64,9 @@ namespace XtremeDoctors.Data
                     Surname = "Patient"
                 }
             };
-            var appointments = new []
+            var appointments = new[]
             {
-                new 
+                new
                 {
                     Id = 6,
                     Date = DateTime.Now.Date,
@@ -76,7 +76,7 @@ namespace XtremeDoctors.Data
                     DoctorId = doctors[0].Id,
                     RoomNumber = 3,
                 },
-                new 
+                new
                 {
                     Id = 7,
                     Date = DateTime.Now.Date,
@@ -87,8 +87,8 @@ namespace XtremeDoctors.Data
                     RoomNumber = 3,
                 }
             };
-            var workingHours = new []{
-                new 
+            var workingHours = new[]{
+                new
                 {
                     Id = 8,
                     Date = DateTime.Now.Date,
@@ -96,7 +96,7 @@ namespace XtremeDoctors.Data
                     EndSlot = 50,
                     DoctorId = doctors[0].Id,
                 },
-                new 
+                new
                 {
                     Id = 9,
                     Date = DateTime.Now.Date,

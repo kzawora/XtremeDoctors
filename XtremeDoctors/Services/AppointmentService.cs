@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using XtremeDoctors.Models;
 using XtremeDoctors.Data;
 using XtremeDoctors.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace XtremeDoctors.Services
 {
@@ -19,14 +20,18 @@ namespace XtremeDoctors.Services
         public List<Appointment> GetAppointmentsForPatient(int patientId)
         {
 
-            List<Appointment> appointments = database.Appointments.Where(a => a.Patient.Id == patientId).ToList();
-
+            List<Appointment> appointments = database.Appointments
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)   
+                .Where(a => a.Patient.Id == patientId)
+                .ToList();
+ 
             return appointments;
         }
 
         public Appointment MakeAppointment(int doctorId, DateTime date, string hour)
         {
-            Patient patient = database.Patients.Find(1); //TEMP - todo get from context
+            Patient patient = database.Patients.Find(4); //TEMP - todo get from context
             Doctor doctor = database.Doctors.Find(doctorId);
 
             int slot = SlotHelper.HourToSlot(hour);

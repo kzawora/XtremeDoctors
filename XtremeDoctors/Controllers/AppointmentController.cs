@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using XtremeDoctors.Services;
 
 namespace XtremeDoctors.Controllers
@@ -21,6 +18,13 @@ namespace XtremeDoctors.Controllers
         {
             int currentPatientId = 1; // TODO
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(currentPatientId);
+            return View();
+        }
+
+        [HttpGet("{id:int}")]
+        public IActionResult List(int id)
+        {
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             return View();
         }
 
