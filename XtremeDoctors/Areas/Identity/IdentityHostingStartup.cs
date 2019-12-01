@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using XtremeDoctors.Data;
+using XtremeDoctors.Models;
 
 [assembly: HostingStartup(typeof(XtremeDoctors.Areas.Identity.IdentityHostingStartup))]
 namespace XtremeDoctors.Areas.Identity
