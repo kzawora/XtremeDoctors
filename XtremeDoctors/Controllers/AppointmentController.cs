@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
 using XtremeDoctors.Services;
 
@@ -46,6 +47,20 @@ namespace XtremeDoctors.Controllers
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             return View();
         }
+
+
+        [HttpGet("{id:int}/pdf")]
+        public async Task<IActionResult> generatePdfAsync(int id)
+        {
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
+            var viewHtml = await this.RenderViewAsync("~/Views/Appointment/List.cshtml", View().Model, true);
+            var pdf = WebHelper.PdfSharpConvert(viewHtml);
+            var content = new System.IO.MemoryStream(pdf);
+            var contentType = "APPLICATION/octet-stream";
+            var fileName = "report.pdf";
+            return File(content, contentType, fileName);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Make(

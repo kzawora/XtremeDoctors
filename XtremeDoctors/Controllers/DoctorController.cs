@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
 using XtremeDoctors.Services;
-using XtremeDoctors.Helpers;
 using Microsoft.AspNetCore.Authorization;
 
 namespace XtremeDoctors.Controllers
@@ -33,18 +32,6 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("pdf")]
-        public async Task<IActionResult> generatePdfAsync()
-        {
-            ViewBag.doctors = doctorService.FindAllDoctors();
-            var viewHtml = await this.RenderViewAsync("~/Views/Doctor/List.cshtml", View().Model, true);
-            var pdf = WebHelper.PdfSharpConvert(viewHtml);
-            var content = new System.IO.MemoryStream(pdf);
-            var contentType = "APPLICATION/octet-stream";
-            var fileName = "report.pdf";
-            return File(content, contentType, fileName);
-        }
-
         [HttpGet("{id:int}")]
         public IActionResult View(int id,
             [FromQuery(Name = "date")] DateTime date)
@@ -56,7 +43,8 @@ namespace XtremeDoctors.Controllers
                 return View("NotFound");
             }
 
-            DoctorViewModel viewModel = new DoctorViewModel {
+            DoctorViewModel viewModel = new DoctorViewModel
+            {
                 doctor = doctor,
                 workingHours = doctorService.GetHoursStringForWholeWeek(doctor),
             };
