@@ -13,12 +13,13 @@
 <h2>Appointment list</h2>
 <div class="row">
     <div class="card-panel grey lighten-5 z-depth-1">
-        <table class="striped ">
+        <table class="striped table-responsive">
             <thead>
-                <tr >
+                <tr>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Doctor</th>
+                    <th>Room</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@
                         <td>@appointment.Date.ToString("yyyy-MM-dd") </td>
                         <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot)</td>
                         <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
+                        <td>Room @appointment.RoomNumber</td>
                         <td>
                             <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Doctor.Id })">VIEW</a>
                             <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Doctor.Id })">CANCEL</a>
@@ -36,7 +38,11 @@
                     </tr>
                 }
             </tbody>
+
         </table>
-        </div>
+
+        <a href="@Url.Action("List", "Doctor")" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>New</a>
+        <br />
+    </div>
     </div>
 
