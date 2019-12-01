@@ -1,12 +1,37 @@
 ﻿@model XtremeDoctors.Models.Appointment
-
+@using static XtremeDoctors.Helpers.SlotHelper
 @{
     ViewData["Title"] = "List";
 }
 
-<h2>Appointment list</h2>
 
-@foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
-{
-    <div>@appointment.Id @appointment.Date slots @appointment.StartSlot - @appointment.EndSlot doctor @appointment.Doctor.Name @appointment.Doctor.Surname</div>
-}
+<h2>Appointment list</h2>
+<div class="row">
+    <div class="card-panel grey lighten-5 z-depth-1">
+        <table class="striped ">
+            <thead>
+                <tr >
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Doctor</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
+                {
+                    <tr>
+                        <td>@appointment.Date.ToString("yyyy-MM-dd") </td>
+                        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot)</td>
+                        <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
+                        <td>
+                            <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Doctor.Id })">VIEW</a>
+                            <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Doctor.Id })">CANCEL</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+
