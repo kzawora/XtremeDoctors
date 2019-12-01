@@ -36,7 +36,7 @@ namespace XtremeDoctors.Helpers
             using (var writer = new StringWriter())
             {
                 IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
-                ViewEngineResult viewResult = viewEngine.GetView(viewName, viewName, !partial);
+                ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, !partial);
 
                 if (viewResult.Success == false)
                 {

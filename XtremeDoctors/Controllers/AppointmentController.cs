@@ -53,7 +53,7 @@ namespace XtremeDoctors.Controllers
         public async Task<IActionResult> generatePdfAsyncById(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
-            var viewHtml = await this.RenderViewAsync("~/Views/Appointment/List.cshtml", View().Model, true);
+            var viewHtml = await this.RenderViewAsync("List", View().Model, true);
             var pdf = WebHelper.PdfSharpConvert(viewHtml);
             var content = new System.IO.MemoryStream(pdf);
             var contentType = "APPLICATION/octet-stream";
