@@ -26,14 +26,7 @@ namespace XtremeDoctors.Controllers
         public async Task<IActionResult> List()
         {
 
-            User user = await userService.GetCurrentUser();
-
-            int patientId = 1;
-
-            if (user.Patient != null)
-            {
-                patientId = user.Patient.Id;
-            }
+            int patientId = await userService.GetCurrentPatientId();
 
             //return RedirectToRoute(new { controller = "Home", action = "Index" });
 
@@ -68,17 +61,10 @@ namespace XtremeDoctors.Controllers
             [FromForm] DateTime date,
             [FromForm] string hour)
         {
+            
+            int patientId = await userService.GetCurrentPatientId();
 
-            User user = await userService.GetCurrentUser();
-
-            int patientId = 1;
-
-            if (user.Patient != null)
-            {
-                patientId = user.Patient.Id;
-            }
-
-            ViewBag.appointment = appointmentService.MakeAppointment(doctorId, 1, date, hour);
+            ViewBag.appointment = appointmentService.MakeAppointment(doctorId, patientId, date, hour);
 
             return View();
         }

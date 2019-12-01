@@ -26,5 +26,19 @@ namespace XtremeDoctors.Services
             return user;
         }
 
+        public async Task<int> GetCurrentPatientId()
+        {
+            User user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            int patientId = 1;
+
+            if (user.Patient != null)
+            {
+                patientId = user.Patient.Id;
+            }
+
+            return patientId;
+        }
+
     }
 }
