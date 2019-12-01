@@ -1,0 +1,46 @@
+﻿@model XtremeDoctors.Models.Appointment
+@using XtremeDoctors.Helpers
+@{
+    ViewData["Title"] = "List";
+}
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+<h2>@Localizer["Appointment report"]</h2>
+<table>
+    <tr>
+        <th>@Localizer["Appointment number"]</th>
+        <th>@Localizer["Date of creation"]</th>
+        <th>@Localizer["Appointment timespan"]</th>
+        <th>@Localizer["Doctor"]</th>
+        <th>@Localizer["Room number"]</th>
+    </tr>
+    @foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
+    {
+        <tr>
+            <td>@appointment.Id</td>
+            <td>@appointment.Date.ToString("yyyy-MM-dd")</td>
+            <td>@SlotHelper.SlotToHour(@appointment.StartSlot) - @SlotHelper.SlotToHour(@appointment.EndSlot)</td>
+            <td>@appointment.Doctor.Surname @appointment.Doctor.Name</td>
+            <td>@appointment.RoomNumber</td>
+        </tr>
+    }
+</table>
+
+<footer>
+    <p>@Localizer["Report creation date"]: @DateTime.Now</p>
+</footer>
