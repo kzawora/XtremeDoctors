@@ -1,7 +1,7 @@
-﻿@model XtremeDoctors.Models.Doctor
+﻿@model XtremeDoctors.Controllers.DoctorViewModel
 
 @{
-    Doctor doctor = ViewBag.doctor;
+    XtremeDoctors.Controllers.DoctorViewModel doctor = ViewBag.doctorView;
     DateTime date = ViewBag.date;
 }
     <div class="container">
@@ -16,34 +16,40 @@
                                     <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle  responsive-img" />
                                 </div>
                                 <div class="col s12">
-                                    <strong>@doctor.Name @doctor.Surname</strong><br />
-                                    <i>Ginekolog specjalista</i>
-                                    <blockquote>
-                                        Zbadam Cię bardzo tanio
-                                    </blockquote>
+                                    <strong>@doctor.doctor.Name @doctor.doctor.Surname</strong><br />
+                                    <i>@doctor.doctor.Specialization</i>
+                                    <blockquote>@doctor.doctor.Text</blockquote>
                                 </div>
 
                                 <table class="striped">
                                     <tbody>
                                         <tr>
                                             <td>Poniedziałek</td>
-                                            <td>7:00 - 14:00</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Monday]</td>
                                         </tr>
                                         <tr>
                                             <td>Wtorek</td>
-                                            <td>7:00 - 14:00</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Tuesday]</td>
                                         </tr>
                                         <tr>
                                             <td>Środa</td>
-                                            <td>7:00 - 14:00</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Wednesday]</td>
                                         </tr>
                                         <tr>
                                             <td>Czwartek</td>
-                                            <td>7:00 - 14:00</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Thursday]</td>
                                         </tr>
                                         <tr>
                                             <td>Piątek</td>
-                                            <td>7:00 - 14:00</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Friday]</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sobota</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Saturday]</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Niedziela</td>
+                                            <td>@doctor.workingHours[(int)DayOfWeek.Sunday]</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -78,7 +84,7 @@
                                             <td>
                                                 @using (Html.BeginForm("Make", "Appointment", FormMethod.Post))
                                                 {
-                                                    <input type="hidden" name="doctorId" value="@doctor.Id" />
+                                                    <input type="hidden" name="doctorId" value="@doctor.doctor.Id" />
                                                     <input type="hidden" name="date" value="@date" />
                                                     <input type="hidden" name="hour" value="@freeHour" />
 

@@ -4,6 +4,7 @@ using System.Linq;
 using XtremeDoctors.Data;
 using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
+using System.Linq;
 
 namespace XtremeDoctors.Services
 {
@@ -47,12 +48,17 @@ namespace XtremeDoctors.Services
 
         public WorkingHours[] GetWorkingHoursForDay(Doctor doctor, DayOfWeek dayOfWeek)
         {
-            return database.WorkingHours
+            var hoursForDayOfWeek = database.WorkingHours
                 .Where(w => w.Doctor.Id == doctor.Id)
                 .Where(w => w.Date.DayOfWeek == dayOfWeek)
                 .GroupBy(w => w.Date.Date)
-                .First()
+                .OrderByDescending(group => group.First().Date.Date)
                 .ToArray();
+            if (hoursForDayOfWeek.Length == 0)
+            {
+                return new WorkingHours[0];
+            }
+            return hoursForDayOfWeek.First().ToArray();
         }
 
         public WorkingHours[] GetWorkingHoursForDay(Doctor doctor, DateTime date)
@@ -78,6 +84,18 @@ namespace XtremeDoctors.Services
             return string.Join(", ",
                 hours.Select(h => SlotHelper.SlotToHour(h.StartSlot) + " - " + SlotHelper.SlotToHour(h.EndSlot))
             );
+        }
+
+        public string[] GetHoursStringForWholeWeek(Doctor doctor)
+        {
+            string[] result = new string[7];
+            DateTime now = DateTime.Now;
+            for (int i=0; i < 7; i++)
+            {
+                DayOfWeek dayOfWeek = now.AddDays(i).DayOfWeek;
+                result[(int)dayOfWeek] = GetHoursStringForDayOfWeek(doctor, dayOfWeek);
+            }
+            return result;
         }
 
         public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
