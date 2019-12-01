@@ -221,7 +221,7 @@ namespace XtremeDoctorsUnitTests
             dbContext.SaveChanges();
 
             // Act
-            WorkingHours sampledWorkingHours = doctorService.getWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
+            WorkingHours sampledWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
 
             // Assert
             Assert.NotNull(sampledWorkingHours);
@@ -266,8 +266,8 @@ namespace XtremeDoctorsUnitTests
             dbContext.SaveChanges();
 
             // Act
-            WorkingHours mondayWorkingHours = doctorService.getWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
-            WorkingHours tuesdayWorkingHours = doctorService.getWorkingHoursForDay(doctor, new DateTime(2019, 11, 12));
+            WorkingHours mondayWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
+            WorkingHours tuesdayWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 12));
 
             // Assert
             Assert.NotNull(mondayWorkingHours);

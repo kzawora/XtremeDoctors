@@ -45,16 +45,21 @@ namespace XtremeDoctors.Services
             return availableDays.ToArray();
         }
 
-        public WorkingHours getWorkingHoursForDay(Doctor doctor, DateTime date)
+        public WorkingHours GetWorkingHoursForDay(Doctor doctor, DayOfWeek dayOfWeek)
         {
             return database.WorkingHours
                 .Where(w => w.Doctor.Id == doctor.Id)
-                .Where(w => w.Date.DayOfWeek == date.DayOfWeek)
+                .Where(w => w.Date.DayOfWeek == dayOfWeek)
                 .OrderByDescending(w => w.Date.Ticks)
                 .FirstOrDefault();
         }
 
-        public Appointment[] getAppointmentsForDay(Doctor doctor, DateTime date)
+        public WorkingHours GetWorkingHoursForDay(Doctor doctor, DateTime date)
+        {
+            return GetWorkingHoursForDay(doctor, date.DayOfWeek);
+        }
+
+        public Appointment[] GetAppointmentsForDay(Doctor doctor, DateTime date)
         {
             return database.Appointments
                 .Where(a => a.Doctor.Id == doctor.Id)
@@ -62,16 +67,26 @@ namespace XtremeDoctors.Services
                 .ToArray();
         }
 
+        public string GetHoursStringForDayOfWeek(Doctor doctor, DayOfWeek dayOfWeek)
+        {
+            WorkingHours hours = GetWorkingHoursForDay(doctor, dayOfWeek);
+            if (hours == null)
+            {
+                return "Unavailable";
+            }
+            return SlotHelper.SlotToHour(hours.StartSlot) + " - " + SlotHelper.SlotToHour(hours.EndSlot);
+        }
+
         public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
         {
-            WorkingHours workingHours = getWorkingHoursForDay(doctor, date);
+            WorkingHours workingHours = GetWorkingHoursForDay(doctor, date);
 
             if (workingHours == null)
             {
                 return new string[0];
             }
 
-            Appointment[] appointments = getAppointmentsForDay(doctor, date);
+            Appointment[] appointments = GetAppointmentsForDay(doctor, date);
             List<int> freeSlots = new List<int>();
 
             for (int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
