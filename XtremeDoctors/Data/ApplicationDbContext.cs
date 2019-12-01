@@ -5,7 +5,7 @@ using XtremeDoctors.Models;
 
 namespace XtremeDoctors.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -109,6 +109,7 @@ namespace XtremeDoctors.Data
             modelBuilder.Entity<Patient>().HasData(patients);
             modelBuilder.Entity<Appointment>().HasData(appointments);
             modelBuilder.Entity<WorkingHours>().HasData(workingHours);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

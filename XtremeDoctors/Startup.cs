@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using XtremeDoctors.Resources;
 using XtremeDoctors.Services;
+using XtremeDoctors.Models;
 
 namespace XtremeDoctors
 {
@@ -49,7 +50,7 @@ namespace XtremeDoctors
             services.AddScoped<AppointmentService>();
 
             // Identity
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<User>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.ConfigureIdentityInXtremeDoctors(CurrentEnvironment);
 
             // Localization

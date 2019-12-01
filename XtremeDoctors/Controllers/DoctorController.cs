@@ -23,7 +23,6 @@ namespace XtremeDoctors.Controllers
         [HttpGet("")]
         public IActionResult List()
         {
-            ViewData["Message"] = "Your doctors page.";
             ViewBag.doctors = doctorService.FindAllDoctors();
             return View();
         }
