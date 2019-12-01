@@ -32,8 +32,8 @@
                         <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
                         <td>Room @appointment.RoomNumber</td>
                         <td>
-                            <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Doctor.Id })">VIEW</a>
-                            <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Doctor.Id })">CANCEL</a>
+                            <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Id })">VIEW</a>
+                            <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">CANCEL</a>
                         </td>
                     </tr>
                 }

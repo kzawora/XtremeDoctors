@@ -22,10 +22,10 @@ namespace XtremeDoctors.Services
 
             List<Appointment> appointments = database.Appointments
                 .Include(a => a.Doctor)
-                .Include(a => a.Patient)   
+                .Include(a => a.Patient)
                 .Where(a => a.Patient.Id == patientId)
                 .ToList();
- 
+
             return appointments;
         }
 
@@ -48,6 +48,13 @@ namespace XtremeDoctors.Services
             database.SaveChanges();
 
             return appointment;
+        }
+
+        public void CancelAppointmentById(int appointmentId)
+        {
+            var toRemove = database.Appointments.Find(appointmentId);
+            database.Appointments.Remove(toRemove);
+            database.SaveChanges();
         }
     }
 }
