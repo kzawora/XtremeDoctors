@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using XtremeDoctors.Resources;
 using XtremeDoctors.Services;
 using XtremeDoctors.Models;
+using System.Text;
 
 namespace XtremeDoctors
 {
@@ -30,6 +31,8 @@ namespace XtremeDoctors
 
         public void ConfigureServices(IServiceCollection services)
         {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
             // Cookies
             services.Configure<CookiePolicyOptions>(options =>
             {
