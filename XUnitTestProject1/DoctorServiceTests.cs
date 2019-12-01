@@ -221,12 +221,13 @@ namespace XtremeDoctorsUnitTests
             dbContext.SaveChanges();
 
             // Act
-            WorkingHours sampledWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
+            WorkingHours[] sampledWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
 
             // Assert
             Assert.NotNull(sampledWorkingHours);
-            Assert.Equal(14, sampledWorkingHours.StartSlot);
-            Assert.Equal(26, sampledWorkingHours.EndSlot);
+            Assert.Single(sampledWorkingHours);
+            Assert.Equal(14, sampledWorkingHours[0].StartSlot);
+            Assert.Equal(26, sampledWorkingHours[0].EndSlot);
         }
 
         [Fact]
@@ -266,13 +267,15 @@ namespace XtremeDoctorsUnitTests
             dbContext.SaveChanges();
 
             // Act
-            WorkingHours mondayWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
-            WorkingHours tuesdayWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 12));
+            WorkingHours[] mondayWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
+            WorkingHours[] tuesdayWorkingHours = doctorService.GetWorkingHoursForDay(doctor, new DateTime(2019, 11, 12));
 
             // Assert
             Assert.NotNull(mondayWorkingHours);
-            Assert.Equal(20, mondayWorkingHours.StartSlot);
-            Assert.Equal(26, mondayWorkingHours.EndSlot);
+            Assert.Single(mondayWorkingHours);
+            Assert.Equal(20, mondayWorkingHours[0].StartSlot);
+            Assert.Equal(26, mondayWorkingHours[0].EndSlot);
+
             Assert.Null(tuesdayWorkingHours);
         }
     }

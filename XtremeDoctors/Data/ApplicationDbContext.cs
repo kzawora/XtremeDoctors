@@ -53,7 +53,7 @@ namespace XtremeDoctors.Data
             {
                 new
                 {
-                    Id = 4,
+                    Id = 1,
                     Name = "First",
                     Surname = "Patient"
                 },

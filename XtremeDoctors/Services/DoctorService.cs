@@ -45,16 +45,17 @@ namespace XtremeDoctors.Services
             return availableDays.ToArray();
         }
 
-        public WorkingHours GetWorkingHoursForDay(Doctor doctor, DayOfWeek dayOfWeek)
+        public WorkingHours[] GetWorkingHoursForDay(Doctor doctor, DayOfWeek dayOfWeek)
         {
             return database.WorkingHours
                 .Where(w => w.Doctor.Id == doctor.Id)
                 .Where(w => w.Date.DayOfWeek == dayOfWeek)
-                .OrderByDescending(w => w.Date.Ticks)
-                .FirstOrDefault();
+                .GroupBy(w => w.Date.Date)
+                .First()
+                .ToArray();
         }
 
-        public WorkingHours GetWorkingHoursForDay(Doctor doctor, DateTime date)
+        public WorkingHours[] GetWorkingHoursForDay(Doctor doctor, DateTime date)
         {
             return GetWorkingHoursForDay(doctor, date.DayOfWeek);
         }
@@ -69,19 +70,21 @@ namespace XtremeDoctors.Services
 
         public string GetHoursStringForDayOfWeek(Doctor doctor, DayOfWeek dayOfWeek)
         {
-            WorkingHours hours = GetWorkingHoursForDay(doctor, dayOfWeek);
-            if (hours == null)
+            WorkingHours[] hours = GetWorkingHoursForDay(doctor, dayOfWeek);
+            if (hours == null || hours.Length == 0)
             {
                 return "Unavailable";
             }
-            return SlotHelper.SlotToHour(hours.StartSlot) + " - " + SlotHelper.SlotToHour(hours.EndSlot);
+            return string.Join(", ",
+                hours.Select(h => SlotHelper.SlotToHour(h.StartSlot) + " - " + SlotHelper.SlotToHour(h.EndSlot))
+            );
         }
 
         public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
         {
-            WorkingHours workingHours = GetWorkingHoursForDay(doctor, date);
+            WorkingHours[] workingHours = GetWorkingHoursForDay(doctor, date);
 
-            if (workingHours == null)
+            if (workingHours.Length == 0)
             {
                 return new string[0];
             }
@@ -89,14 +92,17 @@ namespace XtremeDoctors.Services
             Appointment[] appointments = GetAppointmentsForDay(doctor, date);
             List<int> freeSlots = new List<int>();
 
-            for (int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
+            foreach (WorkingHours hours in workingHours)
             {
-                bool SlotTaken = appointments
-                    .Where(a => a.StartSlot <= slot && slot <= a.EndSlot)
-                    .Any();
-                if (SlotTaken == false)
+                for (int slot = hours.StartSlot; slot <= hours.EndSlot; slot++)
                 {
-                    freeSlots.Add(slot);
+                    bool SlotTaken = appointments
+                        .Where(a => a.StartSlot <= slot && slot <= a.EndSlot)
+                        .Any();
+                    if (SlotTaken == false)
+                    {
+                        freeSlots.Add(slot);
+                    }
                 }
             }
 
