@@ -12,18 +12,20 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class AppointmentController : Controller
     {
-        private readonly UserManager<User> _userManager;
+
+        private UserService userService;
         private readonly AppointmentService appointmentService;
-        public AppointmentController(AppointmentService appointmentService, UserManager<User> userManager)
+        public AppointmentController(AppointmentService appointmentService, UserService userService)
         {
             this.appointmentService = appointmentService;
-            this._userManager = userManager;
+            this.userService = userService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
-            User user = await _userManager.GetUserAsync(HttpContext.User);
+
+            User user = await userService.GetCurrentUser();
 
             int patientId = 1;
 
@@ -34,7 +36,7 @@ namespace XtremeDoctors.Controllers
 
             //return RedirectToRoute(new { controller = "Home", action = "Index" });
 
-            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(1);
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId);
             return View();
         }
 
@@ -52,7 +54,7 @@ namespace XtremeDoctors.Controllers
             [FromForm] string hour)
         {
 
-            User user = await _userManager.GetUserAsync(HttpContext.User);
+            User user = await userService.GetCurrentUser();
 
             int patientId = 1;
 
