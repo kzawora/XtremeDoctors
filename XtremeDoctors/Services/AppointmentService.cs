@@ -29,9 +29,9 @@ namespace XtremeDoctors.Services
             return appointments;
         }
 
-        public Appointment MakeAppointment(int doctorId, DateTime date, string hour)
+        public Appointment MakeAppointment(int doctorId, int patientId, DateTime date, string hour)
         {
-            Patient patient = database.Patients.Find(4); //TEMP - todo get from context
+            Patient patient = database.Patients.Find(patientId);
             Doctor doctor = database.Doctors.Find(doctorId);
 
             int slot = SlotHelper.HourToSlot(hour);

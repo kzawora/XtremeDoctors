@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
+using XtremeDoctors.Models;
 using XtremeDoctors.Services;
 
 namespace XtremeDoctors.Controllers
@@ -9,17 +12,29 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class AppointmentController : Controller
     {
+        private readonly UserManager<User> _userManager;
         private readonly AppointmentService appointmentService;
-        public AppointmentController(AppointmentService appointmentService)
+        public AppointmentController(AppointmentService appointmentService, UserManager<User> userManager)
         {
             this.appointmentService = appointmentService;
+            this._userManager = userManager;
         }
 
         [HttpGet("")]
-        public IActionResult List()
+        public async Task<IActionResult> List()
         {
-            int currentPatientId = 1; // TODO
-            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(currentPatientId);
+            User user = await _userManager.GetUserAsync(HttpContext.User);
+
+            int patientId = 1;
+
+            if (user.Patient != null)
+            {
+                patientId = user.Patient.Id;
+            }
+
+            //return RedirectToRoute(new { controller = "Home", action = "Index" });
+
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(1);
             return View();
         }
 
@@ -31,13 +46,22 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpPost]
-        public IActionResult Make(
+        public async Task<IActionResult> Make(
             [FromForm] int doctorId,
             [FromForm] DateTime date,
             [FromForm] string hour)
         {
 
-            ViewBag.appointment = appointmentService.MakeAppointment(doctorId, date, hour);
+            User user = await _userManager.GetUserAsync(HttpContext.User);
+
+            int patientId = 1;
+
+            if (user.Patient != null)
+            {
+                patientId = user.Patient.Id;
+            }
+
+            ViewBag.appointment = appointmentService.MakeAppointment(doctorId, 1, date, hour);
 
             return View();
         }
