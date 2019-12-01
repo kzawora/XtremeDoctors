@@ -1,8 +1,9 @@
-﻿@model XtremeDoctors.Models.Doctor
+﻿@model XtremeDoctors.Controllers.DoctorViewModel
+@using XtremeDoctors.Controllers
 
 <div class="container">
     <div class="row">
-        @foreach (Doctor doctor in (Doctor[])ViewBag.doctors)
+        @foreach (DoctorViewModel doctor in (DoctorViewModel[])ViewBag.doctorViews)
         {
             <div class="col s12 m6">
                 <div class="card-panel grey lighten-5 z-depth-1">
@@ -14,36 +15,13 @@
                                     <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle  responsive-img" />
                                 </div>
                                 <div class="col s10">
-                                    <strong>@doctor.Name @doctor.Surname</strong><br />
-                                    <i>@doctor.Specialization</i>
-                                    <blockquote>@doctor.Text</blockquote>
+                                    <strong>@doctor.doctor.Name @doctor.doctor.Surname</strong><br />
+                                    <i>@doctor.doctor.Specialization</i>
+                                    <blockquote>@doctor.doctor.Text</blockquote>
                                 </div>
-                                <table class="striped">
-                                    <tbody>
-                                        <tr>
-                                            <td>@SharedLocalizer["Monday"]</td>
-                                            <td>7:00 - 14:00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>@SharedLocalizer["Tuesday"]</td>
-                                            <td>7:00 - 14:00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>@SharedLocalizer["Wednesday"]</td>
-                                            <td>7:00 - 14:00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>@SharedLocalizer["Thursday"]</td>
-                                            <td>7:00 - 14:00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>@SharedLocalizer["Friday"]</td>
-                                            <td>7:00 - 14:00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <partial name="_WorkingHoursPartial" model="@doctor" />
                                 <br />
-                                <form method="get" action="@Url.Action("View", "Doctor", new { id = @doctor.Id })">
+                                <form method="get" action="@Url.Action("View", "Doctor", new { id = @doctor.doctor.Id })">
                                     <input type="text" class="datepicker" name="date">
                                     <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</button>
                                 </form>

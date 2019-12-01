@@ -11,6 +11,12 @@ namespace XtremeDoctors.Controllers
 {
     public class DoctorViewModel
     {
+        public DoctorViewModel(Doctor doctor, DoctorService doctorService)
+        {
+            this.doctor = doctor;
+            this.workingHours = doctorService.GetHoursStringForWholeWeek(doctor);
+        }
+
         public Doctor doctor;
         public string[] workingHours;
     }
@@ -28,7 +34,10 @@ namespace XtremeDoctors.Controllers
         [HttpGet("")]
         public IActionResult List()
         {
-            ViewBag.doctors = doctorService.FindAllDoctors();
+            ViewBag.doctorViews = doctorService
+                .FindAllDoctors()
+                .Select(doctor => new DoctorViewModel(doctor, doctorService))
+                .ToArray();
             return View();
         }
 
@@ -43,11 +52,7 @@ namespace XtremeDoctors.Controllers
                 return View("NotFound");
             }
 
-            DoctorViewModel viewModel = new DoctorViewModel
-            {
-                doctor = doctor,
-                workingHours = doctorService.GetHoursStringForWholeWeek(doctor),
-            };
+            DoctorViewModel viewModel = new DoctorViewModel(doctor, doctorService);
 
             ViewBag.doctorView = viewModel;
             ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);

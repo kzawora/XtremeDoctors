@@ -21,41 +21,10 @@
                                     <blockquote>@doctor.doctor.Text</blockquote>
                                 </div>
 
-                                <table class="striped">
-                                    <tbody>
-                                        <tr>
-                                            <td>Poniedziałek</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Monday]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Wtorek</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Tuesday]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Środa</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Wednesday]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Czwartek</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Thursday]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Piątek</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Friday]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Sobota</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Saturday]</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Niedziela</td>
-                                            <td>@doctor.workingHours[(int)DayOfWeek.Sunday]</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <partial name="_WorkingHoursPartial" model="@doctor"/>
 
 
-                            </div>
+                        </div>
                     </div>
 
                 </div>
