@@ -76,7 +76,7 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("Cancel/{appointment_id:int}")]
+        [HttpPost("Cancel/{appointment_id:int}")]
         public IActionResult cancelAppointment(int appointment_id)
         {
             appointmentService.CancelAppointmentById(appointment_id);
