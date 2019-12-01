@@ -45,39 +45,43 @@ namespace XtremeDoctors.Services
             return availableDays.ToArray();
         }
 
+        public WorkingHours getWorkingHoursForDay(Doctor doctor, DateTime date)
+        {
+            return database.WorkingHours
+                .Where(w => w.Doctor.Id == doctor.Id)
+                .Where(w => w.Date.DayOfWeek == date.DayOfWeek)
+                .OrderByDescending(w => w.Date.Ticks)
+                .FirstOrDefault();
+        }
+
+        public Appointment[] getAppointmentsForDay(Doctor doctor, DateTime date)
+        {
+            return database.Appointments
+                .Where(a => a.Doctor.Id == doctor.Id)
+                .Where(a => a.Date.Date == date.Date)
+                .ToArray();
+        }
+
         public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
         {
+            WorkingHours workingHours = getWorkingHoursForDay(doctor, date);
 
-            WorkingHours[] allWorkingHours = database.WorkingHours.Where(w => w.Doctor.Id == doctor.Id).Where(w => w.Date.Day == date.Day).ToArray();
-
-            if (allWorkingHours == null)
+            if (workingHours == null)
             {
                 return new string[0];
             }
 
-            Appointment[] appointments = database.Appointments.Where(a => a.Doctor.Id == doctor.Id).Where(a => a.Date.Day == date.Day).ToArray();
-
+            Appointment[] appointments = getAppointmentsForDay(doctor, date);
             List<int> freeSlots = new List<int>();
 
-            foreach (WorkingHours workingHours in allWorkingHours)
+            for (int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
             {
-                for (int slot = workingHours.StartSlot; slot <= workingHours.EndSlot; slot++)
+                bool SlotTaken = appointments
+                    .Where(a => a.StartSlot <= slot && slot <= a.EndSlot)
+                    .Any();
+                if (SlotTaken == false)
                 {
-                    bool SlotAvailable = true;
-
-                    foreach (Appointment appointment in appointments)
-                    {
-                        if (slot >= appointment.StartSlot && slot <= appointment.EndSlot)
-                        {
-                            SlotAvailable = false;
-                            break;
-                        }
-                    }
-
-                    if (SlotAvailable)
-                    {
-                        freeSlots.Add(slot);
-                    }
+                    freeSlots.Add(slot);
                 }
             }
 

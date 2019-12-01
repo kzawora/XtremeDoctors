@@ -181,12 +181,99 @@ namespace XtremeDoctorsUnitTests
 
             // Assert
             Assert.NotNull(availableDays);
-            Assert.NotEmpty(availableDays);
-            string[] invalidSlots = new string[] { "2019-11-27" };
-            bool contains = invalidSlots.Any(c => availableDays.Contains(c));
-            Assert.False(contains);
-            Assert.True(availableDays.Length == 2);
+            string[] expectedDays = new string[] { "2019-11-26", "2019-11-28", "03-12-2019", "05-12-2019" };
+            Assert.Collection(availableDays,
+                i => Assert.Equal("2019-11-26", i),
+                i => Assert.Equal("2019-11-28", i),
+                i => Assert.Equal("2019-12-03", i),
+                i => Assert.Equal("2019-12-04", i),
+                i => Assert.Equal("2019-12-05", i)
+            );
         }
 
+
+        [Fact]
+        public void givenWorkingHoursForSpecifiedDayAreSetWhenGetingWorkingHoursForDayThenTheyAreReturned()
+        {
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+
+            Doctor doctor = new Doctor { Id = 1,  };
+
+            List<WorkingHours> workingHours = new List<WorkingHours>
+            {
+                new WorkingHours
+                {
+                    Id = 1,
+                    Date = new DateTime(2019, 11, 11),
+                    StartSlot = 14,
+                    EndSlot = 26,
+                    Doctor = doctor,
+                },
+            };
+
+            dbContext.Doctors.Add(doctor);
+            foreach (WorkingHours workingHoursElem in workingHours)
+            {
+                dbContext.WorkingHours.Add(workingHoursElem);
+            }
+            dbContext.SaveChanges();
+
+            // Act
+            WorkingHours sampledWorkingHours = doctorService.getWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
+
+            // Assert
+            Assert.NotNull(sampledWorkingHours);
+            Assert.Equal(14, sampledWorkingHours.StartSlot);
+            Assert.Equal(26, sampledWorkingHours.EndSlot);
+        }
+
+        [Fact]
+        public void givenWorkingHoursForSpecifiedDayAreNotSetWhenGetingWorkingHoursForDayThenTryToTakeFromLastWeekKnown()
+        {
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+
+            Doctor doctor = new Doctor { Id = 1, };
+
+            List<WorkingHours> workingHours = new List<WorkingHours>
+            {
+                new WorkingHours
+                {
+                    Id = 1,
+                    Date = new DateTime(2019, 06, 03), // earlier monday
+                    StartSlot = 13,
+                    EndSlot = 14,
+                    Doctor = doctor,
+                },
+                new WorkingHours
+                {
+                    Id = 2,
+                    Date = new DateTime(2019, 06, 10), // later monday
+                    StartSlot = 20,
+                    EndSlot = 26,
+                    Doctor = doctor,
+                },
+            };
+
+            dbContext.Doctors.Add(doctor);
+            foreach (WorkingHours workingHoursElem in workingHours)
+            {
+                dbContext.WorkingHours.Add(workingHoursElem);
+            }
+            dbContext.SaveChanges();
+
+            // Act
+            WorkingHours mondayWorkingHours = doctorService.getWorkingHoursForDay(doctor, new DateTime(2019, 11, 11));
+            WorkingHours tuesdayWorkingHours = doctorService.getWorkingHoursForDay(doctor, new DateTime(2019, 11, 12));
+
+            // Assert
+            Assert.NotNull(mondayWorkingHours);
+            Assert.Equal(20, mondayWorkingHours.StartSlot);
+            Assert.Equal(26, mondayWorkingHours.EndSlot);
+            Assert.Null(tuesdayWorkingHours);
+        }
     }
 }
