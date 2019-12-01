@@ -1,0 +1,12 @@
+﻿@model XtremeDoctors.Models.Appointment
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h2>Appointment list</h2>
+
+@foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
+{
+<div>@appointment.Id @appointment.Date slots @appointment.StartSlot - @appointment.EndSlot doctor @appointment.Doctor.Name @appointment.Doctor.Surname</div>
+}

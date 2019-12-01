@@ -4,35 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
+using XtremeDoctors.Data;
 
 namespace XtremeDoctors.Controllers
 {
     [Route("[controller]")]
     public class PatientController : Controller
     {
-        [HttpGet("view/{id}")]
+        private ApplicationDbContext database;
+        public PatientController(ApplicationDbContext database)
+        {
+            this.database = database;
+        }
+
+        [HttpGet("{id}")]
         public IActionResult View(int id)
         {
-            Patient patient = new Patient("Jan", "Daciuk");
-            ViewBag.patient = patient;
             return View();
         }
 
-        [HttpGet("list")]
+        [HttpGet("")]
         public IActionResult List()
         {
-            Patient[] patients = new Patient[2];
-            patients[0] = new Patient("Jan", "Daciuk");
-            patients[1] = new Patient("January", "Daciuk");
-            
-            ViewBag.patients = patients;
-            return View();
-        }
-
-        public IActionResult Index()
-        {
-            Patient patient = new Patient("Jan", "Daciuk");
-            ViewBag.patient = patient;
+            ViewBag.patients = database.Patients.ToArray();
             return View();
         }
     }

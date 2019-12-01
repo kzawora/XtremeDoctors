@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XtremeDoctors.Models
 {
@@ -12,18 +13,12 @@ namespace XtremeDoctors.Models
         public string Surname { get; set; }
         public string Specialization { get; set; }
         public string Text { get; set; }
-        public Appointment[] Appointments { get; set; }
-        //public DateTime[][] WorkingHours { get; set; }
 
-        public Doctor() { }
+        [InverseProperty("Doctor")]
+        public List<Appointment> Appointments { get; set; }
 
-        public Doctor(string name, string surname, string spec, string text)
-        {
-            this.Name = name;
-            this.Surname = surname;
-            this.Specialization = spec;
-            this.Text = text;
-        }
 
+        [InverseProperty("Doctor")]
+        public List<WorkingHours> WorkingHours { get; set; }
     }
 }

@@ -21,8 +21,8 @@
         <div class="nav-wrapper container">
             <a href="/" class="brand-logo"><img src="~/images/logo.png" style="height:100%"/></a>
             <ul class="right hide-on-med-and-down">
-                <li><a asp-controller="Doctor" asp-action="List">@Localizer["Your appointments"]</a></li>
-                <li><a>@Localizer["Add appointment"]</a></li>
+                <li><a asp-controller="Appointment" asp-action="List">@Localizer["Your appointments"]</a></li>
+                <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
                 <li><partial name="_LoginPartial" /></li>
             </ul>
         </div>

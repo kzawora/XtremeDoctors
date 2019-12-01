@@ -4,34 +4,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
-using XtremeDoctors.Data;
+using XtremeDoctors.Services;
+using XtremeDoctors.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace XtremeDoctors.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class DoctorController : Controller
     {
-        private ApplicationDbContext database;
-        public DoctorController(ApplicationDbContext database)
+        private DoctorService doctorService;
+        public DoctorController(DoctorService doctorService)
         {
-            this.database = database;
+            this.doctorService = doctorService;
         }
 
-        [HttpGet("list")]
+        [HttpGet("")]
         public IActionResult List()
         {
-            database.Doctors.Add(new Doctor("Dr", "Dre", "Internist", "Cheap and good"));
-            database.SaveChanges();
-
             ViewData["Message"] = "Your doctors page.";
-            ViewBag.doctors = database.Doctors.ToArray();
+            ViewBag.doctors = doctorService.FindAllDoctors();
             return View();
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult View(int id)
+        public IActionResult View(int id, 
+            [FromQuery(Name = "date")] DateTime date)
         {
-            Doctor doctor = database.Doctors.Find(id);
+            Doctor doctor = doctorService.FindDoctor(id);
+
             if (doctor == null)
             {
                 Response.StatusCode = 404;
@@ -40,21 +42,13 @@ namespace XtremeDoctors.Controllers
 
             ViewBag.doctor = doctor;
 
-            DateTime[] freeSlots = new DateTime[32];
+            ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);
 
-            for(int i = 0; i < 32; i++)
-            {
-                freeSlots[i] = new DateTime(2019, 11, 7, 8, 00, 00);
-            }
-
-            for (int i = 0; i < 32; i++)
-            {
-                freeSlots[i].AddMinutes(i * 15);
-            }
-
-            ViewBag.freeSlots = freeSlots;
+            ViewBag.date = date;
 
             return View();
         }
+
+
     }
 }
