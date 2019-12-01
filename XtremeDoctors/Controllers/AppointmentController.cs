@@ -42,8 +42,15 @@ namespace XtremeDoctors.Controllers
         }
 
 
+        [HttpGet("pdf")]
+        public async Task<IActionResult> generatePdfAsync()
+        {
+            int patientId = await userService.GetCurrentPatientId();
+            return await generatePdfAsyncById(patientId);
+        }
+
         [HttpGet("{id:int}/pdf")]
-        public async Task<IActionResult> generatePdfAsync(int id)
+        public async Task<IActionResult> generatePdfAsyncById(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             var viewHtml = await this.RenderViewAsync("~/Views/Appointment/List.cshtml", View().Model, true);
