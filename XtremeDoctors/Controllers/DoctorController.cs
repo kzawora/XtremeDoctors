@@ -10,6 +10,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace XtremeDoctors.Controllers
 {
+    public class DoctorViewModel
+    {
+        public Doctor doctor;
+        public string[] workingHours;
+    }
+
     [Authorize]
     [Route("[controller]")]
     public class DoctorController : Controller
@@ -32,17 +38,19 @@ namespace XtremeDoctors.Controllers
             [FromQuery(Name = "date")] DateTime date)
         {
             Doctor doctor = doctorService.FindDoctor(id);
-
             if (doctor == null)
             {
                 Response.StatusCode = 404;
                 return View("NotFound");
             }
 
-            ViewBag.doctor = doctor;
+            DoctorViewModel viewModel = new DoctorViewModel {
+                doctor = doctor,
+                workingHours = doctorService.GetHoursStringForWholeWeek(doctor),
+            };
 
+            ViewBag.doctorView = viewModel;
             ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);
-
             ViewBag.date = date;
 
             return View();
