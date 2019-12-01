@@ -8,5 +8,5 @@
 
 @foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
 {
-<div>@appointment.Id @appointment.Date slots @appointment.StartSlot - @appointment.EndSlot doctor @appointment.Doctor.Name @appointment.Doctor.Surname</div>
+    <div>@appointment.Id @appointment.Date slots @appointment.StartSlot - @appointment.EndSlot doctor @appointment.Doctor.Name @appointment.Doctor.Surname</div>
 }

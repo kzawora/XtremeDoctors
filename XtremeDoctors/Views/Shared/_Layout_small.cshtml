@@ -7,9 +7,14 @@
     <partial name="_NavPartial" />
     <main>
         <div class="container">
-            @RenderBody()
+            <div id="login-page" class="row">
+                
+                <div class="col s12 offset-m3 m6 z-depth-6 card-panel">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
-    </main>
+</main>
     <partial name="_FooterPartial" />
     @RenderSection("Scripts", required: false)
 </body>
