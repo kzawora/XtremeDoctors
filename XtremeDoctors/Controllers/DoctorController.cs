@@ -5,22 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
 using XtremeDoctors.Services;
+using XtremeDoctors.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace XtremeDoctors.Controllers
 {
-    public class DoctorViewModel
-    {
-        public DoctorViewModel(Doctor doctor, DoctorService doctorService)
-        {
-            this.doctor = doctor;
-            this.workingHours = doctorService.GetHoursStringForWholeWeek(doctor);
-        }
-
-        public Doctor doctor;
-        public string[] workingHours;
-    }
-
     [Authorize]
     [Route("[controller]")]
     public class DoctorController : Controller

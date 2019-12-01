@@ -4,7 +4,6 @@ using System.Linq;
 using XtremeDoctors.Data;
 using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
-using System.Linq;
 
 namespace XtremeDoctors.Services
 {
