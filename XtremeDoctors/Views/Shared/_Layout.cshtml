@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -19,10 +22,13 @@
     <!-- Dropdown Structure -->
     <nav class="navbar-fixed blue">
         <div class="nav-wrapper container">
-            <a href="/" class="brand-logo"><img src="~/images/logo.png" style="height:100%"/></a>
+            <a href="/" class="brand-logo"><img src="~/images/logo.png" style="height:100%" /></a>
             <ul class="right hide-on-med-and-down">
-                <li><a asp-controller="Appointment" asp-action="List">@Localizer["Your appointments"]</a></li>
-                <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li><a asp-controller="Appointment" asp-action="List">@Localizer["Your appointments"]</a></li>
+                    <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
+                }
                 <li><partial name="_LoginPartial" /></li>
             </ul>
         </div>
