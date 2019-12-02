@@ -9,9 +9,11 @@ namespace XtremeDoctors.Models
 {
     public class User : IdentityUser
     {
+        public int? ReceptionistId { get; set; }
         [ForeignKey("ReceptionistId")]
         public Receptionist Receptionist { get; set; }
 
+        public int? PatientId { get; set; }
         [ForeignKey("PatientId")]
         public Patient Patient { get; set; }
     }

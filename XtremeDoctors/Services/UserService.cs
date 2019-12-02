@@ -35,7 +35,7 @@ namespace XtremeDoctors.Services
                 return 1; //Temp
             }
 
-            if (user.Patient == null)
+            if (!user.PatientId.HasValue)
             {
                 Patient patient = new Patient();
                 patient.Name = "Jan";
@@ -45,7 +45,7 @@ namespace XtremeDoctors.Services
                 database.Patients.Add(patient);
                 database.SaveChanges();
 
-                user.Patient = patient;
+                user.PatientId = patient.Id;
 
                 var result = await _userManager.UpdateAsync(user); // This does not work kurwa jego mać!
 
@@ -56,9 +56,7 @@ namespace XtremeDoctors.Services
 
             }
 
-            int patientId = user.Patient.Id;
-
-            return patientId;
+            return user.PatientId.Value;
         }
 
     }
