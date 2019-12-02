@@ -9,41 +9,43 @@
         <div class="container-fluid">
             
             <div class="row">
-
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">mail_outline</i>
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="red-text"></span>
+                <div class="col s12">
+                    <div asp-validation-summary="All" class="red-text"></div>
                 </div>
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">lock_outline</i>
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="red-text"></span>
-                </div>
-                <div class="form-group">
-                    <div class="input-field col s12 m12 l12  login-text">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" class="filled-in" />
-                            <span>Remember me?</span>
-                        </label>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">mail_outline</i>
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="red-text"></span>
+                    </div>
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">lock_outline</i>
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="red-text"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-field col s12 m12 l12  login-text">
+                            <label asp-for="Input.RememberMe">
+                                <input asp-for="Input.RememberMe" class="filled-in" />
+                                <span>Remember me?</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                    <button type="submit" class="btn waves-effect waves-light col s12">Login</a>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button type="submit" class="btn waves-effect waves-light col s12">Login</a>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <p>
-                    <a asp-page="./ForgotPassword">Forgot your password?</a>
-                </p>
-                <p>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                </p>
-            </div>
+                <div class="form-group">
+                    <p>
+                        <a asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    </p>
+                </div>
             </div>
     </form>
 

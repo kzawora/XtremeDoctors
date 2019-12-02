@@ -35,9 +35,20 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult List(int id)
+        public IActionResult ListPerPatient(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
+            return View();
+        }
+
+        [HttpGet("view/{id:int}")]
+        public IActionResult View(int id)
+        {
+            Appointment appointment = appointmentService.GetAppointmentById(id);
+            if(appointment is null){
+                return new StatusCodeResult(404);
+            }
+            ViewBag.appointment = appointment;
             return View();
         }
 

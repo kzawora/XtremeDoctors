@@ -1,0 +1,40 @@
+﻿@model XtremeDoctors.Models.Appointment
+@using static XtremeDoctors.Helpers.SlotHelper
+@{
+    Layout = "/Views/Shared/_Layout_small.cshtml";
+    Appointment appointment = ViewBag.appointment;
+}
+
+<table class="table-responsive">
+    <tbody>
+        <tr>
+            <td>Date:</td>
+            <td>@appointment.Date.ToString("yyyy-MM-dd")</td>
+        </tr>
+        <tr>
+            <td>Time:</td>
+            <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot + 1) </td>
+        </tr>
+        <tr>
+            <td>Doctor:</td>
+            <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
+        </tr>
+        <tr>
+            <td>Room:</td>
+            <td>@appointment.RoomNumber</td>
+        </tr>
+        <tr>
+            <td>Patient:</td>
+            <td>@appointment.Patient.Name @appointment.Patient.Surname</td>
+        </tr>
+    </tbody>
+
+</table>
+Comment
+<textarea class="materialize-textarea" style="max-width:100%;min-height:150px;min-width:50px;"><COMMENT HERE></textarea>
+<a class="btn green col s12" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">SAVE COMMENT</a>
+<br />
+<br />
+<a style="margin-top:5px;margin-bottom:5px;" class="btn red col s12" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">CANCEL APPOINTMENT</a>
+<br />
+<br />

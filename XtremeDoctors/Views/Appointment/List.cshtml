@@ -28,7 +28,7 @@
                 {
                     <tr>
                         <td>@appointment.Date.ToString("yyyy-MM-dd") </td>
-                        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot)</td>
+                        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot+1)</td>
                         <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
                         <td>Room @appointment.RoomNumber</td>
                         <td>

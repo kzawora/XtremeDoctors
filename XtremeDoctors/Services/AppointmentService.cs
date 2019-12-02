@@ -50,6 +50,15 @@ namespace XtremeDoctors.Services
             return appointment;
         }
 
+        public Appointment GetAppointmentById(int appointmentId)
+        {
+            return database.Appointments
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
+                .Where(a => a.Id == appointmentId)
+                .FirstOrDefault();
+        }
+
         public void CancelAppointmentById(int appointmentId)
         {
             var toRemove = database.Appointments.Find(appointmentId);
