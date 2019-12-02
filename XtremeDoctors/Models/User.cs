@@ -13,7 +13,7 @@ namespace XtremeDoctors.Models
         [ForeignKey("ReceptionistId")]
         public Receptionist Receptionist { get; set; }
 
-        public int? PatientId { get; set; }
+        public int PatientId { get; set; }
         [ForeignKey("PatientId")]
         public Patient Patient { get; set; }
     }

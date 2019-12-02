@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using XtremeDoctors.Data;
 using XtremeDoctors.Models;
 
 namespace XtremeDoctors.Areas.Identity.Pages.Account
@@ -20,17 +21,20 @@ namespace XtremeDoctors.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _database;
 
         public RegisterModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext database)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _database = database;
         }
 
         [BindProperty]
@@ -61,13 +65,21 @@ namespace XtremeDoctors.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
         }
+        public Patient createNewPatient(string name, string surname)
+        {
+            Patient patient = new Patient() { Name = name, Surname = surname };
+            _database.Patients.Add(patient);
+            _database.SaveChanges();
+            return patient;
+        }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                Patient newPatient = createNewPatient("Kowalski", "Jan");
+                var user = new User { UserName = Input.Email, Email = Input.Email, PatientId = newPatient.Id};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
