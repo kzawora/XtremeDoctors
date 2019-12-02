@@ -31,8 +31,10 @@
 
 </table>
 Comment
-<textarea class="materialize-textarea" style="max-width:100%;min-height:150px;min-width:50px;"><COMMENT HERE></textarea>
-<a class="btn green col s12" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">SAVE COMMENT</a>
+<form method="post" action="@Url.Action("UpdateComment", "Appointment")">
+<textarea name="comment" class="materialize-textarea" style="max-width:100%;min-height:150px;min-width:50px;">@appointment.Comment</textarea>
+    <button type="submit" class="btn green col s12">SAVE COMMENT</button>
+</form>
 <br />
 <br />
 <a style="margin-top:5px;margin-bottom:5px;" class="btn red col s12" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">CANCEL APPOINTMENT</a>

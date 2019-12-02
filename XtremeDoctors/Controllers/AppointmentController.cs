@@ -72,6 +72,14 @@ namespace XtremeDoctors.Controllers
             return File(content, contentType, fileName);
         }
 
+        [HttpPost("updateComment/{id:int}")]
+        public IActionResult UpdateComment(int id, [FromForm] string comment)
+        {
+            appointmentService.UpdateAppointment(id, comment);
+
+            return RedirectToAction("view", "Appointment", new { id = id });
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Make(
@@ -82,13 +90,13 @@ namespace XtremeDoctors.Controllers
             
             int patientId = await userService.GetCurrentPatientId();
 
-            ViewBag.appointment = appointmentService.MakeAppointment(doctorId, patientId, date, hour);
+            appointmentService.MakeAppointment(doctorId, patientId, date, hour, "");
 
-            return View();
+            return RedirectToAction("", "Appointment");
         }
 
-        [HttpPost("Cancel/{appointment_id:int}")]
-        public IActionResult cancelAppointment(int appointment_id)
+        [HttpGet("cancel/{appointment_id:int}")]
+        public IActionResult Cancel(int appointment_id)
         {
             appointmentService.CancelAppointmentById(appointment_id);
             return RedirectToAction("", "Appointment");

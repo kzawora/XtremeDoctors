@@ -29,7 +29,7 @@ namespace XtremeDoctors.Services
             return appointments;
         }
 
-        public Appointment MakeAppointment(int doctorId, int patientId, DateTime date, string hour)
+        public Appointment MakeAppointment(int doctorId, int patientId, DateTime date, string hour, string comment)
         {
             Patient patient = database.Patients.Find(patientId);
             Doctor doctor = database.Doctors.Find(doctorId);
@@ -42,6 +42,7 @@ namespace XtremeDoctors.Services
             appointment.Date = date;
             appointment.StartSlot = slot;
             appointment.EndSlot = slot;
+            appointment.Comment = comment;
             appointment.RoomNumber = 69;
 
             database.Appointments.Add(appointment);
@@ -63,6 +64,14 @@ namespace XtremeDoctors.Services
         {
             var toRemove = database.Appointments.Find(appointmentId);
             database.Appointments.Remove(toRemove);
+            database.SaveChanges();
+        }
+
+        internal void UpdateAppointment(int appointmentId, string comment)
+        {
+            var toEdit = database.Appointments.Find(appointmentId);
+            toEdit.Comment = comment;
+            database.Appointments.Update(toEdit);
             database.SaveChanges();
         }
     }

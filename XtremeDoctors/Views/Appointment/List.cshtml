@@ -28,19 +28,28 @@
                 {
                     <tr>
                         <td>@appointment.Date.ToString("yyyy-MM-dd") </td>
-                        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot+1)</td>
+                        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot + 1)</td>
                         <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
                         <td>Room @appointment.RoomNumber</td>
                         <td>
                             <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Id })">VIEW</a>
                             <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">CANCEL</a>
+                            @if (appointment.Comment.Length != 0)
+                            {
+                                <i class="material-icons green-text right">
+                                    comment
+                                </i>
+                            }
                         </td>
                     </tr>
                 }
             </tbody>
 
         </table>
-
+        <strong>Legend:</strong><br/>
+        <i class="material-icons green-text">
+            comment
+        </i> - Appointment contains comment
         <a href="@Url.Action("List", "Doctor")" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>New</a>
         <br />
     </div>

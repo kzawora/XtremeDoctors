@@ -12,6 +12,7 @@ namespace XtremeDoctors.Models
         public int StartSlot { get; set; }
         public int EndSlot { get; set; }
         public int RoomNumber { get; set; }
+        public string Comment { get; set; }
         public DateTime Date { get; set; }
 
         [ForeignKey("DoctorId")]
