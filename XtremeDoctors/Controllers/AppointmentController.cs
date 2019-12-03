@@ -25,11 +25,7 @@ namespace XtremeDoctors.Controllers
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
-
             int patientId = await userService.GetCurrentPatientId();
-
-            //return RedirectToRoute(new { controller = "Home", action = "Index" });
-
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId);
             return View();
         }
@@ -52,16 +48,15 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-
         [HttpGet("pdf")]
-        public async Task<IActionResult> generatePdfAsync()
+        public async Task<IActionResult> GeneratePdfAsync()
         {
             int patientId = await userService.GetCurrentPatientId();
-            return await generatePdfAsyncById(patientId);
+            return await GeneratePdfAsyncById(patientId);
         }
 
         [HttpGet("{id:int}/pdf")]
-        public async Task<IActionResult> generatePdfAsyncById(int id)
+        public async Task<IActionResult> GeneratePdfAsyncById(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             var viewHtml = await this.RenderViewAsync("Report", View().Model, true);
@@ -92,10 +87,10 @@ namespace XtremeDoctors.Controllers
             return RedirectToAction("List");
         }
 
-        [HttpGet("cancel/{appointment_id:int}")]
-        public IActionResult Cancel(int appointment_id)
+        [HttpGet("cancel/{appointmentId:int}")]
+        public IActionResult Cancel(int appointmentId)
         {
-            appointmentService.CancelAppointmentById(appointment_id);
+            appointmentService.CancelAppointmentById(appointmentId);
             return RedirectToAction("", "Appointment");
         }
     }
