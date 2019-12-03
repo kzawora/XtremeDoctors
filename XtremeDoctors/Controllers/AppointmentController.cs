@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
 using XtremeDoctors.Services;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace XtremeDoctors.Controllers
 {
@@ -13,7 +14,6 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class AppointmentController : Controller
     {
-
         private UserService userService;
         private readonly AppointmentService appointmentService;
         public AppointmentController(AppointmentService appointmentService, UserService userService)
@@ -81,18 +81,15 @@ namespace XtremeDoctors.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Make(
             [FromForm] int doctorId,
             [FromForm] DateTime date,
             [FromForm] string hour)
         {
-            
             int patientId = await userService.GetCurrentPatientId();
-
             appointmentService.MakeAppointment(doctorId, patientId, date, hour, "");
-
-            return RedirectToAction("", "Appointment");
+            return RedirectToAction("List");
         }
 
         [HttpGet("cancel/{appointment_id:int}")]
@@ -101,6 +98,5 @@ namespace XtremeDoctors.Controllers
             appointmentService.CancelAppointmentById(appointment_id);
             return RedirectToAction("", "Appointment");
         }
-
     }
 }
