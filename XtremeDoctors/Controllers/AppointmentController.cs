@@ -77,7 +77,7 @@ namespace XtremeDoctors.Controllers
         {
             appointmentService.UpdateAppointment(id, comment);
 
-            return RedirectToAction("view", "Appointment", new { id = id });
+            return RedirectToAction("List", new { id });
         }
 
 
