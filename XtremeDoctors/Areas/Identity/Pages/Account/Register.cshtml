@@ -13,6 +13,18 @@
 
                 <div asp-validation-summary="All" class="red-text"></div>
                 <div class="input-field col s12">
+                    <i class="material-icons prefix">name_outline</i>
+                    <label asp-for="Input.Name"></label>
+                    <input asp-for="Input.Name" class="form-control" />
+                    <span asp-validation-for="Input.Name" class="red-text"></span>
+                </div>
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">name_outline</i>
+                    <label asp-for="Input.Surname"></label>
+                    <input asp-for="Input.Surname" class="form-control" />
+                    <span asp-validation-for="Input.Surname" class="red-text"></span>
+                </div>
+                <div class="input-field col s12">
                     <i class="material-icons prefix">mail_outline</i>
                     <label asp-for="Input.Email"></label>
                     <input asp-for="Input.Email" class="form-control" />
