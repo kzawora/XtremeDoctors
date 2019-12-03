@@ -53,6 +53,9 @@ namespace XtremeDoctors
             services.AddScoped<AppointmentService>();
             services.AddScoped<UserService>().AddHttpContextAccessor();
 
+            // Response caching
+            services.AddResponseCaching();
+
             // Identity
             services.AddDefaultIdentity<User>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.ConfigureIdentityInXtremeDoctors(CurrentEnvironment);
@@ -87,6 +90,9 @@ namespace XtremeDoctors
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            // Response caching
+            app.UseResponseCaching();
 
             // Localization
             IList<CultureInfo> supportedCultures = new List<CultureInfo>
