@@ -18,3 +18,8 @@ if [ $? != 1 ]; then
     echo "docker images"
     docker images
 fi
+
+# End
+echo
+echo "Press enter to exit..."
+read _
