@@ -12,6 +12,8 @@ WORKDIR "/src/XtremeDoctors"
 RUN dotnet build "XtremeDoctors.csproj" -c Release -o /app
 
 FROM build AS publish
+RUN dotnet ef migrations add DockerMigration -v
+RUN dotnet ef database update -v
 RUN dotnet publish "XtremeDoctors.csproj" -c Release -o /app
 
 FROM base AS final

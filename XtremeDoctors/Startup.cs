@@ -114,6 +114,14 @@ namespace XtremeDoctors
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Migrate
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var services = serviceScope.ServiceProvider;
+                var dbContext = services.GetService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

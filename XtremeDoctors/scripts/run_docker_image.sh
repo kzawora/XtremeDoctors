@@ -4,6 +4,7 @@ if [ -n "$1" ]; then
 else
     image_name=xtreme_doctors_`git rev-parse HEAD`
 fi
+echo "Selected docker image: $image_name"
 
 # Run container in synchronous mode. To run in detached change "-it" to "-d"
 container_name=xtreme_doctors
