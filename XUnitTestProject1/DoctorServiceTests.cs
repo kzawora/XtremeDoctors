@@ -201,5 +201,34 @@ namespace XtremeDoctorsUnitTests
             Assert.Equal(26, mondayWorkingHours[0].EndSlot);
             Assert.Empty(tuesdayWorkingHours);
         }
+
+        [Fact]
+        public void simpleFindersShouldWork()
+        {
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+            var doctors = new[]
+            {
+                new Doctor { Id = 1, Specialization = "a" },
+                new Doctor { Id = 2, Specialization = "b" },
+                new Doctor { Id = 3, Specialization = "c" },
+            };
+            dbContext.Doctors.AddRange(doctors);
+            dbContext.SaveChanges();
+
+            // Act
+            Doctor foundDoctor = doctorService.FindDoctor(2);
+            Doctor[] foundDoctors = doctorService.FindAllDoctors();
+
+            // Assert
+            Assert.Equal(2, foundDoctor.Id);
+            Assert.Equal("b", foundDoctor.Specialization);
+            Assert.Collection(foundDoctors,
+               doc => Assert.Equal(1, doc.Id),
+               doc => Assert.Equal(2, doc.Id),
+               doc => Assert.Equal(3, doc.Id)
+           );
+        }
     }
 }
