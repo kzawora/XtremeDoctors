@@ -15,17 +15,18 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class PatientController : Controller
     {
-        private ApplicationDbContext database;
-        public PatientController(ApplicationDbContext database)
+        private PatientService patientService;
+
+        public PatientController(PatientService patientService)
         {
-            this.database = database;
+            this.patientService = patientService;
         }
 
         [HttpGet("")]
         [Authorize(Roles=Roles.AdminReceptionist)]
         public IActionResult List()
         {
-            ViewBag.patients = database.Patients.ToArray();
+            ViewBag.patients = patientService.GetPatients();
             return View();
         }
 
@@ -37,8 +38,9 @@ namespace XtremeDoctors.Controllers
 
         [HttpPost("create")]
         [Authorize(Roles = Roles.AdminReceptionist)]
-        public IActionResult Create([FromForm] string firstname, [FromForm] string lastname)
+        public IActionResult Create([FromForm] string firstname, [FromForm] string surname)
         {
+            patientService.AddPatient(firstname, surname);
             return RedirectToAction("", "Patient");
         }
     }

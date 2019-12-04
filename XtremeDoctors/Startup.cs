@@ -49,6 +49,7 @@ namespace XtremeDoctors
             });
 
             // Injectable services
+            services.AddScoped<PatientService>();
             services.AddScoped<DoctorService>();
             services.AddScoped<AppointmentService>();
             services.AddScoped<UserService>().AddHttpContextAccessor();

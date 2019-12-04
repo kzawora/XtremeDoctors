@@ -43,7 +43,7 @@ namespace XtremeDoctors.Services
             appointment.StartSlot = slot;
             appointment.EndSlot = slot;
             appointment.Comment = comment;
-            appointment.RoomNumber = 69;
+            appointment.RoomNumber = 69; //TODO !!!!!!
 
             database.Appointments.Add(appointment);
             database.SaveChanges();
