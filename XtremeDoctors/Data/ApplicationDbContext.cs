@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using XtremeDoctors.Models;
+using XtremeDoctors.Helpers;
 using Microsoft.AspNetCore.Identity;
 
 namespace XtremeDoctors.Data
@@ -53,18 +54,26 @@ namespace XtremeDoctors.Data
             var workingHours = new[]{
                 new
                 {
-                    Id = 8,
-                    Date = DateTime.Now.Date,
-                    StartSlot = 10,
-                    EndSlot = 50,
+                    Id = 1,
+                    Date = new DateTime(2019, 11, 11), // Monday
+                    StartSlot = SlotHelper.HourToSlot("8:00"),
+                    EndSlot = SlotHelper.HourToSlot("16:00"),
+                    DoctorId = doctors[0].Id,
+                },
+                 new
+                {
+                    Id = 2,
+                    Date = new DateTime(2019, 11, 13), // Wednesday
+                    StartSlot = SlotHelper.HourToSlot("7:30"),
+                    EndSlot = SlotHelper.HourToSlot("15:30"),
                     DoctorId = doctors[0].Id,
                 },
                 new
                 {
-                    Id = 9,
-                    Date = DateTime.Now.Date,
-                    StartSlot = 12,
-                    EndSlot = 30,
+                    Id = 3,
+                    Date = new DateTime(2019, 11, 13), // Wednesday
+                    StartSlot = SlotHelper.HourToSlot("6:30"),
+                    EndSlot = SlotHelper.HourToSlot("14:30"),
                     DoctorId = doctors[1].Id,
                 }
             };
