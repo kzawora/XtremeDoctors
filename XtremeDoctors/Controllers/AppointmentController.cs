@@ -33,7 +33,7 @@ namespace XtremeDoctors.Controllers
             int? patientId = await userService.GetCurrentPatientIdAsync();
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId.Value);
 
-            logger.LogInformation("List of appointments is for patient with id {patientId} is being displayed", patientId.Value);
+            logger.LogInformation("List of appointments for patient with id {patientId} is being displayed", patientId.Value);
 
             return View();
         }
