@@ -23,13 +23,22 @@ namespace XtremeDoctors.Data
                     var services = serviceScope.ServiceProvider;
                     var dbContext = services.GetService<ApplicationDbContext>();
 
-                    void InitializeUser(string email, string password, string role)
+                    void InitializeUser(string email, string password, string role,
+                                        int? id = null, string name = null, string surname = null)
                     {
                         User user = new User
                         {
                             UserName = email,
                             Email = email,
                         };
+
+                        if (role == Roles.Patient)
+                        {
+                            Patient patient = new Patient {Id = id.Value, Name = name, Surname = surname};
+                            dbContext.Patients.Add(patient);
+                            dbContext.SaveChanges();
+                            user.PatientId = patient.Id;
+                        }
 
                         IdentityResult result = userManager.CreateAsync(user, password).Result;
                         if (!result.Succeeded) throw new Exception("INIT ERROR");
@@ -38,9 +47,9 @@ namespace XtremeDoctors.Data
                     }
 
                     // If you change this, make sure you'll step into this branch (dataNotInitialized == true).
-                    InitializeUser("admin@wp.pl", "admin1", Roles.Admin);
-                    InitializeUser("harold@wp.pl", "harold", Roles.Patient);
+                    InitializeUser("harold@wp.pl", "harold", Roles.Patient, 1, "Harold", "HideThePain");
                     InitializeUser("recept@wp.pl", "recept", Roles.Receptionist);
+                    InitializeUser("admin@wp.pl", "admin1", Roles.Admin);
                 }
             }
         }

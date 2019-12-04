@@ -50,44 +50,6 @@ namespace XtremeDoctors.Data
                     Text = "Quite good doctor."
                 }
             };
-            var patients = new[]
-            {
-                new
-                {
-                    Id = 1,
-                    Name = "First",
-                    Surname = "Patient"
-                },
-                new
-                {
-                    Id = 5,
-                    Name = "Second",
-                    Surname = "Patient"
-                }
-            };
-            var appointments = new[]
-            {
-                new
-                {
-                    Id = 6,
-                    Date = DateTime.Now.Date,
-                    StartSlot = 15,
-                    EndSlot = 17,
-                    PatientId = patients[0].Id,
-                    DoctorId = doctors[0].Id,
-                    RoomNumber = 3,
-                },
-                new
-                {
-                    Id = 7,
-                    Date = DateTime.Now.Date,
-                    StartSlot = 22,
-                    EndSlot = 22,
-                    PatientId = patients[1].Id,
-                    DoctorId = doctors[1].Id,
-                    RoomNumber = 3,
-                }
-            };
             var workingHours = new[]{
                 new
                 {
@@ -107,8 +69,6 @@ namespace XtremeDoctors.Data
                 }
             };
             modelBuilder.Entity<Doctor>().HasData(doctors);
-            modelBuilder.Entity<Patient>().HasData(patients);
-            modelBuilder.Entity<Appointment>().HasData(appointments);
             modelBuilder.Entity<WorkingHours>().HasData(workingHours);
 
             modelBuilder.Entity<IdentityRole>().HasData(new[]
