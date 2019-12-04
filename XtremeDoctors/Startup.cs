@@ -57,8 +57,10 @@ namespace XtremeDoctors
             services.AddResponseCaching();
 
             // Identity
-            services.AddDefaultIdentity<User>()
-                .AddRoles<IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.ConfigureIdentityInXtremeDoctors(CurrentEnvironment);
 
@@ -71,7 +73,7 @@ namespace XtremeDoctors
                              .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<User> userManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             // Error interception
             app.UseStatusCodePagesWithReExecute("/error/{0}");
@@ -87,7 +89,8 @@ namespace XtremeDoctors
 
             // Identity
             app.UseAuthentication();
-            app.InitializeUsersAndRolesForXtremeDoctors(userManager);
+            app.InitializRolesForXtremeDoctors(roleManager);
+            app.InitializeUsersForXtremeDoctors(userManager);
 
             // Networking Stuff
             app.UseHttpsRedirection();

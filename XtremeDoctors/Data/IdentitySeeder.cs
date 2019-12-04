@@ -11,9 +11,25 @@ namespace XtremeDoctors.Data
 {
     public static class IApplicationBuilderExtensions
     {
-    
+        public static void InitializRolesForXtremeDoctors(this IApplicationBuilder app, RoleManager<IdentityRole> roleManager)
+        {
+            void InitializeRole(string id)
+            {
+                var role = new IdentityRole { Id = id, Name = id, NormalizedName = id };
+                IdentityResult result = roleManager.CreateAsync(role).Result;
+                if (!result.Succeeded) throw new Exception("INIT ERROR");
+            }
 
-        public static void InitializeUsersAndRolesForXtremeDoctors(this IApplicationBuilder app, UserManager<User> userManager)
+            bool dataNotInitialized = (roleManager.FindByIdAsync(Roles.Admin).Result == null);
+            if (dataNotInitialized)
+            {
+                InitializeRole(Roles.Patient);
+                InitializeRole(Roles.Receptionist);
+                InitializeRole(Roles.Admin);
+            }
+        }
+
+        public static void InitializeUsersForXtremeDoctors(this IApplicationBuilder app, UserManager<User> userManager)
         {
             bool dataNotInitialized = (userManager.FindByEmailAsync("admin@wp.pl").Result == null);
             if (dataNotInitialized)

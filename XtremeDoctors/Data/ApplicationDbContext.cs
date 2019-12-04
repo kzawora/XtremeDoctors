@@ -80,13 +80,6 @@ namespace XtremeDoctors.Data
             modelBuilder.Entity<Doctor>().HasData(doctors);
             modelBuilder.Entity<WorkingHours>().HasData(workingHours);
 
-            modelBuilder.Entity<IdentityRole>().HasData(new[]
-            {
-                new { Id = Data.Roles.Patient, Name = Data.Roles.Patient, NormalizedName = Data.Roles.Patient },
-                new { Id = Data.Roles.Receptionist, Name = Data.Roles.Receptionist, NormalizedName = Data.Roles.Receptionist },
-                new { Id = Data.Roles.Admin, Name = Data.Roles.Admin, NormalizedName = Data.Roles.Admin },
-            });
-
             base.OnModelCreating(modelBuilder);
         }
     }
