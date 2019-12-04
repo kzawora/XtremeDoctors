@@ -39,7 +39,7 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("{id:int}")]
-        [Authorize(Roles=Roles.Patient)]
+        [Authorize(Roles=Roles.AdminReceptionist)]
         public IActionResult ListForPatient(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
