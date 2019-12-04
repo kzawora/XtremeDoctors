@@ -35,7 +35,7 @@ namespace XtremeDoctors.Controllers
 
             logger.LogInformation("List of appointments for patient with id {patientId} is being displayed", patientId.Value);
 
-            return View();
+            return View("List");
         }
 
         [HttpGet("{id:int}")]
@@ -96,7 +96,7 @@ namespace XtremeDoctors.Controllers
             
             logger.LogInformation("Appointment with id {appId} was edited", id);
 
-            return RedirectToAction("ListPerPatient", new { id = editedAppointment.Patient.Id });
+            return RedirectToAction("ListForPatient", new { id = editedAppointment.Patient.Id });
         }
 
 
@@ -117,7 +117,7 @@ namespace XtremeDoctors.Controllers
             }
             
             appointmentService.MakeAppointment(doctorId, patient.Value, date, hour, "");
-            return RedirectToAction("ListPerPatient", new { id=patient.Value });
+            return RedirectToAction("ListForPatient", new { id=patient.Value });
         }
 
         [HttpGet("cancel/{appointmentId:int}")]
@@ -127,7 +127,7 @@ namespace XtremeDoctors.Controllers
 
             logger.LogInformation("Appointment with id {appId} was canceled", appointmentId);
 
-            return RedirectToAction("ListPerPatient", "Appointment", new { id = canceledAppointment.Patient.Id });
+            return RedirectToAction("ListForPatient", "Appointment", new { id = canceledAppointment.Patient.Id });
         }
     }
 }
