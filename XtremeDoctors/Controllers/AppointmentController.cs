@@ -25,8 +25,12 @@ namespace XtremeDoctors.Controllers
         [HttpGet("")]
         public async Task<IActionResult> List()
         {
-            int patientId = await userService.GetCurrentPatientId();
-            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId);
+            int? patientId = await userService.GetCurrentPatientIdAsync();
+            if (!patientId.HasValue)
+            {
+                return Forbid();
+            }
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId.Value);
             return View();
         }
 
@@ -52,12 +56,16 @@ namespace XtremeDoctors.Controllers
         [HttpGet("pdf")]
         public async Task<IActionResult> GeneratePdfAsync()
         {
-            int patientId = await userService.GetCurrentPatientId();
-            return await GeneratePdfAsyncById(patientId);
+            int? patientId = await userService.GetCurrentPatientIdAsync();
+            if (!patientId.HasValue)
+            {
+                return Forbid();
+            }
+            return await GeneratePdfByIdAsync(patientId.Value);
         }
 
         [HttpGet("{id:int}/pdf")]
-        public async Task<IActionResult> GeneratePdfAsyncById(int id)
+        public async Task<IActionResult> GeneratePdfByIdAsync(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             var viewHtml = await this.RenderViewAsync("Report", View().Model, true);
@@ -84,18 +92,17 @@ namespace XtremeDoctors.Controllers
             [FromForm] int? patient,
             [FromForm] string hour)
         {
-            int patientId;
-            if (patient != null)
+            if (patient == null)
             {
-                patientId = (int)patient;
-            }
-            else
-            {
-                patientId = await userService.GetCurrentPatientId();
+                patient = await userService.GetCurrentPatientIdAsync();
+                if (patient == null)
+                {
+                    return Forbid();
+                }
             }
             
-            appointmentService.MakeAppointment(doctorId, patientId, date, hour, "");
-            return RedirectToAction("ListPerPatient", new { id=patientId });
+            appointmentService.MakeAppointment(doctorId, patient.Value, date, hour, "");
+            return RedirectToAction("ListPerPatient", new { id=patient.Value });
         }
 
         [HttpGet("cancel/{appointmentId:int}")]

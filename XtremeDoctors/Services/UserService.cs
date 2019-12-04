@@ -19,18 +19,22 @@ namespace XtremeDoctors.Services
             this._httpContextAccessor = _httpContextAccessor;
         }
 
-        public async Task<User> GetCurrentUser()
+        public async Task<User> GetCurrentUserAsync()
         {
             User user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
-
             return user;
         }
 
-        public async Task<int> GetCurrentPatientId()
+        public async Task<int?> GetCurrentPatientIdAsync()
         {
-            User user = await GetCurrentUser();
-            return user.PatientId.Value;
+            User user = await GetCurrentUserAsync();
+            return user.PatientId;
         }
 
+        public async Task<int?> GetCurrentReceptionistIdAsync()
+        {
+            User user = await GetCurrentUserAsync();
+            return user.ReceptionistId;
+        }
     }
 }
