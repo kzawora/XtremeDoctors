@@ -11,20 +11,11 @@ namespace XtremeDoctorsUnitTests
 {
     public class DoctorServiceUnitTests
     {
-        private ApplicationDbContext GetDatabaseContext()
-        {
-            DbContextOptions<ApplicationDbContext> options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            ApplicationDbContext databaseContext = new ApplicationDbContext(options);
-            return databaseContext;
-        }
-
         [Fact]
         public void ComputeFreeSlots_Should_Return_Not_Empty_Array_Of_Hours_When_Given_Working_Hours_And_Appointment()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
             Doctor doctor = new Doctor  { Id = 1, };
             Appointment appointment = new Appointment // 3:45-4:30 appointment
@@ -59,7 +50,7 @@ namespace XtremeDoctorsUnitTests
         public void GetAvailableDays_Should_Return_Two_Days_When_One_Day_Is_Full()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
             Doctor doctor = new Doctor { Id = 1, };
             var appointments = new[]
@@ -134,7 +125,7 @@ namespace XtremeDoctorsUnitTests
         public void givenWorkingHoursForSpecifiedDayAreSetWhenGetingWorkingHoursForDayThenTheyAreReturned()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
 
             Doctor doctor = new Doctor { Id = 1, };
@@ -162,7 +153,7 @@ namespace XtremeDoctorsUnitTests
         public void givenWorkingHoursForSpecifiedDayAreNotSetWhenGetingWorkingHoursForDayThenTryToTakeFromLastWeekKnown()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
 
             Doctor doctor = new Doctor { Id = 1, };
@@ -206,7 +197,7 @@ namespace XtremeDoctorsUnitTests
         public void simpleFindersShouldWork()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
             var doctors = new[]
             {
@@ -235,7 +226,7 @@ namespace XtremeDoctorsUnitTests
         public void givenMutlipleAppointmentsForOneDayOneGettingAppointmentsForThatDayThenReturnThem()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
             Doctor doctor = new Doctor { Id = 1, };
             var appointments = new[]
@@ -284,7 +275,7 @@ namespace XtremeDoctorsUnitTests
         public void givenNoAppointmentsForADayOneGettingAppointmentsForThatDayThenReturnEmptyArray()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
             Doctor doctor = new Doctor { Id = 1, };
             var appointments = new[]
@@ -311,7 +302,7 @@ namespace XtremeDoctorsUnitTests
         public void whenGettingStringsForWorkingHoursOfOneDoctorsThenReturnTheCorrectArray()
         {
             // Arrange
-            ApplicationDbContext dbContext = GetDatabaseContext();
+            ApplicationDbContext dbContext = Shared.GetDatabaseContext();
             DoctorService doctorService = new DoctorService(dbContext);
             Doctor doctor = new Doctor { Id = 1, };
             var workingHours = new[]
