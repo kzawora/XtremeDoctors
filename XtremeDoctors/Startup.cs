@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 using XtremeDoctors.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using XtremeDoctors.Models;
 using XtremeDoctors.Resources;
 using XtremeDoctors.Services;
-using XtremeDoctors.Models;
-using System.Text;
 
 namespace XtremeDoctors
 {
@@ -57,7 +57,9 @@ namespace XtremeDoctors
             services.AddResponseCaching();
 
             // Identity
-            services.AddDefaultIdentity<User>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             services.ConfigureIdentityInXtremeDoctors(CurrentEnvironment);
 
             // Localization
@@ -69,7 +71,7 @@ namespace XtremeDoctors
                              .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<User> userManager)
         {
             // Error interception
             app.UseStatusCodePagesWithReExecute("/error/{0}");
@@ -85,6 +87,7 @@ namespace XtremeDoctors
 
             // Identity
             app.UseAuthentication();
+            app.InitializeUsersAndRolesForXtremeDoctors(userManager);
 
             // Networking Stuff
             app.UseHttpsRedirection();

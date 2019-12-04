@@ -29,7 +29,7 @@ namespace XtremeDoctors.Services
         public async Task<int> GetCurrentPatientId()
         {
             User user = await GetCurrentUser();
-            return user.PatientId;
+            return user.PatientId.Value;
         }
 
     }
