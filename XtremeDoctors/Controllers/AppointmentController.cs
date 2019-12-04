@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
+using XtremeDoctors.Data;
 using XtremeDoctors.Services;
 using Microsoft.AspNetCore.Mvc.Routing;
 
@@ -23,19 +24,17 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> List()
+        [Authorize(Roles=Roles.Patient)]
+        public async Task<IActionResult> ListForCurrentPatient()
         {
             int? patientId = await userService.GetCurrentPatientIdAsync();
-            if (!patientId.HasValue)
-            {
-                return Forbid();
-            }
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId.Value);
             return View();
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult ListPerPatient(int id)
+        [Authorize(Roles=Roles.Patient)]
+        public IActionResult ListForPatient(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             ViewBag.patientId = id;
@@ -43,24 +42,29 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("view/{id:int}")]
-        public IActionResult View(int id)
+        public async Task<IActionResult> View(int id)
         {
             Appointment appointment = appointmentService.GetAppointmentById(id);
-            if(appointment is null){
+            if(appointment is null)
+            {
                 return new StatusCodeResult(404);
             }
+
+            int? patientId = await userService.GetCurrentPatientIdAsync();
+            if (patientId is null || patientId != appointment.Patient.Id)
+            {
+                return Forbid();
+            }
+
             ViewBag.appointment = appointment;
             return View();
         }
 
         [HttpGet("pdf")]
+        [Authorize(Roles = Roles.Patient)]
         public async Task<IActionResult> GeneratePdfAsync()
         {
             int? patientId = await userService.GetCurrentPatientIdAsync();
-            if (!patientId.HasValue)
-            {
-                return Forbid();
-            }
             return await GeneratePdfByIdAsync(patientId.Value);
         }
 
