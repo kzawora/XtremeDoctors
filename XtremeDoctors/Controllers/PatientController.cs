@@ -27,7 +27,7 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("")]
-        [Authorize(Roles=Roles.Admin)]
+        [Authorize(Roles=Roles.AdminReceptionist)]
         public IActionResult List()
         {
             ViewBag.patients = database.Patients.ToArray();

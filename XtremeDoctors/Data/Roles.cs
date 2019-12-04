@@ -10,5 +10,7 @@ namespace XtremeDoctors.Data
         public const string Admin = "ADMIN";
         public const string Receptionist = "RECEPTIONIST";
         public const string Patient = "PATIENT";
+
+        public const string AdminReceptionist = Admin + "," + Receptionist;
     }
 }
