@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> SignInManager
+﻿
 
 <header>
     <!-- Dropdown Structure -->
@@ -8,29 +7,11 @@
             <a href="/" class="brand-logo"><img src="~/images/logo.png" style="height:100%" /></a>
             <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
-                @if (User.IsInRole(XtremeDoctors.Data.Roles.Admin))
-                {
-                    <li><a href="@Url.Action("List", "Patient", new {})">Patients</a></li>
-                }
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <li><a href="@Url.Action("List", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
-                    <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
-                }
-                <li><partial name="_LoginPartial" /></li>
+                <partial name="_MenuPartial" />
             </ul>
         </div>
     </nav>
     <ul class="sidenav" id="mobile-menu">
-        @if (User.IsInRole(XtremeDoctors.Data.Roles.Admin))
-        {
-            <li><a href="@Url.Action("List", "Patient", new {})">Patients</a></li>
-        }
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <li><a href="@Url.Action("List", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
-            <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
-        }
-        <li><partial name="_LoginPartial" /></li>
+        <partial name="_MenuPartial" />
     </ul>
 </header>
