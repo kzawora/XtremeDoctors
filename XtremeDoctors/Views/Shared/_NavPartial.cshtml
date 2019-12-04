@@ -10,6 +10,7 @@
             <ul class="right hide-on-med-and-down">
                 @if (SignInManager.IsSignedIn(User))
                 {
+                    <li><a href="@Url.Action("List", "Patient", new {})">Patients</a></li>
                     <li><a href="@Url.Action("List", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
                     <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
                 }
@@ -18,8 +19,12 @@
         </div>
     </nav>
     <ul class="sidenav" id="mobile-menu">
-        <li><a href="@Url.Action("List", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
-        <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
-        <li><partial name="_LoginPartial" /></li>
-    </ul>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li><a href="@Url.Action("List", "Patient", new {})">Patients</a></li>
+            <li><a href="@Url.Action("List", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
+            <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
+        }
+            <li><partial name="_LoginPartial" /></li>
+        </ul>
 </header>

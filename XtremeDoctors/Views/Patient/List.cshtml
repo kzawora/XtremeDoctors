@@ -1,0 +1,36 @@
+﻿@model XtremeDoctors.Models.Patient
+
+<h2>Patients list</h2>
+<div class="row">
+    <div class="card-panel grey lighten-5 z-depth-1">
+        <table class="striped table-responsive">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Patient patient in (Patient[])ViewBag.patients)
+                {
+                    <tr>
+                        <td>@patient.Name @patient.Surname</td>
+                        <td>
+
+                            <a href="@Url.Action("List", "Doctor", new { patient = @patient.Id })" class="waves-effect waves-light btn right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</a>
+                            <a href="@Url.Action("List", "Appointment")/@patient.Id"style="margin-right:5px;" class="waves-effect waves-light btn right cyan">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <strong>Legend:</strong><br/>
+        <i class="material-icons green-text">
+            comment
+        </i> - Appointment contains comment
+        <a href="@Url.Action("List", "Doctor")" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>New</a>
+        <br />
+    </div>
+    </div>
+

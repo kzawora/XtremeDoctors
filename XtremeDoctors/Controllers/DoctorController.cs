@@ -21,18 +21,21 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("")]
-        public IActionResult List()
+        public IActionResult List([FromQuery(Name = "patient")] int? patientId)
         {
             ViewBag.doctorViews = doctorService
                 .FindAllDoctors()
                 .Select(doctor => new DoctorViewModel(doctor, doctorService))
                 .ToArray();
+            ViewBag.patientId = patientId;
             return View();
         }
 
         [HttpGet("{id:int}")]
         public IActionResult View(int id,
-            [FromQuery(Name = "date")] DateTime date)
+            [FromQuery(Name = "date")] DateTime date,
+            [FromQuery(Name = "patient")] int? patientId
+            )
         {
             Doctor doctor = doctorService.FindDoctor(id);
             if (doctor == null)
@@ -46,7 +49,7 @@ namespace XtremeDoctors.Controllers
             ViewBag.doctorView = viewModel;
             ViewBag.freeHours = doctorService.ComputeFreeSlots(doctor, date);
             ViewBag.date = date;
-
+            ViewBag.patientId = patientId;
             return View();
         }
 

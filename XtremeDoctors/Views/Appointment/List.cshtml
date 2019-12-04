@@ -50,7 +50,7 @@
         <i class="material-icons green-text">
             comment
         </i> - Appointment contains comment
-        <a href="@Url.Action("List", "Doctor")" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>New</a>
+        <a href="@Url.Action("List", "Doctor", new { patient = @ViewBag.patientId })" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>New</a>
         <br />
     </div>
     </div>

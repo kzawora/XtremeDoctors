@@ -34,7 +34,8 @@ namespace XtremeDoctors.Controllers
         public IActionResult ListPerPatient(int id)
         {
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
-            return View();
+            ViewBag.patientId = id;
+            return View("List");
         }
 
         [HttpGet("view/{id:int}")]
@@ -80,18 +81,28 @@ namespace XtremeDoctors.Controllers
         public async Task<IActionResult> Make(
             [FromForm] int doctorId,
             [FromForm] DateTime date,
+            [FromForm] int? patient,
             [FromForm] string hour)
         {
-            int patientId = await userService.GetCurrentPatientId();
+            int patientId;
+            if (patient != null)
+            {
+                patientId = (int)patient;
+            }
+            else
+            {
+                patientId = await userService.GetCurrentPatientId();
+            }
+            
             appointmentService.MakeAppointment(doctorId, patientId, date, hour, "");
-            return RedirectToAction("List");
+            return RedirectToAction("ListPerPatient", new { id=patientId });
         }
 
         [HttpGet("cancel/{appointmentId:int}")]
         public IActionResult Cancel(int appointmentId)
         {
-            appointmentService.CancelAppointmentById(appointmentId);
-            return RedirectToAction("", "Appointment");
+            Appointment canceledAppointment = appointmentService.CancelAppointmentById(appointmentId);
+            return RedirectToAction("ListPerPatient", "Appointment", new { id = canceledAppointment.Patient.Id });
         }
     }
 }

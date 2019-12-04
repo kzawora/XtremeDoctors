@@ -60,11 +60,16 @@ namespace XtremeDoctors.Services
                 .FirstOrDefault();
         }
 
-        public void CancelAppointmentById(int appointmentId)
+        public Appointment CancelAppointmentById(int appointmentId)
         {
-            var toRemove = database.Appointments.Find(appointmentId);
+            var toRemove = database.Appointments
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
+                .Where(a => a.Id == appointmentId)
+                .FirstOrDefault();
             database.Appointments.Remove(toRemove);
             database.SaveChanges();
+            return toRemove;
         }
 
         internal void UpdateAppointment(int appointmentId, string comment)

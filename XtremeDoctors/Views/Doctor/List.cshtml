@@ -21,6 +21,10 @@
                                 <br />
                                 <form method="get" action="@Url.Action("View", "Doctor", new { id = @doctor.doctor.Id })">
                                     <input type="text" class="datepicker" name="date">
+                                    @if (ViewBag.patientId != null)
+                                    {
+                                        <input type="hidden" name="patient" value="@ViewBag.patientId">
+                                    }
                                     <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</button>
                                 </form>
                                 Najbliższy wolny termin <strong><span class="green-text">@SharedLocalizer["tommorow"]</span></strong>!<br />

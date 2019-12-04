@@ -56,8 +56,15 @@
                                                     <input type="hidden" name="doctorId" value="@doctor.doctor.Id" />
                                                     <input type="hidden" name="date" value="@date" />
                                                     <input type="hidden" name="hour" value="@freeHour" />
-
-                                                    <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>Umów się</button>
+                                                    @if (ViewBag.patientId != null)
+                                                    {
+                                                        <input type="hidden" name="patient" value="@ViewBag.patientId">
+                                                        <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>Umów pacjenta</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>Umów się</button>
+                                                    }
                                                 }
 
                                             </td>
