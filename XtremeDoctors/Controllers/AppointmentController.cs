@@ -71,9 +71,9 @@ namespace XtremeDoctors.Controllers
         [HttpPost("updateComment/{id:int}")]
         public IActionResult UpdateComment(int id, [FromForm] string comment)
         {
-            appointmentService.UpdateAppointment(id, comment);
+            Appointment editedAppointment = appointmentService.UpdateAppointmentComment(id, comment);
 
-            return RedirectToAction("List", new { id });
+            return RedirectToAction("ListPerPatient", new { id = editedAppointment.Patient.Id });
         }
 
 

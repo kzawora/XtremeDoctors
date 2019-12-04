@@ -72,12 +72,17 @@ namespace XtremeDoctors.Services
             return toRemove;
         }
 
-        internal void UpdateAppointment(int appointmentId, string comment)
+        internal Appointment UpdateAppointmentComment(int appointmentId, string comment)
         {
-            var toEdit = database.Appointments.Find(appointmentId);
+            var toEdit = database.Appointments
+                 .Include(a => a.Doctor)
+                 .Include(a => a.Patient)
+                 .Where(a => a.Id == appointmentId)
+                 .FirstOrDefault();
             toEdit.Comment = comment;
             database.Appointments.Update(toEdit);
             database.SaveChanges();
+            return toEdit;
         }
     }
 }

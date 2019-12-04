@@ -34,7 +34,7 @@
                         <td>
                             <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Id })">VIEW</a>
                             <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">CANCEL</a>
-                            @if (appointment.Comment.Length != 0)
+                            @if (appointment.Comment != null && appointment.Comment.Length != 0)
                             {
                                 <i class="material-icons green-text right">
                                     comment
