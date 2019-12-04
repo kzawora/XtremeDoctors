@@ -230,5 +230,153 @@ namespace XtremeDoctorsUnitTests
                doc => Assert.Equal(3, doc.Id)
            );
         }
+
+        [Fact]
+        public void givenMutlipleAppointmentsForOneDayOneGettingAppointmentsForThatDayThenReturnThem()
+        {
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+            Doctor doctor = new Doctor { Id = 1, };
+            var appointments = new[]
+            {
+                new Appointment  // 3:45-4:30 appointment on 2019-11-20 (week before 27)
+                {
+                    Id = 1, Date = new DateTime(2019, 11, 20),
+                    StartSlot = 15, EndSlot = 17,
+                    Doctor = doctor,
+                },
+                new Appointment   // 2:30-3:00 appointment on 2019-11-27
+                {
+                    Id = 2, Date = new DateTime(2019, 11, 27),
+                    StartSlot = 10, EndSlot = 11,
+                    Doctor = doctor,
+                },
+                new Appointment // 3:00-3:30 appointment on 2019-11-27
+                {
+                    Id = 3, Date = new DateTime(2019, 11, 27),
+                    StartSlot = 12, EndSlot = 13,
+                    Doctor = doctor,
+                },
+                new Appointment // 3:45-4:15 appointment on 2019-11-28
+                {
+                    Id = 4, Date = new DateTime(2019, 11, 28),
+                    StartSlot = 15, EndSlot = 17,
+                    Doctor = doctor,
+                }
+            };
+            dbContext.Doctors.Add(doctor);
+            dbContext.Appointments.AddRange(appointments);
+            dbContext.SaveChanges();
+
+            // Act
+            Appointment[] sampledAppointments = doctorService.GetAppointmentsForDay(doctor, new DateTime(2019, 11, 27));
+
+            // Assert
+            Assert.Equal(2, sampledAppointments.Length);
+            Assert.Collection(sampledAppointments,
+                appointment => Assert.Equal(2, appointment.Id),
+                appointment => Assert.Equal(3, appointment.Id)
+            );
+        }
+
+        [Fact]
+        public void givenNoAppointmentsForADayOneGettingAppointmentsForThatDayThenReturnEmptyArray()
+        {
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+            Doctor doctor = new Doctor { Id = 1, };
+            var appointments = new[]
+            {
+                new Appointment // 3:45-4:15 appointment on 2019-11-28
+                {
+                    Id = 4, Date = new DateTime(2019, 11, 28),
+                    StartSlot = 15, EndSlot = 17,
+                    Doctor = doctor,
+                }
+            };
+            dbContext.Doctors.Add(doctor);
+            dbContext.Appointments.AddRange(appointments);
+            dbContext.SaveChanges();
+
+            // Act
+            Appointment[] sampledAppointments = doctorService.GetAppointmentsForDay(doctor, new DateTime(2019, 11, 27));
+
+            // Assert
+            Assert.Empty(sampledAppointments);
+        }
+
+        [Fact]
+        public void whenGettingStringsForWorkingHoursOfOneDoctorsThenReturnTheCorrectArray()
+        {
+            // Arrange
+            ApplicationDbContext dbContext = GetDatabaseContext();
+            DoctorService doctorService = new DoctorService(dbContext);
+            Doctor doctor = new Doctor { Id = 1, };
+            var workingHours = new[]
+            {
+                new WorkingHours // 8:00 - 9:00 on Monday
+                {
+                    Id = 1, Date = new DateTime(2019, 11, 4),
+                    StartSlot = 32, EndSlot = 36,
+                    Doctor = doctor,
+                },
+                new WorkingHours // 8:00 - 10:00 on Tuesday
+                {
+                    Id = 2, Date = new DateTime(2019, 11, 5),
+                    StartSlot = 32, EndSlot = 40,
+                    Doctor = doctor,
+                },
+                new WorkingHours // 8:00 - 11:00 on Wednesday (set from last week)
+                {
+                    Id = 3, Date = new DateTime(2019, 11, 6),
+                    StartSlot = 32, EndSlot = 44,
+                    Doctor = doctor,
+                },
+                new WorkingHours // 8:00 - 12:00 on Thursday (two segments for that day)
+                {
+                    Id = 4, Date = new DateTime(2019, 11, 7),
+                    StartSlot = 32, EndSlot = 48,
+                    Doctor = doctor,
+                },
+                 new WorkingHours // 13:00 - 14:00 on Thursday (two segments for that day)
+                {
+                    Id = 5, Date = new DateTime(2019, 11, 7),
+                    StartSlot = 52, EndSlot = 56,
+                    Doctor = doctor,
+                },
+                new WorkingHours // 8:00 - 13:00 on Friday
+                {
+                    Id = 6, Date = new DateTime(2019, 11, 8),
+                    StartSlot = 32, EndSlot = 52,
+                    Doctor = doctor,
+                },
+                new WorkingHours // 8:00 - 15:00 on Friday (from last week, should be overriden)
+                {
+                    Id = 7, Date = new DateTime(2019, 11, 9),
+                    StartSlot = 32, EndSlot = 56,
+                    Doctor = doctor,
+                },
+            };
+            dbContext.Doctors.Add(doctor);
+            dbContext.WorkingHours.AddRange(workingHours);
+            dbContext.SaveChanges();
+
+            // Act
+            string[] sampledHours = doctorService.GetHoursStringForWholeWeek(doctor);
+
+            // Assert
+            Assert.Equal(7, sampledHours.Length);
+            Assert.Collection(sampledHours,
+                hours => hours.Equals("8:00 - 9:00"),
+                hours => hours.Equals("8:00 - 10:00"),
+                hours => hours.Equals("8:00 - 11:00"),
+                hours => hours.Equals("8:00 - 12:00, 13:00 - 14:00"),
+                hours => hours.Equals("8:00 - 13:00"),
+                hours => hours.Equals("Unavailable"),
+                hours => hours.Equals("Unavailable")
+            );
+        }
     }
 }
