@@ -31,6 +31,7 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("create")]
+        [Authorize(Roles = Roles.AdminReceptionist)]
         public IActionResult Create()
         {
             return View();
