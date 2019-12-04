@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace XtremeDoctors.Models
 {
@@ -11,12 +12,7 @@ namespace XtremeDoctors.Models
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public Receptionist() { }
-
-        public Receptionist(string name, string surname, string spec)
-        {
-            this.Name = name;
-            this.Surname = surname;
-        }
+        [InverseProperty("Receptionist")]
+        public User User { get; set; }
     }
 }

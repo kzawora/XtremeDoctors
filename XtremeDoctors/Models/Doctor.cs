@@ -17,7 +17,6 @@ namespace XtremeDoctors.Models
         [InverseProperty("Doctor")]
         public List<Appointment> Appointments { get; set; }
 
-
         [InverseProperty("Doctor")]
         public List<WorkingHours> WorkingHours { get; set; }
     }

@@ -15,5 +15,7 @@ namespace XtremeDoctors.Models
         [InverseProperty("Patient")]
         public List<Appointment> Appointments { get; set; }
 
+        [InverseProperty("Patient")]
+        public User User { get; set; }
     }
 }
