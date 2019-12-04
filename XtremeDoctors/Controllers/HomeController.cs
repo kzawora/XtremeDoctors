@@ -18,7 +18,7 @@ namespace XtremeDoctors.Controllers
             _localizer = localizer;
         }
 
-        [ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
+        //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
         public IActionResult Index()
         {
             return View();

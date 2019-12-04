@@ -8,6 +8,7 @@ using XtremeDoctors.Models;
 using XtremeDoctors.Data;
 using XtremeDoctors.Services;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Logging;
 
 namespace XtremeDoctors.Controllers
 {
@@ -15,12 +16,14 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class AppointmentController : Controller
     {
+        private readonly ILogger logger;
         private UserService userService;
         private readonly AppointmentService appointmentService;
-        public AppointmentController(AppointmentService appointmentService, UserService userService)
+        public AppointmentController(AppointmentService appointmentService, UserService userService, ILogger<AppointmentController> logger)
         {
             this.appointmentService = appointmentService;
             this.userService = userService;
+            this.logger = logger;
         }
 
         [HttpGet("")]
@@ -29,6 +32,9 @@ namespace XtremeDoctors.Controllers
         {
             int? patientId = await userService.GetCurrentPatientIdAsync();
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId.Value);
+
+            logger.LogInformation("List of appointments is for patient with id {patientId} is being displayed", patientId.Value);
+
             return View();
         }
 
@@ -57,6 +63,9 @@ namespace XtremeDoctors.Controllers
             }
 
             ViewBag.appointment = appointment;
+
+            logger.LogInformation("Appointment with id {appId} is being displayed", appointment.Id);
+
             return View();
         }
 
@@ -84,6 +93,8 @@ namespace XtremeDoctors.Controllers
         public IActionResult UpdateComment(int id, [FromForm] string comment)
         {
             Appointment editedAppointment = appointmentService.UpdateAppointmentComment(id, comment);
+            
+            logger.LogInformation("Appointment with id {appId} was edited", id);
 
             return RedirectToAction("ListPerPatient", new { id = editedAppointment.Patient.Id });
         }
@@ -113,6 +124,9 @@ namespace XtremeDoctors.Controllers
         public IActionResult Cancel(int appointmentId)
         {
             Appointment canceledAppointment = appointmentService.CancelAppointmentById(appointmentId);
+
+            logger.LogInformation("Appointment with id {appId} was canceled", appointmentId);
+
             return RedirectToAction("ListPerPatient", "Appointment", new { id = canceledAppointment.Patient.Id });
         }
     }
