@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using XtremeDoctors.Models;
 using XtremeDoctors.Data;
+using Microsoft.AspNetCore.Authorization;
+using XtremeDoctors.Services;
+using System.Security.Claims;
 
 namespace XtremeDoctors.Controllers
 {
@@ -24,6 +27,7 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("")]
+        [Authorize(Roles=Roles.Admin)]
         public IActionResult List()
         {
             ViewBag.patients = database.Patients.ToArray();
