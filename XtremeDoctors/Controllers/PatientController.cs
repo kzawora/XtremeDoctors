@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace XtremeDoctors.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     public class PatientController : Controller
     {
@@ -20,18 +21,25 @@ namespace XtremeDoctors.Controllers
             this.database = database;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult View(int id)
-        {
-            return View();
-        }
-
         [HttpGet("")]
         [Authorize(Roles=Roles.AdminReceptionist)]
         public IActionResult List()
         {
             ViewBag.patients = database.Patients.ToArray();
             return View();
+        }
+
+        [HttpGet("create")]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost("create")]
+        [Authorize(Roles = Roles.AdminReceptionist)]
+        public IActionResult Create([FromForm] string firstname, [FromForm] string lastname)
+        {
+            return RedirectToAction("", "Patient");
         }
     }
 }

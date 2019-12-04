@@ -1,0 +1,13 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+
+@if (User.IsInRole(XtremeDoctors.Data.Roles.Admin) || User.IsInRole(XtremeDoctors.Data.Roles.Receptionist))
+{
+    <li><a href="@Url.Action("List", "Patient", new {})">Patients</a></li>
+}
+@if (SignInManager.IsSignedIn(User) && User.IsInRole(XtremeDoctors.Data.Roles.Patient))
+{
+    <li><a href="@Url.Action("List", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
+    <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
+}
+<li><partial name="_LoginPartial" /></li>
