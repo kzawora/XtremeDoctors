@@ -9,35 +9,36 @@
     <tbody>
         <tr>
             <td>@SharedLocalizer["Date"]</td>
-        <td>@appointment.Date.ToString("yyyy-MM-dd")</td>
+            <td>@appointment.Date.ToString("yyyy-MM-dd")</td>
         </tr>
         <tr>
             <td>@SharedLocalizer["Time"]</td>
-        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot + 1) </td>
+            <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot + 1) </td>
         </tr>
         <tr>
             <td>@SharedLocalizer["Doctor"]</td>
-        <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
+            <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
         </tr>
         <tr>
             <td>@SharedLocalizer["Room"]</td>
-        <td>@appointment.RoomNumber</td>
+            <td>@appointment.RoomNumber</td>
         </tr>
         <tr>
             <td>@SharedLocalizer["Patient"]</td>
-        <td>@appointment.Patient.Name @appointment.Patient.Surname</td>
+            <td>@appointment.Patient.Name @appointment.Patient.Surname</td>
         </tr>
     </tbody>
 
 </table>
-Comment
+@SharedLocalizer["Comment"]
 <form method="post" action="@Url.Action("UpdateComment", "Appointment")">
-    <textarea name="comment" class="materialize-textarea" style="max-width:100%;min-height:150px;min-width:50px;">@SharedLocalizer["@appointment.Comment"]</textarea>
+    <textarea name="comment" class="materialize-textarea" style="max-width:100%;min-height:150px;min-width:50px;">@appointment.Comment</textarea>
     <button type="submit" class="btn green col s12">@SharedLocalizer["SAVE COMMENT"]</button>
 </form>
 <br />
 <br />
 <a style="margin-top:5px;margin-bottom:5px;" class="btn red col s12" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">
-    @SharedLocalizer["CANCEL APPOINTMENT"]</a>
+    @SharedLocalizer["CANCEL APPOINTMENT"]
+</a>
 <br />
 <br />

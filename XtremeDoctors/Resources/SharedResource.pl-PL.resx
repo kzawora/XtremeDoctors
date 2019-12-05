@@ -138,6 +138,9 @@
   <data name="CANCEL" xml:space="preserve">
     <value>ODWOŁAJ</value>
   </data>
+  <data name="CANCEL APPOINTMENT" xml:space="preserve">
+    <value>ODWOŁAJ WIZYTĘ</value>
+  </data>
   <data name="Confirm password" xml:space="preserve">
     <value>Potwierdź hasło</value>
   </data>
@@ -189,6 +192,9 @@
   <data name="Password" xml:space="preserve">
     <value>Hasło</value>
   </data>
+  <data name="Patient" xml:space="preserve">
+    <value>Pacjent</value>
+  </data>
   <data name="Patients" xml:space="preserve">
     <value>pacjenci</value>
   </data>
@@ -213,6 +219,9 @@
   <data name="Saturday" xml:space="preserve">
     <value>Sobota</value>
   </data>
+  <data name="SAVE COMMENT" xml:space="preserve">
+    <value>ZAPISZ KOMENTARZ</value>
+  </data>
   <data name="Sunday" xml:space="preserve">
     <value>Niedziela</value>
   </data>
@@ -230,6 +239,9 @@
   </data>
   <data name="Time" xml:space="preserve">
     <value>Czas</value>
+  </data>
+  <data name="Timespan" xml:space="preserve">
+    <value>Termin</value>
   </data>
   <data name="tommorow" xml:space="preserve">
     <value>jutro</value>
