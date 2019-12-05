@@ -42,6 +42,9 @@ namespace XtremeDoctors
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // CSRF
+            services.AddAntiforgery(options => {});
+
             // Database
             services.AddDbContext<ApplicationDbContext>(options =>
             {
