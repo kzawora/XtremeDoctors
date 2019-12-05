@@ -117,8 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Actions" xml:space="preserve">
+    <value>Akcje</value>
+  </data>
+  <data name="ADD NEW PATIENT" xml:space="preserve">
+    <value>DODAJ NOWEGO PACJENTA</value>
+  </data>
+  <data name="Appointment contains comment" xml:space="preserve">
+    <value>Wizyta skomentowana</value>
+  </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>ODWOŁAJ</value>
+  </data>
+  <data name="Confirm password" xml:space="preserve">
+    <value>Potwierdź hasło</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Doctor" xml:space="preserve">
+    <value>Doktor</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Forgot your password" xml:space="preserve">
+    <value>Zapomniałem hasło</value>
+  </data>
   <data name="Friday" xml:space="preserve">
     <value>Piątek</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Legenda</value>
+  </data>
+  <data name="LOGIN" xml:space="preserve">
+    <value>ZALOGUJ SIĘ</value>
   </data>
   <data name="Make an appointment" xml:space="preserve">
     <value>Umów się</value>
@@ -126,20 +159,68 @@
   <data name="Monday" xml:space="preserve">
     <value>Poniedziałek</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Imię</value>
+  </data>
+  <data name="NEW" xml:space="preserve">
+    <value>NOWY</value>
+  </data>
+  <data name="Passsword" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="Patients" xml:space="preserve">
+    <value>pacjenci</value>
+  </data>
+  <data name="Patients list" xml:space="preserve">
+    <value>Lista pacjetnów</value>
+  </data>
+  <data name="Please check our FAQ" xml:space="preserve">
+    <value>Przeczytaj nasze FAQ</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>ZAREJESTRUJ SIĘ</value>
+  </data>
+  <data name="Register as a new user" xml:space="preserve">
+    <value>Zarejestruj jako nowy użytkownik</value>
+  </data>
+  <data name="Remember me?" xml:space="preserve">
+    <value>Zapamiętać hasło?</value>
+  </data>
+  <data name="Room" xml:space="preserve">
+    <value>Pokój</value>
+  </data>
   <data name="Saturday" xml:space="preserve">
     <value>Sobota</value>
   </data>
   <data name="Sunday" xml:space="preserve">
     <value>Niedziela</value>
   </data>
+  <data name="Surname" xml:space="preserve">
+    <value>Nazwisko</value>
+  </data>
+  <data name="That page is dead" xml:space="preserve">
+    <value>Ta strona nie żyje</value>
+  </data>
+  <data name="This patient is linked with user." xml:space="preserve">
+    <value>Ten pacjent jest połączony z kontem użytkownika.</value>
+  </data>
   <data name="Thursday" xml:space="preserve">
     <value>Czwartek</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Czas</value>
   </data>
   <data name="tommorow" xml:space="preserve">
     <value>jutro</value>
   </data>
   <data name="Tuesday" xml:space="preserve">
     <value>Wtorek</value>
+  </data>
+  <data name="VIEW" xml:space="preserve">
+    <value>ZOBACZ</value>
   </data>
   <data name="Wednesday" xml:space="preserve">
     <value>Środa</value>

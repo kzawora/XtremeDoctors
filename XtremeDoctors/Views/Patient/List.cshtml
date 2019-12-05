@@ -1,43 +1,50 @@
 ﻿@model XtremeDoctors.Models.Patient
 
-<h2>Patients list</h2>
-<div class="row">
-    <div class="card-panel grey lighten-5 z-depth-1">
-        <table class="table-responsive">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Patient patient in (List<Patient>)ViewBag.patients)
-                {
+    <h2>
+        @SharedLocalizer["Patients list"]</h2>
+    <div class="row">
+        <div class="card-panel grey lighten-5 z-depth-1">
+            <table class="table-responsive">
+                <thead>
                     <tr>
-                        <td>
-                            @if(patient.User != null) { 
-                            <i class="material-icons cyan-text">
-                                face
-                            </i>
-                            }
-                            @patient.Name @patient.Surname
-                        </td>
-                        <td>
+                        <th>@SharedLocalizer["Date"]</th>
 
-                            <a href="@Url.Action("List", "Doctor", new { patient = @patient.Id })" class="waves-effect waves-light btn right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</a>
-                            <a href="@Url.Action("", "Appointment")/@patient.Id"style="margin-right:5px;" class="waves-effect waves-light btn right cyan">View</a>
-                        </td>
+                        <th>@SharedLocalizer["Actions"]</th>
                     </tr>
-                }
-            </tbody>
+                </thead>
+                <tbody>
+                    @foreach (Patient patient in (List<Patient>)ViewBag.patients)
+                    {
+                        <tr>
+                            <td>
+                                @if (patient.User != null)
+                                {
+                                    <i class="material-icons cyan-text">
+                                        face
+                                    </i>
+                                }
+                                @patient.Name @patient.Surname
+                            </td>
+                            <td>
 
-        </table>
-        <strong>Legend:</strong><br/>
-        <i class="material-icons cyan-text">
-            face
-        </i> - This patient is linked with user.
-        <a href="@Url.Action("Create", "Patient")" class="waves-effect waves-light btn green right">Add new patient</a>
-        <br />
-    </div>
+                                <a href="@Url.Action("List", "Doctor", new { patient = @patient.Id })" class="waves-effect waves-light btn right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</a>
+                                <a href="@Url.Action("", "Appointment")/@patient.Id" style="margin-right:5px;" class="waves-effect waves-light btn right cyan">@SharedLocalizer["VIEW"]</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            <strong>
+                @SharedLocalizer["Legend"]:
+            </strong><br />
+            <i class="material-icons cyan-text">
+                face
+            </i> - @SharedLocalizer["This patient is linked with user."]
+            <a href="@Url.Action("Create", "Patient")" class="waves-effect waves-light btn green right">
+                @SharedLocalizer["ADD NEW PATIENT"]
+            </a>
+            <br />
+        </div>
     </div>
 

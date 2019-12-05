@@ -3,11 +3,11 @@
 
 @if (User.IsInRole(XtremeDoctors.Data.Roles.Admin) || User.IsInRole(XtremeDoctors.Data.Roles.Receptionist))
 {
-    <li><a href="@Url.Action("List", "Patient", new {})">Patients</a></li>
+    <li><a href="@Url.Action("List", "Patient", new {})">@SharedLocalizer["Patients"]</a></li>
 }
 @if (SignInManager.IsSignedIn(User) && User.IsInRole(XtremeDoctors.Data.Roles.Patient))
 {
-    <li><a href="@Url.Action("ListForCurrentPatient", "Appointment", new {})">@Localizer["Your appointments"]</a></li>
-    <li><a asp-controller="Doctor" asp-action="List">@Localizer["Add appointment"]</a></li>
+    <li><a href="@Url.Action("ListForCurrentPatient", "Appointment", new {})">@SharedLocalizer["Your appointments"]</a></li>
+    <li><a asp-controller="Doctor" asp-action="List">@SharedLocalizer["Add appointment"]</a></li>
 }
 <li><partial name="_LoginPartial" /></li>

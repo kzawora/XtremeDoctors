@@ -26,9 +26,9 @@
                                 <br />
                                 @if (available_days.Length == 0)
                                 {
-                                    <div class="col s12 m12 red z-depth-1 white-text btn-large" style="cursor:default;">
-                                        Brak terminów na następne 10 dni.
-                                    </div>
+                            <div class="col s12 m12 red z-depth-1 white-text btn-large" style="cursor:default;">
+                                @SharedLocalizer["No available dates for the next 10 days."]
+                            </div>
                                 }
                                 else
                                 {

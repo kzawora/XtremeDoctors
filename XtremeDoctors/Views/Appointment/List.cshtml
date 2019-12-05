@@ -10,48 +10,51 @@
         </a>
     </div>
 
-<h2>Appointment list</h2>
-<div class="row">
-    <div class="card-panel grey lighten-5 z-depth-1">
-        <table class="striped table-responsive">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Doctor</th>
-                    <th>Room</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
-                {
+    <h2>
+        @SharedLocalizer["Appointment list"]</h2>
+    <div class="row">
+        <div class="card-panel grey lighten-5 z-depth-1">
+            <table class="striped table-responsive">
+                <thead>
                     <tr>
-                        <td>@appointment.Date.ToString("yyyy-MM-dd") </td>
-                        <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot + 1)</td>
-                        <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
-                        <td>Room @appointment.RoomNumber</td>
-                        <td>
-                            <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Id })">VIEW</a>
-                            <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">CANCEL</a>
-                            @if (appointment.Comment != null && appointment.Comment.Length != 0)
-                            {
-                                <i class="material-icons green-text right">
-                                    comment
-                                </i>
-                            }
-                        </td>
+                        <th>@SharedLocalizer["Date"]</th>
+                        <th>@SharedLocalizer["Time"]</th>
+                        <th>@SharedLocalizer["Doctor"]</th>
+                        <th>@SharedLocalizer["Room"]</th>
+                        <th>@SharedLocalizer["Actions"]</th>
                     </tr>
-                }
-            </tbody>
+                </thead>
+                <tbody>
+                    @foreach (Appointment appointment in (List<Appointment>)ViewBag.appointments)
+                    {
+                        <tr>
+                            <td>@appointment.Date.ToString("yyyy-MM-dd") </td>
+                            <td>@SlotToHour(appointment.StartSlot) - @SlotToHour(appointment.EndSlot + 1)</td>
+                            <td>@appointment.Doctor.Name @appointment.Doctor.Surname</td>
+                            <td>Room @appointment.RoomNumber</td>
+                            <td>
+                                <a class="btn" href="@Url.Action("View", "Appointment", new { id = @appointment.Id })">@SharedLocalizer["VIEW"]</a>
+                                <a class="btn red" href="@Url.Action("Cancel", "Appointment", new { id = @appointment.Id })">@SharedLocalizer["CANCEL"]</a>
+                                @if (appointment.Comment != null && appointment.Comment.Length != 0)
+                                {
+                                    <i class="material-icons green-text right">
+                                        comment
+                                    </i>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
 
-        </table>
-        <strong>Legend:</strong><br/>
-        <i class="material-icons green-text">
-            comment
-        </i> - Appointment contains comment
-        <a href="@Url.Action("List", "Doctor", new { patient = @ViewBag.patientId })" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>New</a>
-        <br />
-    </div>
+            </table>
+            <strong>
+                @SharedLocalizer["Legend"]:</strong><br />
+
+                        <i class="material-icons green-text">
+                            comment
+                        </i> - @SharedLocalizer["Appointment contains comment"]
+                        <a href="@Url.Action("List", "Doctor", new { patient = @ViewBag.patientId })" class="waves-effect waves-light btn green right"><i class="material-icons left">add_box</i>@SharedLocalizer["NEW"]</a>
+                        <br />
+</div>
     </div>
 

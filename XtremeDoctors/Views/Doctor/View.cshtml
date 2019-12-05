@@ -38,8 +38,8 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Termin</th>
-                                        <th>Czas</th>
+                                        <th>@Localizer["Timespan"]</th>
+                                        <th>@Localizer["Time"]</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -49,7 +49,7 @@
                                     {
                                         <tr>
                                             <td>@freeHour</td>
-                                            <td>15 minut</td>
+                                            <td>15 @Localizer["minutes"]</td>
                                             <td>
                                                 @using (Html.BeginForm("Make", "Appointment", FormMethod.Post))
                                                 {
@@ -59,12 +59,9 @@
                                                     @if (ViewBag.patientId != null)
                                                     {
                                                         <input type="hidden" name="patient" value="@ViewBag.patientId">
-                                                        <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>Umów pacjenta</button>
+                    
                                                     }
-                                                    else
-                                                    {
-                                                        <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>Umów się</button>
-                                                    }
+                                                    <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>@Localizer["Make an appointment"]</button>
                                                 }
 
                                             </td>
