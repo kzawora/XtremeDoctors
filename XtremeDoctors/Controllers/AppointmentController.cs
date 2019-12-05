@@ -65,7 +65,7 @@ namespace XtremeDoctors.Controllers
                 return NotFound();
             }
 
-            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, id))
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, appointment.PatientId))
             {
                 return Forbid();
             }
