@@ -14,6 +14,7 @@ namespace XtremeDoctors.Controllers
 {
     [Authorize]
     [Route("[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AppointmentController : Controller
     {
         private readonly ILogger logger;

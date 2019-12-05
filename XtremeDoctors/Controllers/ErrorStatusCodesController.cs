@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace XtremeDoctors.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorStatusCodesController : Controller
     {
         [Route("error/404")]

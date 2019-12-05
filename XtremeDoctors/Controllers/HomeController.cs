@@ -9,6 +9,7 @@ using XtremeDoctors.Models;
 
 namespace XtremeDoctors.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class HomeController : Controller
     {
         private readonly IStringLocalizer<HomeController> _localizer;

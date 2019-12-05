@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace XtremeDoctors.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Authorize]
     [Route("[controller]")]
     public class PatientController : Controller

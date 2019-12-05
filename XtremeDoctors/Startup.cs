@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -46,6 +47,17 @@ namespace XtremeDoctors
             {
                 string conntectionString = Configuration.GetConnectionString("SqliteFile");
                 options.UseSqlite(conntectionString);
+            });
+
+            // OpenAPI (Swagger)
+            services.AddSwaggerGen(conf =>
+            {
+                conf.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "XtremeDoctors RestFUL API",
+                    Version = "v1",
+                    Contact = new OpenApiContact { Email = "biuro@extremedoctor.com", Name = "Doctor Abina", },
+                });
             });
 
             // Injectable services
@@ -92,6 +104,14 @@ namespace XtremeDoctors
             app.UseAuthentication();
             app.InitializRolesForXtremeDoctors(roleManager);
             app.InitializeUsersForXtremeDoctors(userManager);
+
+            // OpenAPI (Swagger)
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                options.RoutePrefix = "swagger";
+            });
 
             // Networking Stuff
             app.UseHttpsRedirection();

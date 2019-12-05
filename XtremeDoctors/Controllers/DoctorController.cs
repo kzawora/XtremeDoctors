@@ -13,6 +13,7 @@ namespace XtremeDoctors.Controllers
 {
     [Authorize]
     [Route("[controller]")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class DoctorController : Controller
     {
 
