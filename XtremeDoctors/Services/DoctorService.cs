@@ -123,6 +123,12 @@ namespace XtremeDoctors.Services
             }
             return freeSlots;
         }
+
+        public List<string> GetFreeHoursForDate(Doctor doctor, DateTime date)
+        {
+            return GetFreeSlotsForDate(doctor, date).Select(x => SlotHelper.SlotToHour(x)).ToList();
+        }
+
         public bool IsSlotStringValid(string slotString)
         {
             Regex rgx = new Regex("^(([0-1][0-9])|2[0-3]):(00|15|30|45)$");

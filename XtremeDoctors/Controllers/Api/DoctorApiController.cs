@@ -38,5 +38,24 @@ namespace XtremeDoctors.Controllers.Api
             }
             return Ok(result);
         }
+
+        [HttpGet("{id}/available_days")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<string[]> GetAvailableDays(int id, [FromQuery] DateTime? date = null, [FromQuery] int daysForward = 14)
+        {
+            var actualDate = date ?? DateTime.Now;
+            return Ok(doctorService.GetAvailableDays(doctorService.FindDoctor(id), actualDate, daysForward));
+        }
+
+        [HttpGet("{id}/available_hours")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<string[]> GetAvailableHours(int id, [FromQuery] DateTime? date = null)
+        {
+            Doctor result = doctorService.FindDoctor(id);
+            var actualDate = date ?? DateTime.Now;
+            return Ok(doctorService.GetFreeHoursForDate(result, actualDate));
+        }
     }
 }
