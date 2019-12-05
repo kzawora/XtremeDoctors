@@ -7,6 +7,7 @@ using XtremeDoctors.Models;
 using XtremeDoctors.Services;
 using XtremeDoctors.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace XtremeDoctors.Controllers
 {
@@ -14,10 +15,13 @@ namespace XtremeDoctors.Controllers
     [Route("[controller]")]
     public class DoctorController : Controller
     {
+
+        private readonly ILogger logger;
         private DoctorService doctorService;
-        public DoctorController(DoctorService doctorService)
+        public DoctorController(DoctorService doctorService, ILogger<DoctorController> logger)
         {
             this.doctorService = doctorService;
+            this.logger = logger;
         }
 
         [HttpGet("")]
@@ -40,6 +44,7 @@ namespace XtremeDoctors.Controllers
             Doctor doctor = doctorService.FindDoctor(id);
             if (doctor == null)
             {
+                logger.LogError("There was en error while trying to find doctor");
                 Response.StatusCode = 404;
                 return View("NotFound");
             }

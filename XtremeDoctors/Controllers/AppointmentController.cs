@@ -112,6 +112,7 @@ namespace XtremeDoctors.Controllers
                 patient = await userService.GetCurrentPatientIdAsync();
                 if (patient == null)
                 {
+                    logger.LogError("There was en error while trying to identify the patient");
                     return Forbid();
                 }
             }
