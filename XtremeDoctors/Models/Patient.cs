@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace XtremeDoctors.Models
 {
@@ -13,9 +14,11 @@ namespace XtremeDoctors.Models
         public string Surname { get; set; }
 
         [InverseProperty("Patient")]
+        [JsonIgnore]
         public List<Appointment> Appointments { get; set; }
 
         [InverseProperty("Patient")]
+        [JsonIgnore]
         public User User { get; set; }
     }
 }

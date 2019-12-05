@@ -17,6 +17,11 @@ namespace XtremeDoctors.Services
             this.database = database;
         }
 
+        public Patient GetPatient(int id)
+        {
+            return database.Patients.Find(id);
+        }
+
         public List<Patient> GetPatients()
         {
 
@@ -40,7 +45,29 @@ namespace XtremeDoctors.Services
 
             return patient;
         }
+        public Patient AddPatient(Patient patient)
+        {
+            database.Patients.Add(patient);
+            database.SaveChanges();
+            return patient;
+        }
 
-
+        public Patient RemovePatient(int id)
+        {
+            Patient p = GetPatient(id);
+            if (p == null)
+                return null;
+            database.Remove(p);
+            database.SaveChanges();
+            return p;
+        }
+        public Patient EditPatient(Patient old, Patient edited)
+        {
+            old.Name = edited.Name;
+            old.Surname = edited.Surname;
+            database.Update(old);
+            database.SaveChanges();
+            return old;
+        }
     }
 }
