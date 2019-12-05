@@ -26,6 +26,18 @@ namespace XtremeDoctors.Controllers.Api
             return Ok(doctorService.FindAllDoctors());
         }
 
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<Doctor>> CreateNew([FromBody] Doctor doctor)
+        {
+            if (doctor is null)
+                return NotFound();
+            if (doctor.Id != 0)
+                return BadRequest();
+            return Ok(doctorService.AddDoctor(doctor));
+        }
+
+
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -38,6 +50,34 @@ namespace XtremeDoctors.Controllers.Api
             }
             return Ok(result);
         }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Doctor> EditDoctor(int id, [FromBody] Doctor doctor)
+        {
+            Doctor old = doctorService.FindDoctor(id);
+            if (old == null)
+            {
+                return NotFound();
+            }
+            Doctor result = doctorService.EditDoctor(old, doctor);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Doctor> DeleteDoctor(int id)
+        {
+            Doctor doctor = doctorService.FindDoctor(id);
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+            return Ok(doctorService.RemoveDoctor(doctor));
+        }
+
 
         [HttpGet("{id}/available_days")]
         [ProducesResponseType(StatusCodes.Status200OK)]

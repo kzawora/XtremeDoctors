@@ -26,6 +26,32 @@ namespace XtremeDoctors.Services
         {
             return database.Doctors.Find(id);
         }
+
+        public Doctor AddDoctor(Doctor doctor)
+        {
+            database.Add(doctor);
+            database.SaveChanges();
+            return doctor;
+        }
+
+        public Doctor EditDoctor(Doctor old, Doctor edited)
+        {
+            old.Name = edited.Name;
+            old.Surname = edited.Surname;
+            old.Specialization = edited.Specialization;
+            old.Text = edited.Text;
+            database.Update(old);
+            database.SaveChanges();
+            return old;
+        }
+
+        public Doctor RemoveDoctor(Doctor doctor)
+        {
+            database.Remove(doctor);
+            database.SaveChanges();
+            return doctor;
+        }
+
         public bool IsSlotRangeAvailable(Doctor doctor, DateTime date, int slotBegin, int slotEnd)
         {
             for (int i = slotBegin; i <= slotEnd; i++)

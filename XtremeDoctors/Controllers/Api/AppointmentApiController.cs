@@ -1,27 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using XtremeDoctors.Services;
-using XtremeDoctors.Models;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using XtremeDoctors.Helpers;
+using XtremeDoctors.Models;
+using XtremeDoctors.Services;
 
 namespace XtremeDoctors.Controllers.Api
 {
     [Route("api/appointment")]
     [ApiController]
+    [Authorize]
     public class AppointmentApiController : ControllerBase
     {
         private AppointmentService appointmentService;
-        public AppointmentApiController(AppointmentService appointmentService)
+        private UserService userService;
+
+        public AppointmentApiController(AppointmentService appointmentService, UserService userService)
         {
             this.appointmentService = appointmentService;
+            this.userService = userService;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "ADMIN,RECEPTIONIST")]
         public ActionResult<IEnumerable<Appointment>> List()
         {
             return Ok(appointmentService.GetAllAppointments());
@@ -30,11 +36,15 @@ namespace XtremeDoctors.Controllers.Api
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<Appointment>> MakeAppointment([FromQuery] int patientId, [FromQuery] int doctorId, [FromQuery] DateTime date, [FromQuery] string hour, [FromQuery] string comment = "")
+        public async Task<ActionResult<IEnumerable<Appointment>>> MakeAppointmentAsync([FromQuery] int patientId, [FromQuery] int doctorId, [FromQuery] DateTime date, [FromQuery] string hour, [FromQuery] string comment = "")
         {
             var appointment = appointmentService.MakeAppointment(doctorId, patientId, date, hour, comment);
             if (appointment == null)
                 return BadRequest();
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, appointment.PatientId))
+            {
+                return Forbid();
+            }
             return Ok(appointment);
         }
 
@@ -42,8 +52,18 @@ namespace XtremeDoctors.Controllers.Api
         [HttpDelete("{appointmentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<Appointment>> DeleteAppointment(int appointmentId)
+        public async Task<ActionResult<IEnumerable<Appointment>>> DeleteAppointmentAsync(int appointmentId)
         {
+            Appointment app = appointmentService.GetAppointmentById(appointmentId);
+            if (app is null)
+            {
+                return NotFound();
+            }
+
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, app.PatientId))
+            {
+                return Forbid();
+            }
             return Ok(appointmentService.CancelAppointmentById(appointmentId));
         }
 
@@ -51,16 +71,36 @@ namespace XtremeDoctors.Controllers.Api
         [HttpGet("{appointmentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<Appointment>> GetAppointment(int appointmentId)
+        public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointmentAsync(int appointmentId)
         {
+            Appointment app = appointmentService.GetAppointmentById(appointmentId);
+            if (app is null)
+            {
+                return NotFound();
+            }
+
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, app.PatientId))
+            {
+                return Forbid();
+            }
             return Ok(appointmentService.GetAppointmentById(appointmentId));
         }
 
         [HttpPut("{appointmentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<Appointment>> EditAppointment(int appointmentId, [FromBody] Appointment appointment)
+        public async Task<ActionResult<IEnumerable<Appointment>>> EditAppointmentAsync(int appointmentId, [FromBody] Appointment appointment)
         {
+            Appointment app = appointmentService.GetAppointmentById(appointmentId);
+            if (app is null)
+            {
+                return NotFound();
+            }
+
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, app.PatientId))
+            {
+                return Forbid();
+            }
             Appointment response = appointmentService.EditAppointmentById(appointmentId, appointment);
             if (response == null)
                 return BadRequest();
@@ -70,8 +110,12 @@ namespace XtremeDoctors.Controllers.Api
         [HttpGet("patient/{patientId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<Appointment>> ListForPatient(int patientId)
+        public async Task<ActionResult<IEnumerable<Appointment>>> ListForPatientAsync(int patientId)
         {
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, patientId))
+            {
+                return Forbid();
+            }
             return Ok(appointmentService.GetAppointmentsForPatient(patientId));
         }
 
