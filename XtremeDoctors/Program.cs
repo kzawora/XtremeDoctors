@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace XtremeDoctors
 {
@@ -17,13 +18,18 @@ namespace XtremeDoctors
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseKestrel(options => {
+                    options.Listen(IPAddress.Any, 9080, listenOptions => { listenOptions.UseHttps("aspnetapp.pfx", "123"); });
+                })
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
                     logging.AddConsole();
                 })
                 .UseStartup<Startup>();
+        }
     }
 }

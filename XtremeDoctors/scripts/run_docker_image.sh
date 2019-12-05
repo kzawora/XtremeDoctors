@@ -8,9 +8,9 @@ echo "Selected docker image: $image_name"
 
 # Run container in synchronous mode. To run in detached change "-it" to "-d"
 container_name=xtreme_doctors
-port=2137
-echo "Hosting on http://localhost:$port"
-docker run -it --rm -p $port:80 --name "$container_name" "$image_name"
+public_port=10000
+echo "Hosting on http://localhost:$public_port"
+docker run -it --rm -p $public_port:9080 --name "$container_name" "$image_name"
 
 # If failed, print docker images
 if [ $? != 1 ]; then
