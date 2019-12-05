@@ -1,10 +1,15 @@
 ﻿@model XtremeDoctors.ViewModels.DoctorViewModel
+@inject XtremeDoctors.Services.DoctorService doctorService
 
     <div class="row">
         @foreach (DoctorViewModel doctor in (DoctorViewModel[])ViewBag.doctorViews)
         {
+            
             <div class="col s12 m6">
                 <div class="card-panel grey lighten-5 z-depth-1">
+                    @{
+                        String[] available_days = doctorService.GetAvailableDays(doctor.doctor, DateTime.Now);
+                    }
                     <div class="row valign-wrapper">
 
                         <div class="col s12">
@@ -19,38 +24,60 @@
                                 </div>
                                 <partial name="_WorkingHoursPartial" model="@doctor" />
                                 <br />
-                                <form method="get" action="@Url.Action("View", "Doctor", new { id = @doctor.doctor.Id })">
-                                    <input type="text" class="datepicker" name="date">
-                                    @if (ViewBag.patientId != null)
-                                    {
-                                        <input type="hidden" name="patient" value="@ViewBag.patientId">
-                                    }
-                                    <button type="submit" class="waves-effect waves-light btn-large right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</button>
-                                </form>
-                                Najbliższy wolny termin <strong><span class="green-text">@SharedLocalizer["tommorow"]</span></strong>!<br />
+                                @if (available_days.Length == 0)
+                                {
+                                    <div class="col s12 m12 red z-depth-1 white-text btn-large" style="cursor:default;">
+                                        Brak terminów na następne 10 dni.
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form method="get" action="@Url.Action("View", "Doctor", new { id = @doctor.doctor.Id })">
+                                        <div class="col m6 s12">
+                                            <input type="text" class="datepicker" data-id="@doctor.doctor.Id" name="date">
+                                        </div>
+                                        <script>
+
+                                        $(document).ready(function () {
+                                            let id = "@doctor.doctor.Id";
+                                            let days = []
+                                                    @foreach (string day in available_days)
+                                                    {
+                                                        @:days.push("@day")
+                                                    }
+
+                                            $('.datepicker[data-id='+id+']').datepicker(
+                                                {
+                                                    format: "yyyy-mm-dd",
+                                                    defaultDate: new Date(days[0]),
+                                                    setDefaultDate: true,
+                                                    minDate: new Date(),
+                                                    disableDayFn: function (MyDate) {
+                                                        let date = MyDate.getFullYear() + '-' + ('0' + (MyDate.getMonth() + 1)).slice(-2) + "-" + ('0' + MyDate.getDate()).slice(-2)
+                                                        if (days.indexOf(date) >= 0)
+                                                            return false;
+                                                        else
+                                                            return true;
+                                                    }
+                                                }
+                                            );
+                                        });
+                                        </script>
+
+                                        @if (ViewBag.patientId != null)
+                                        {
+                                            <input type="hidden" name="patient" value="@ViewBag.patientId">
+                                        }
+                                        <button type="submit" class="waves-effect waves-light btn-large right green col s12 m6"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</button>
+                                    </form>
+                                }
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
+
         }
     </div>
 
 
-<script>
-
-    $(document).ready(function(){
-        $('.datepicker').datepicker(
-            {
-                format: "yyyy-mm-dd",
-                defaultDate: new Date(),
-                setDefaultDate: true,
-                minDate: new Date(),
-                disableDayFn: function (MyDate) {
-                    console.log(MyDate.getFullYear() + '-' + ('0'+(MyDate.getMonth()+1)).slice(-2) + "-" + ('0' + MyDate.getDate()).slice(-2))
-                    return false;
-                }
-            }
-        );
-  });
-</script>

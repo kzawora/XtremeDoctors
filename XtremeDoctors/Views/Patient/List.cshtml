@@ -25,7 +25,7 @@
                         <td>
 
                             <a href="@Url.Action("List", "Doctor", new { patient = @patient.Id })" class="waves-effect waves-light btn right green"><i class="material-icons left">add_box</i>@SharedLocalizer["Make an appointment"]</a>
-                            <a href="@Url.Action("List", "Appointment")/@patient.Id"style="margin-right:5px;" class="waves-effect waves-light btn right cyan">View</a>
+                            <a href="@Url.Action("", "Appointment")/@patient.Id"style="margin-right:5px;" class="waves-effect waves-light btn right cyan">View</a>
                         </td>
                     </tr>
                 }
