@@ -171,6 +171,9 @@
   <data name="Make an appointment" xml:space="preserve">
     <value>Umów się</value>
   </data>
+  <data name="minutes" xml:space="preserve">
+    <value>minut</value>
+  </data>
   <data name="Monday" xml:space="preserve">
     <value>Poniedziałek</value>
   </data>
