@@ -141,6 +141,9 @@
   <data name="CANCEL APPOINTMENT" xml:space="preserve">
     <value>ODWOŁAJ WIZYTĘ</value>
   </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Komentarz</value>
+  </data>
   <data name="Confirm password" xml:space="preserve">
     <value>Potwierdź hasło</value>
   </data>
