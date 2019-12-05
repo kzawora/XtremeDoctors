@@ -26,6 +26,18 @@ namespace XtremeDoctors.Services
         {
             return database.Doctors.Find(id);
         }
+        public bool IsSlotRangeAvailable(Doctor doctor, DateTime date, int slotBegin, int slotEnd)
+        {
+            for (int i = slotBegin; i <= slotEnd; i++)
+            {
+                if (!IsSlotAvailable(doctor, date, i))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool IsSlotAvailable(Doctor doctor, DateTime date, int slot)
         {
             return GetFreeSlotsForDate(doctor, date).Contains(slot);

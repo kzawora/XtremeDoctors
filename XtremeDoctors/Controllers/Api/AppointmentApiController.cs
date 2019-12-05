@@ -56,6 +56,17 @@ namespace XtremeDoctors.Controllers.Api
             return Ok(appointmentService.GetAppointmentById(appointmentId));
         }
 
+        [HttpPut("{appointmentId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<IEnumerable<Appointment>> EditAppointment(int appointmentId, [FromBody] Appointment appointment)
+        {
+            Appointment response = appointmentService.EditAppointmentById(appointmentId, appointment);
+            if (response == null)
+                return BadRequest();
+            return Ok(response);
+        }
+
         [HttpGet("patient/{patientId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

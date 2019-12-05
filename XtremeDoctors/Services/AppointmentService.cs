@@ -31,17 +31,44 @@ namespace XtremeDoctors.Services
             return appointments;
         }
 
+        public Appointment EditAppointmentById(int appointmentId, Appointment edited)
+        {
+            Appointment appointment = GetAppointmentById(appointmentId);
+            bool skipSlotCheck = appointment.StartSlot == edited.StartSlot
+                && appointment.EndSlot == edited.EndSlot
+                && appointment.Date == edited.Date
+                && appointment.DoctorId == edited.DoctorId;
+
+            appointment.StartSlot = edited.StartSlot;
+            appointment.EndSlot = edited.EndSlot;
+            appointment.RoomNumber = edited.RoomNumber;
+            appointment.Comment = edited.Comment;
+            appointment.Date = edited.Date;
+            appointment.DoctorId = edited.DoctorId;
+            appointment.PatientId = edited.PatientId;
+            if (!skipSlotCheck && !doctorService.IsSlotRangeAvailable(doctorService.FindDoctor(appointment.DoctorId),
+                appointment.Date, appointment.StartSlot, appointment.EndSlot))
+            {
+                return null;
+            }
+
+            database.Appointments.Update(appointment);
+            database.SaveChanges();
+            return appointment;
+        }
+
+
         public Appointment MakeAppointment(int doctorId, int patientId, DateTime date, string hour, string comment)
         {
             Patient patient = database.Patients.Find(patientId);
             Doctor doctor = database.Doctors.Find(doctorId);
-            
+
             if (!doctorService.IsSlotStringValid(hour))
                 return null;
 
             int slot = SlotHelper.HourToSlot(hour);
-            
-            if (!doctorService.IsSlotAvailable(doctor, date, slot)) 
+
+            if (!doctorService.IsSlotAvailable(doctor, date, slot))
                 return null;
 
             Appointment appointment = new Appointment();
