@@ -88,6 +88,14 @@ namespace XtremeDoctors
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
+            // Migrate
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var services = serviceScope.ServiceProvider;
+                var dbContext = services.GetService<ApplicationDbContext>();
+                dbContext.Database.Migrate();
+            }
+
             // Error interception
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             if (env.IsDevelopment())
@@ -103,7 +111,7 @@ namespace XtremeDoctors
             // Identity
             app.UseAuthentication();
             app.InitializRolesForXtremeDoctors(roleManager);
-            app.InitializeUsersForXtremeDoctors(userManager);
+            app.InitializeUsersForXtremeDoctors(env, userManager);
 
             // OpenAPI (Swagger)
             app.UseSwagger();
@@ -141,14 +149,6 @@ namespace XtremeDoctors
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            // Migrate
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var services = serviceScope.ServiceProvider;
-                var dbContext = services.GetService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-            }
         }
     }
 }

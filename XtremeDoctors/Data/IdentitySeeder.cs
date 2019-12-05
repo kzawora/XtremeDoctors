@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using XtremeDoctors.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace XtremeDoctors.Data
 {
@@ -29,7 +30,7 @@ namespace XtremeDoctors.Data
             }
         }
 
-        public static void InitializeUsersForXtremeDoctors(this IApplicationBuilder app, UserManager<User> userManager)
+        public static void InitializeUsersForXtremeDoctors(this IApplicationBuilder app, IHostingEnvironment env, UserManager<User> userManager)
         {
             bool dataNotInitialized = (userManager.FindByEmailAsync("admin@wp.pl").Result == null);
             if (dataNotInitialized)
@@ -63,9 +64,12 @@ namespace XtremeDoctors.Data
                     }
 
                     // If you change this, make sure you'll step into this branch (dataNotInitialized == true).
-                    InitializeUser("harold@wp.pl", "harold", Roles.Patient, 1, "Harold", "HideThePain");
-                    InitializeUser("recept@wp.pl", "recept", Roles.Receptionist);
-                    InitializeUser("admin@wp.pl", "admin1", Roles.Admin);
+                    if (env.IsDevelopment())
+                    {
+                        InitializeUser("harold@wp.pl", "harold", Roles.Patient, 1, "Harold", "HideThePain");
+                        InitializeUser("recept@wp.pl", "recept", Roles.Receptionist);
+                    }
+                    InitializeUser("admin@wp.pl", "Admin1!", Roles.Admin);
                 }
             }
         }
