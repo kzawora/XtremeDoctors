@@ -27,7 +27,7 @@ namespace XtremeDoctors.Helpers
             if (user.PatientId == null)
             {
                 // Not a patient, has to have an administrative role
-                return claimsPrincipal.IsInRole(Roles.AdminReceptionist);
+                return claimsPrincipal.IsInRole(Roles.Receptionist) || claimsPrincipal.IsInRole(Roles.Admin);
             }
 
             // Patient, has to be the owner of resource
