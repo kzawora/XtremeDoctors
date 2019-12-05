@@ -26,22 +26,30 @@ namespace XtremeDoctors.Controllers
             this.logger = logger;
         }
 
-        [HttpGet("")]
+        [HttpGet("current")]
         [Authorize(Roles=Roles.Patient)]
         public async Task<IActionResult> ListForCurrentPatient()
         {
             int? patientId = await userService.GetCurrentPatientIdAsync();
+            if (patientId == null)
+            {
+                // Not logged in user
+                return Forbid();
+            }
+
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId.Value);
-
             logger.LogInformation("List of appointments for patient with id {patientId} is being displayed", patientId.Value);
-
             return View("List");
         }
 
         [HttpGet("{id:int}")]
-        [Authorize(Roles=Roles.AdminReceptionist)]
-        public IActionResult ListForPatient(int id)
+        public async Task<IActionResult> ListForPatient(int id)
         {
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, id))
+            {
+                return Forbid();
+            }
+
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
             ViewBag.patientId = id;
             return View("List");
@@ -53,19 +61,16 @@ namespace XtremeDoctors.Controllers
             Appointment appointment = appointmentService.GetAppointmentById(id);
             if(appointment is null)
             {
-                return new StatusCodeResult(404);
+                return NotFound();
             }
 
-            int? patientId = await userService.GetCurrentPatientIdAsync();
-            if (patientId is null || patientId != appointment.Patient.Id)
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, id))
             {
                 return Forbid();
             }
 
             ViewBag.appointment = appointment;
-
             logger.LogInformation("Appointment with id {appId} is being displayed", appointment.Id);
-
             return View();
         }
 

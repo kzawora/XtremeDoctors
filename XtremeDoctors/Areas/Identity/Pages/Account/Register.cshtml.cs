@@ -93,6 +93,13 @@ namespace XtremeDoctors.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    result = _userManager.AddToRoleAsync(user, Roles.Patient).Result;
+                    if (!result.Succeeded)
+                    {
+                        _logger.LogError("Failed add user to a role");
+                    }
+
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using XtremeDoctors.Data;
 using XtremeDoctors.Models;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace XtremeDoctors.Services
 {
@@ -22,6 +23,12 @@ namespace XtremeDoctors.Services
         public async Task<User> GetCurrentUserAsync()
         {
             User user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            return user;
+        }
+
+        public async Task<User> GetUserByClaimsPrincipalAsync(ClaimsPrincipal claimsPrincipal)
+        {
+            User user = await _userManager.GetUserAsync(claimsPrincipal);
             return user;
         }
 
