@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using XtremeDoctors.Data;
 using XtremeDoctors.Helpers;
 using XtremeDoctors.Models;
@@ -24,6 +25,10 @@ namespace XtremeDoctors.Services
         public Doctor FindDoctor(int id)
         {
             return database.Doctors.Find(id);
+        }
+        public bool IsSlotAvailable(Doctor doctor, DateTime date, int slot)
+        {
+            return GetFreeSlotsForDate(doctor, date).Contains(slot);
         }
 
         public string[] GetAvailableDays(Doctor doctor, DateTime startingDay, int daysForward = 14)
@@ -89,7 +94,7 @@ namespace XtremeDoctors.Services
         {
             string[] result = new string[7];
             DateTime now = DateTime.Now;
-            for (int i=0; i < 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 DayOfWeek dayOfWeek = now.AddDays(i).DayOfWeek;
                 result[(int)dayOfWeek] = GetHoursStringForDayOfWeek(doctor, dayOfWeek);
@@ -97,15 +102,9 @@ namespace XtremeDoctors.Services
             return result;
         }
 
-        public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
+        public List<int> GetFreeSlotsForDate(Doctor doctor, DateTime date)
         {
             WorkingHours[] workingHours = GetWorkingHoursForDay(doctor, date);
-
-            if (workingHours.Length == 0)
-            {
-                return new string[0];
-            }
-
             Appointment[] appointments = GetAppointmentsForDay(doctor, date);
             List<int> freeSlots = new List<int>();
 
@@ -122,6 +121,24 @@ namespace XtremeDoctors.Services
                     }
                 }
             }
+            return freeSlots;
+        }
+        public bool IsSlotStringValid(string slotString)
+        {
+            Regex rgx = new Regex("^(([0-1][0-9])|2[0-3]):(00|15|30|45)$");
+            return rgx.IsMatch(slotString);
+        }
+
+        public string[] ComputeFreeSlots(Doctor doctor, DateTime date)
+        {
+            WorkingHours[] workingHours = GetWorkingHoursForDay(doctor, date);
+
+            if (workingHours.Length == 0)
+            {
+                return new string[0];
+            }
+
+            List<int> freeSlots = GetFreeSlotsForDate(doctor, date);
 
             if (freeSlots.Count == 0)
             {

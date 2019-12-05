@@ -12,9 +12,11 @@ namespace XtremeDoctors.Services
     public class AppointmentService
     {
         private ApplicationDbContext database;
-        public AppointmentService(ApplicationDbContext database)
+        private DoctorService doctorService;
+        public AppointmentService(ApplicationDbContext database, DoctorService doctorService)
         {
             this.database = database;
+            this.doctorService = doctorService;
         }
 
         public List<Appointment> GetAppointmentsForPatient(int patientId)
@@ -33,8 +35,14 @@ namespace XtremeDoctors.Services
         {
             Patient patient = database.Patients.Find(patientId);
             Doctor doctor = database.Doctors.Find(doctorId);
+            
+            if (!doctorService.IsSlotStringValid(hour))
+                return null;
 
             int slot = SlotHelper.HourToSlot(hour);
+            
+            if (!doctorService.IsSlotAvailable(doctor, date, slot)) 
+                return null;
 
             Appointment appointment = new Appointment();
             appointment.Doctor = doctor;
@@ -60,6 +68,14 @@ namespace XtremeDoctors.Services
                 .FirstOrDefault();
         }
 
+        public List<Appointment> GetAllAppointments()
+        {
+            return database.Appointments
+                .Include(a => a.Doctor)
+                .Include(a => a.Patient)
+                .ToList();
+        }
+
         public Appointment CancelAppointmentById(int appointmentId)
         {
             var toRemove = database.Appointments
@@ -67,6 +83,8 @@ namespace XtremeDoctors.Services
                 .Include(a => a.Patient)
                 .Where(a => a.Id == appointmentId)
                 .FirstOrDefault();
+            if (toRemove == null)
+                return null;
             database.Appointments.Remove(toRemove);
             database.SaveChanges();
             return toRemove;
