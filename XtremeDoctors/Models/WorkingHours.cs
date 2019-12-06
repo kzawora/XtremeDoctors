@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace XtremeDoctors.Models
         public int EndSlot { get; set; }
         public DateTime Date { get; set; }
 
+        public int DoctorId { get; set; }
+        [JsonIgnore]
         [ForeignKey("DoctorId")]
         public Doctor Doctor { get; set; }
     }

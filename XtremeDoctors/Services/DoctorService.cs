@@ -199,5 +199,52 @@ namespace XtremeDoctors.Services
             return freeHours.ToArray();
         }
 
+        public WorkingHours[] GetWorkingHoursForDoctorId(int id)
+        {
+            Doctor doctor = FindDoctor(id);
+            return doctor != null ? GetWorkingHoursForDoctor(doctor) : null;
+        }
+        public WorkingHours[] GetWorkingHoursForDoctor(Doctor doctor)
+        {
+            var workingHours = database.WorkingHours
+                  .Where(w => w.Doctor.Id == doctor.Id)
+                  .OrderBy(w => w.Date.Date)
+                  .ToArray();
+            if (workingHours is null || workingHours.Length == 0)
+            {
+                return null;
+            }
+            return workingHours;
+        }
+
+        public WorkingHours AddWorkingHours(WorkingHours workingHours)
+        {
+            database.WorkingHours.Add(workingHours);
+            database.SaveChanges();
+            return workingHours;
+        }
+
+        public WorkingHours EditWorkingHours(WorkingHours old, WorkingHours edited)
+        {
+            old.StartSlot = edited.StartSlot;
+            old.EndSlot = edited.EndSlot;
+            old.Date = edited.Date;
+            old.DoctorId = edited.DoctorId;
+            database.WorkingHours.Update(old);
+            database.SaveChanges();
+            return old;
+        }
+        public WorkingHours RemoveWorkingHours(int workingHoursId)
+        {
+            WorkingHours workingHours = GetWorkingHoursById(workingHoursId);
+            if (workingHours == null) return null;
+            database.WorkingHours.Remove(workingHours);
+            database.SaveChanges();
+            return workingHours;
+        }
+        public WorkingHours GetWorkingHoursById(int id)
+        {
+            return database.WorkingHours.Find(id);
+        }
     }
 }
