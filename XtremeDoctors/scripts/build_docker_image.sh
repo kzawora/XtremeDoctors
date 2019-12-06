@@ -4,7 +4,7 @@ pushd "$projDir" > /dev/null
 
 # Create docker image
 username="maciejdziuban"
-image_name=xtreme_doctors_`git rev-parse HEAD | cut -c1-6`
+image_name=xtreme_doctors
 docker build -t "$username/$image_name" ..
 
 # Return to previous dir
