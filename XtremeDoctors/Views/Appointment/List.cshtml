@@ -5,7 +5,7 @@
 }
 
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large red" href="@Url.Action("Pdf", "Appointment")">
+        <a class="btn-floating btn-large red" href="@Url.Action("GeneratePdfById", "Appointment", new { patientId = ViewBag.patientId })">
             <i  class="large material-icons">picture_as_pdf</i>
         </a>
     </div>

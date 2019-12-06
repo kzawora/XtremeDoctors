@@ -39,6 +39,7 @@ namespace XtremeDoctors.Controllers
             }
 
             ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId.Value);
+            ViewBag.patientId = patientId.Value;
             logger.LogInformation("List of appointments for patient with id {patientId} is being displayed", patientId.Value);
             return View("List");
         }
@@ -75,18 +76,15 @@ namespace XtremeDoctors.Controllers
             return View();
         }
 
-        [HttpGet("pdf")]
-        [Authorize(Roles = Roles.Patient)]
-        public async Task<IActionResult> GeneratePdfAsync()
+        [HttpGet("pdf/{patientId:int}")]
+        public async Task<IActionResult> GeneratePdfById(int patientId)
         {
-            int? patientId = await userService.GetCurrentPatientIdAsync();
-            return await GeneratePdfByIdAsync(patientId.Value);
-        }
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, patientId))
+            {
+                return Forbid();
+            }
 
-        [HttpGet("{id:int}/pdf")]
-        public async Task<IActionResult> GeneratePdfByIdAsync(int id)
-        {
-            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(id);
+            ViewBag.appointments = appointmentService.GetAppointmentsForPatient(patientId);
             var viewHtml = await this.RenderViewAsync("Report", View().Model, true);
             var pdf = WebHelper.PdfSharpConvert(viewHtml);
             var content = new System.IO.MemoryStream(pdf);
