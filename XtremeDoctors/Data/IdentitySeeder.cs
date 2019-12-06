@@ -67,8 +67,8 @@ namespace XtremeDoctors.Data
                     if (env.IsDevelopment())
                     {
                         InitializeUser("harold@wp.pl", "harold", Roles.Patient, 1, "Harold", "HideThePain");
-                        InitializeUser("recept@wp.pl", "recept", Roles.Receptionist);
                     }
+                    InitializeUser("recept@wp.pl", "Recept1!", Roles.Receptionist);
                     InitializeUser("admin@wp.pl", "Admin1!", Roles.Admin);
                 }
             }
