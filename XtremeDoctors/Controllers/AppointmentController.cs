@@ -94,8 +94,18 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpPost("updateComment/{id:int}")]
-        public IActionResult UpdateComment(int id, [FromForm] string comment)
+        public async Task<IActionResult> UpdateComment(int id, [FromForm] string comment)
         {
+            Appointment appointment = appointmentService.GetAppointmentById(id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, appointment.PatientId))
+            {
+                return Forbid();
+            }
+
             Appointment editedAppointment = appointmentService.UpdateAppointmentComment(id, comment);
             
             logger.LogInformation("Appointment with id {appId} was edited", id);
@@ -126,8 +136,18 @@ namespace XtremeDoctors.Controllers
         }
 
         [HttpGet("cancel/{appointmentId:int}")]
-        public IActionResult Cancel(int appointmentId)
+        public async Task<IActionResult> Cancel(int appointmentId)
         {
+            Appointment appointment = appointmentService.GetAppointmentById(appointmentId);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            if (!await RoleHelper.HasAccessToPatientSpecificDataAsync(User, userService, appointment.PatientId))
+            {
+                return Forbid();
+            }
+
             Appointment canceledAppointment = appointmentService.CancelAppointmentById(appointmentId);
 
             logger.LogInformation("Appointment with id {appId} was canceled", appointmentId);
